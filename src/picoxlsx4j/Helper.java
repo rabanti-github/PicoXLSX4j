@@ -28,7 +28,7 @@ public class Helper {
     } 
     
     /**
-     * Method to calculate the OA date (OLE automation) of the passed date.<br />
+     * Method to calculate the OA date (OLE automation) of the passed date.<br>
      * The date is the number of days since the 01.01.1900 00:00. The hours of a day is a float between 0 and 1
      * @param date Date to convert
      * @return OA date

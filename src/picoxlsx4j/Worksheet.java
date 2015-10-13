@@ -216,7 +216,7 @@ public class Worksheet {
 /* ************************************************* */ 
     /**
      * Adds a object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String
-     * @param value >Unspecified value to insert
+     * @param value Unspecified value to insert
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws OutOfRangeException Thrown if the next cell is out of range (on row or column)
      */
@@ -581,7 +581,7 @@ public class Worksheet {
 /* AddCellRange ************************************************* */     
     
     /**
-     * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br/>
+     * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
      * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs distinct function name.
      * @param values List of unspecified objects to insert
      * @param startAddress Start address
@@ -609,7 +609,7 @@ public class Worksheet {
     }    
     
     /**
-     * Adds a list of string values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br/>
+     * Adds a list of string values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
      * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs distinct function name.
      * @param values List of string values to insert
      * @param startAddress Start address
@@ -637,7 +637,7 @@ public class Worksheet {
     } 
     
     /**
-     * Adds a list of integer values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br/>
+     * Adds a list of integer values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
      * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs distinct function name.
      * @param values List of integer values to insert
      * @param startAddress Start address
@@ -665,7 +665,7 @@ public class Worksheet {
     }     
     
      /**
-     * Adds a list of double values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br/>
+     * Adds a list of double values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
      * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs distinct function name.
      * @param values List of double values to insert
      * @param startAddress Start address
@@ -693,7 +693,7 @@ public class Worksheet {
     } 
     
     /**
-     * Adds a list of float values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br/>
+     * Adds a list of float values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
      * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs distinct function name.
      * @param values List of float values to insert
      * @param startAddress Start address
@@ -721,7 +721,7 @@ public class Worksheet {
     }   
     
     /**
-     * Adds a list of date values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br/>
+     * Adds a list of date values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
      * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs distinct function name.
      * @param values List of date values to insert
      * @param startAddress Start address
@@ -749,7 +749,7 @@ public class Worksheet {
     }    
  
     /**
-     * Adds a list of boolean values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br/>
+     * Adds a list of boolean values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
      * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs distinct function name.
      * @param values List of boolean values to insert
      * @param startAddress Start address

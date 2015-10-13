@@ -65,67 +65,67 @@ public final class BasicStyles {
      
     /**
     * Gets the bold style
-    * @returns Style object
+    * @return Style object
     */
     public static Style Bold()
     { return getStyle(StyleEnum.bold);}
     /**
     * Gets the italic style
-    * @returns Style object
+    * @return Style object
     */
     public static Style Italic()
     { return getStyle(StyleEnum.italic);}
     /**
     * Gets the bold and italic style
-    * @returns Style object
+    * @return Style object
     */
     public static Style BoldItalic()
     { return getStyle(StyleEnum.boldItalic);}
     /**
     * Gets the underline style
-    * @returns Style object
+    * @return Style object
     */
     public static Style Underline()
     { return getStyle(StyleEnum.underline);}
     /**
     * Gets the double underline style
-    * @returns Style object
+    * @return Style object
     */
     public static Style DoubleUnderline()
     { return getStyle(StyleEnum.doubleUnderlien);}
     /**
     * Gets the strike style
-    * @returns Style object
+    * @return Style object
     */
     public static Style Strike()
     { return getStyle(StyleEnum.strike);}
     /**
     * Gets the date format style
-    * @returns Style object
+    * @return Style object
     */
     public static Style DateFormat()
     { return getStyle(StyleEnum.dateFormat);}
     /**
     * Gets the round format style
-    * @returns Style object
+    * @return Style object
     */
     public static Style RoundFormat()
     { return getStyle(StyleEnum.roundFormat);}
     /**
     * Gets the border frame style
-    * @returns Style object
+    * @return Style object
     */
     public static Style BorderFrame()
     { return getStyle(StyleEnum.borderFrame);}
     /**
     * Gets the border style for header cells
-    * @returns Style object
+    * @return Style object
     */
     public static Style BorderFrameHeader()
     { return getStyle(StyleEnum.borderFrameHeader);}
     /**
     * Gets the special pattern fill style (for compatibility)
-    * @returns Style object
+    * @return Style object
     */
     public static Style DottedFill_0_125()
     { return getStyle(StyleEnum.dottedFill_0_125);}       

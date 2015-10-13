@@ -87,7 +87,7 @@ public class Packer {
     /**
      * Adds a Part to the file
      * @param name Filename with relative path
-     * @param contentType URL with information about the content type (MSXML).<br/>This information is used in the main content type file
+     * @param contentType URL with information about the content type (MSXML).<br>This information is used in the main content type file
      * @param document XML document to add
      * @throws picoxlsx4j.exception.IOException Thrown if the document could not be converted to a byte array
      */
@@ -102,7 +102,7 @@ public class Packer {
     /**
      * Adds a Part to the file
      * @param name Filename with relative path
-     * @param contentType URL with information about the content type (MSXML).<br/>This information is used in the main content type file
+     * @param contentType URL with information about the content type (MSXML).<br>This information is used in the main content type file
      * @param document XML document to add
      * @param includeInContentType If true, the content type will be added in the main content type file, otherwise not
      * @throws picoxlsx4j.exception.IOException Thrown if the document could not be converted to a byte array
@@ -191,7 +191,7 @@ public class Packer {
 
         /**
          * Gets the root folder of the relationship
-         * @return 
+         * @return Root folder of the relationship
          */
         public String getRootFolder() {
             return rootFolder;

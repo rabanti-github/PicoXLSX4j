@@ -1,3 +1,8 @@
 v1.1.2	12.10.2015
 ******************
 - Initial release (synced to v1.1.2 of PicoXLSX for C#)
+
+v1.1.3	13.10.2015
+******************
+- Update to Java 8 (full compatible to Java 7)
+- Fixed Javadoc to meet requirements of Java 8
