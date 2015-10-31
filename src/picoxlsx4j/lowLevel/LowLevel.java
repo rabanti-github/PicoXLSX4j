@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ import picoxlsx4j.Metadata;
 import picoxlsx4j.Workbook;
 import picoxlsx4j.Worksheet;
 import picoxlsx4j.exception.IOException;
-import picoxlsx4j.exception.OutOfRangeException;
+import picoxlsx4j.exception.UnknownRangeException;
 import picoxlsx4j.exception.UndefinedStyleException;
 import picoxlsx4j.style.Border;
 import picoxlsx4j.style.CellXf;
@@ -70,6 +71,7 @@ public class LowLevel {
     {
         try
         {
+        this.workbook.resolveMergedCells();
         Document doc;
         Document app = createAppPropertiesDocument();
         Document core = createCorePropertiesDocument();
@@ -138,6 +140,10 @@ public class LowLevel {
             sb.append(line + "\r\n");
         }
         sb.append("</x:sheetData>\r\n");
+        
+        sb.append(createMergedCellsString(worksheet));
+        sb.append(createSheetProtectionString(worksheet));        
+        
         sb.append("</x:worksheet>");
         
         Document doc = createXMLDocument(sb.toString());
@@ -148,10 +154,10 @@ public class LowLevel {
      * Method to create a style sheet as XML document
      * @return Formated XML document
      * @throws UndefinedStyleException Thrown if a style was not referenced in the style sheet
-     * @throws OutOfRangeException Thrown if a referenced cell was out of range
+     * @throws UnknownRangeException Thrown if a referenced cell was out of range
      * @throws IOException Thrown in case of an error while creating the XML document
      */
-    private Document createStyleSheetDocument() throws UndefinedStyleException, OutOfRangeException, IOException
+    private Document createStyleSheetDocument() throws UndefinedStyleException, UnknownRangeException, IOException
     {
         StyleCollection styles = this.workbook.reorganizeStyles();
         String bordersString = createStyleBorderString(styles.getBorders());
@@ -234,14 +240,14 @@ public class LowLevel {
     /**
      * Method to create a workbook as XML document
      * @return Formated XML document
-     * @throws OutOfRangeException Thrown if a referenced cell was out of range
+     * @throws UnknownRangeException Thrown if a referenced cell was out of range
      * @throws IOException Thrown in case of an error while creating the XML document
      */
-    private Document createWorkbookDocument() throws OutOfRangeException, IOException
+    private Document createWorkbookDocument() throws UnknownRangeException, IOException
     {
         if (this.workbook.getWorksheets().isEmpty())
         {
-            throw new OutOfRangeException("The workbook can not be created because no worksheet was defined.");
+            throw new UnknownRangeException("The workbook can not be created because no worksheet was defined.");
         }
         StringBuilder sb = new StringBuilder();
         sb.append("<x:workbook xmlns:x=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\r\n");
@@ -490,13 +496,13 @@ public class LowLevel {
      * Method to create the XML string for the XF part of the style sheet document
      * @param styles List of Style objects
      * @return String with formated XML data
-     * @throws OutOfRangeException Thrown if a referenced cell was out of range
+     * @throws UnknownRangeException Thrown if a referenced cell was out of range
      */
-    private String createStyleXfsString(List<Style> styles) throws OutOfRangeException
+    private String createStyleXfsString(List<Style> styles) throws UnknownRangeException
     {
         StringBuilder sb = new StringBuilder();
         StringBuilder sb2 = null;
-        String alignmentString;
+        String alignmentString, protectionString;
         int formatNumber, textRotation;
         Style item;
         for (int i = 0; i < styles.size(); i++)
@@ -504,6 +510,7 @@ public class LowLevel {
             item = styles.get(i);
             textRotation = item.getCurrentCellXf().calculateInternalRotation();
             alignmentString = "";
+            protectionString = "";
             if (item.getCurrentCellXf().getHorizontalAlign() != CellXf.HorizontalAlignValue.none || item.getCurrentCellXf().getVerticalAlign() != CellXf.VerticallAlignValue.none || item.getCurrentCellXf().getAlignment() != CellXf.TextBreakValue.none || textRotation != 0)
             {
                 sb2 = new StringBuilder();
@@ -547,7 +554,23 @@ public class LowLevel {
                 sb2.append("/>\r\n"); // </xf>\r\n
                 alignmentString = sb2.toString();
             }
-
+            
+            if (item.getCurrentCellXf().isHidden() == true || item.getCurrentCellXf().isLocked() == true)
+            {
+                if (item.getCurrentCellXf().isHidden() == true && item.getCurrentCellXf().isLocked() == true)
+                {
+                    protectionString = "<protection locked=\"1\" hidden=\"1\"/>\r\n";
+                }
+                else if (item.getCurrentCellXf().isHidden() == true && item.getCurrentCellXf().isLocked() == false)
+                {
+                    protectionString = "<protection hidden=\"1\" locked=\"0\"/>\r\n";
+                }
+                else
+                {
+                    protectionString = "<protection hidden=\"0\" locked=\"1\"/>\r\n";
+                }
+            }
+            
             sb.append("<xf numFmtId=\"");
             if (item.getCurrentNumberFormat().isCustomFormat() == true)
             {
@@ -576,10 +599,14 @@ public class LowLevel {
             {
                 sb.append("\" applyBorder=\"1");
             }
-            if (alignmentString.isEmpty() == false)
+            if (alignmentString.isEmpty() == false || item.getCurrentCellXf().isForceApplyAlignment() == true)
             {
                 sb.append("\" applyAlignment=\"1");
             }
+            if (protectionString.isEmpty() == false)
+            {
+                sb.append("\" applyProtection=\"1");
+            }            
             if (item.getCurrentNumberFormat().getNumber() != NumberFormat.FormatNumber.none)
             {
                 sb.append("\" applyNumberFormat=\"1\"");
@@ -588,10 +615,11 @@ public class LowLevel {
             {
                 sb.append("\""); 
             }
-            if (alignmentString.isEmpty() == false)
+            if (alignmentString.isEmpty() == false  || protectionString.isEmpty() == false)
             {
                 sb.append(">\r\n");
                 sb.append(alignmentString);
+                sb.append(protectionString);
                 sb.append("</xf>\r\n");
             }
             else
@@ -781,25 +809,124 @@ public class LowLevel {
             else
             {
                 typeAttribute = "str";
-                tValue = " t=\"" + typeAttribute + "\" ";
-                value = item.getValue().toString();
+                tValue = " t=\"" + typeAttribute + "\" ";      
+                if (item.getValue() == null)
+                {
+                    value = "";
+                }
+                else
+                {
+                    value = item.getValue().toString();
+                }                
             }
-            sb.append("<x:c" + tValue + "r=\"" + item.getCellAddress() + "\"" + sValue + ">\r\n");
-            if (item.getFieldType() == Cell.CellType.FORMULA)
+            if (item.getFieldType() != Cell.CellType.EMPTY)
             {
-                sb.append("<x:f>" + LowLevel.escapeXMLChars(item.getValue().toString()) + "</x:f>\r\n");
+                sb.append("<x:c" + tValue + "r=\"" + item.getCellAddress() + "\"" + sValue + ">\r\n");
+                if (item.getFieldType() == Cell.CellType.FORMULA)
+                {
+                    sb.append("<x:f>" + LowLevel.escapeXMLChars(item.getValue().toString()) + "</x:f>\r\n");
+                }
+                else
+                {
+                    sb.append("<x:v>" + LowLevel.escapeXMLChars(value) + "</x:v>\r\n");
+                }
+                sb.append("</x:c>\r\n");
             }
-            else
+            else // Empty cell
             {
-                sb.append("<x:v>" + LowLevel.escapeXMLChars(value) + "</x:v>\r\n");
+                sb.append("<x:c" + tValue + "r=\"" + item.getCellAddress() + "\"" + sValue + "/>\r\n");
             }
-
-            sb.append("</x:c>\r\n");
             col++;
         }
         sb.append("</x:row>");
         return sb.toString();
+    }
+    
+    /**
+     * Method to create the merged cells string of the passed worksheet
+     * @param sheet Worksheet to process
+     * @return Formated string with merged cell ranges
+     */
+    private String createMergedCellsString(Worksheet sheet)
+   {
+       if (sheet.getMergedCells().size() < 1)
+       {
+           return "";
+       }
+            Iterator itr;
+            Map.Entry<String, Cell.Range> range;
+            StringBuilder sb = new StringBuilder();
+            sb.append("<x:mergeCells count=\"" + Integer.toString(sheet.getMergedCells().size()) + "\">\r\n");
+            itr = sheet.getMergedCells().entrySet().iterator();
+            while (itr.hasNext())
+            {
+            range = (Map.Entry<String, Cell.Range>)itr.next();
+            sb.append("<x:mergeCell ref=\"" + range.getValue().toString() + "\"/>\r\n");
+            }
+       sb.append("</x:mergeCells>\r\n");
+       return sb.toString();
+   } 
+   
+    /**
+     * Method to create the protection string of the passed worksheet
+     * @param sheet Worksheet to process
+     * @return Formated string with protection statement of the worksheet
+     */
+    private String createSheetProtectionString(Worksheet sheet)
+    {
+        if (sheet.isUseSheetProtection() == false)
+        {
+            return "";
+        }
+        HashMap<Worksheet.SheetProtectionValue, Integer> actualLockingValues = new HashMap<Worksheet.SheetProtectionValue,Integer>();
+        if (sheet.getSheetProtectionValues().size() == 0)
+        {
+            actualLockingValues.put(Worksheet.SheetProtectionValue.selectLockedCells, 1);
+            actualLockingValues.put(Worksheet.SheetProtectionValue.selectUnlockedCells, 1);
+        }
+        if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.objects) == false)
+        {
+            actualLockingValues.put(Worksheet.SheetProtectionValue.objects, 1);
+        }
+        if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.scenarios) == false)
+        {
+            actualLockingValues.put(Worksheet.SheetProtectionValue.scenarios, 1);
+        }
+        if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.selectLockedCells) == false )
+        {
+            actualLockingValues.put(Worksheet.SheetProtectionValue.selectLockedCells, 1);
+        }
+        if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.selectUnlockedCells) == false || sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.selectLockedCells) == false)
+        {
+            actualLockingValues.put(Worksheet.SheetProtectionValue.selectUnlockedCells, 1);
+        }
+        if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.formatCells)) { actualLockingValues.put(Worksheet.SheetProtectionValue.formatCells, 0); }
+        if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.formatColumns)) { actualLockingValues.put(Worksheet.SheetProtectionValue.formatColumns, 0); }
+        if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.formatRows)) { actualLockingValues.put(Worksheet.SheetProtectionValue.formatRows, 0); }
+        if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.insertColumns)) { actualLockingValues.put(Worksheet.SheetProtectionValue.insertColumns, 0); }
+        if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.insertRows)) { actualLockingValues.put(Worksheet.SheetProtectionValue.insertRows, 0); }
+        if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.insertHyperlinks)) { actualLockingValues.put(Worksheet.SheetProtectionValue.insertHyperlinks, 0); }
+        if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.deleteColumns)) { actualLockingValues.put(Worksheet.SheetProtectionValue.deleteColumns, 0); }
+        if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.deleteRows)) { actualLockingValues.put(Worksheet.SheetProtectionValue.deleteRows, 0); }
+        if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.sort)) { actualLockingValues.put(Worksheet.SheetProtectionValue.sort, 0); }
+        if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.autoFilter)) { actualLockingValues.put(Worksheet.SheetProtectionValue.autoFilter, 0); }
+        if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.pivotTables)) { actualLockingValues.put(Worksheet.SheetProtectionValue.pivotTables, 0); }
+        StringBuilder sb = new StringBuilder();
+        sb.append("<x:sheetProtection");
+        String temp;
+        Iterator itr;
+        Map.Entry<Worksheet.SheetProtectionValue, Integer> item;        
+       // foreach(KeyValuePair<Worksheet.SheetProtectionValue, int>item in actualLockingValues)
+            itr = actualLockingValues.entrySet().iterator();
+            while (itr.hasNext())
+            {
+            item = (Map.Entry<Worksheet.SheetProtectionValue, Integer>)itr.next();
+            temp = item.getKey().name();// Note! If the enum names differs from the OOXML definitions, this method will cause invalid OOXML entries
+             }
+        sb.append(" sheet=\"1\"/>\r\n");
+       return sb.toString();
     }    
+    
     
     /**
      * Method to create the XML string for the app-properties document

@@ -6,7 +6,7 @@
  */
 package picoxlsx4j.style;
 
-import picoxlsx4j.exception.OutOfRangeException;
+import picoxlsx4j.exception.UnknownRangeException;
 
 /**
  * Class representing an XF entry. The XF entry is used to make reference to other style instances like Border oder Fill and for the positioning of the cell content
@@ -128,6 +128,9 @@ public class CellXf implements Comparable<CellXf>
      private HorizontalAlignValue horizontalAlign;
      private VerticallAlignValue verticalAlign;
      private TextBreakValue alignment;
+     private boolean locked;
+     private boolean hidden;
+     private boolean forceApplyAlignment;
      private int internalID;
 
      /**
@@ -141,9 +144,9 @@ public class CellXf implements Comparable<CellXf>
      /**
       * Sets the text rotation in degrees (from +90 to -90)
       * @param textRotation Text rotation in degrees (from +90 to -90)
-      * @throws OutOfRangeException Thrown if the rotation angle is out of range
+      * @throws UnknownRangeException Thrown if the rotation angle is out of range
       */
-     public void setTextRotation(int textRotation) throws OutOfRangeException {
+     public void setTextRotation(int textRotation) throws UnknownRangeException {
          this.textRotation = textRotation;
          this.textDirection = TextDirectionValue.horizontal;
          calculateInternalRotation();
@@ -160,9 +163,9 @@ public class CellXf implements Comparable<CellXf>
      /**
       * Sets the direction of the text within the cell
       * @param textDirection Direction of the text within the cell
-      * @throws OutOfRangeException Thrown if the text rotation and direction causes a conflict
+      * @throws UnknownRangeException Thrown if the text rotation and direction causes a conflict
       */
-     public void setTextDirection(TextDirectionValue textDirection) throws OutOfRangeException {
+     public void setTextDirection(TextDirectionValue textDirection) throws UnknownRangeException {
          this.textDirection = textDirection;
          calculateInternalRotation();            
      }
@@ -215,6 +218,56 @@ public class CellXf implements Comparable<CellXf>
          this.alignment = alignment;
      }
 
+    /**
+     * Gets whether the assigned cell is locked if the worksheet is protected
+     * @return If true, the style is used for locking / protection of cells or worksheets
+     */
+    public boolean isLocked() {
+        return locked;
+    }
+
+    /**
+     * Sets whether the assigned cell is locked if the worksheet is protected
+     * @param locked If true, the style is used for locking / protection of cells or worksheets
+     */
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    /**
+     * Gets whether the assigned cell content (in the header) is invisible if the worksheet is protected
+     * @return If true, the style is used for hiding cell values / protection of cells
+     */
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    /**
+     * Sets whether the assigned cell content (in the header) is invisible if the worksheet is protected
+     * @param hidden If true, the style is used for hiding cell values / protection of cells
+     */
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
+    /**
+     * Gets whether the alignment is applied. This is used for merging cells
+     * @return If true, the applyAlignment value of the style will be set to true (used to merge cells)
+     */
+    public boolean isForceApplyAlignment() {
+        return forceApplyAlignment;
+    }
+
+    /**
+     * Sets whether the alignment is applied. This is used for merging cells
+     * @param forceApplyAlignment If true, the applyAlignment value of the style will be set to true (used to merge cells)
+     */
+    public void setForceApplyAlignment(boolean forceApplyAlignment) {
+        this.forceApplyAlignment = forceApplyAlignment;
+    }
+
+     
+     
      /**
       * Gets the internal ID for sorting purpose
       * @return Internal ID
@@ -246,13 +299,13 @@ public class CellXf implements Comparable<CellXf>
      /**
       * Method to calculate the internal text rotation. The text direction and rotation are handled internally by the text rotation value
       * @return Returns the valid rotation in degrees for internal uses (LowLevel)
-      * @throws OutOfRangeException Thrown if the rotation is out of range
+      * @throws UnknownRangeException Thrown if the rotation is out of range
       */
-     public int calculateInternalRotation() throws OutOfRangeException
+     public int calculateInternalRotation() throws UnknownRangeException
      {
          if (this.textRotation < -90 || this.textRotation > 90)
          {
-             throw new OutOfRangeException("The rotation value (" + Integer.toString(this.textRotation) + "°) is out of range. Range is form -90° to +90°");
+             throw new UnknownRangeException("The rotation value (" + Integer.toString(this.textRotation) + "°) is out of range. Range is form -90° to +90°");
          }
          if (this.textDirection == TextDirectionValue.vertical)
          {
@@ -286,7 +339,10 @@ public class CellXf implements Comparable<CellXf>
          if (this.textDirection != other.getTextDirection()) { return false; }
          if (this.textRotation != other.getTextRotation()) { return false; }
          if (this.verticalAlign != other.getVerticalAlign()) { return false; }
-         else { return true; }           
+         if (this.forceApplyAlignment != other.isForceApplyAlignment()) { return false; }
+         if (this.locked != other.isLocked()) { return false; }
+         if (this.hidden != other.isHidden()) { return false; }         
+         return true;          
     }
 
     /**
@@ -308,6 +364,9 @@ public class CellXf implements Comparable<CellXf>
          CellXf copy = new CellXf();
          copy.setHorizontalAlign(this.horizontalAlign);
          copy.setAlignment(this.alignment);
+                copy.setForceApplyAlignment(this.forceApplyAlignment);
+                copy.setLocked(this.locked);
+                copy.setHidden(this.hidden);         
          try
          {
          copy.setTextDirection(this.textDirection);

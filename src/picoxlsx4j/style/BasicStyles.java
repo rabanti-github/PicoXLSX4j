@@ -59,9 +59,13 @@ public final class BasicStyles {
         /**
         * Special pattern fill style for compatibility purpose 
         */
-        dottedFill_0_125
+        dottedFill_0_125,
+        /**
+         * Style to apply on merged cells
+         */
+        mergeCellStyle,
     }    
-     private static Style bold, italic, boldItalic, underline, doubleUnderline, strike, dateFormat, roundFormat, borderFrame, borderFrameHeader, dottedFill_0_125;
+     private static Style bold, italic, boldItalic, underline, doubleUnderline, strike, dateFormat, roundFormat, borderFrame, borderFrameHeader, dottedFill_0_125, mergeCellStyle;
      
     /**
     * Gets the bold style
@@ -128,7 +132,16 @@ public final class BasicStyles {
     * @return Style object
     */
     public static Style DottedFill_0_125()
-    { return getStyle(StyleEnum.dottedFill_0_125);}       
+    { return getStyle(StyleEnum.dottedFill_0_125);} 
+
+    /**
+     * Gets the style used when merging cells
+     * @return Style object
+     */
+    public static Style MergeCellStyle()
+    { return getStyle(StyleEnum.mergeCellStyle);} 
+    
+    
      
     /**
      * Method to maintain the styles and to create singleton instances
@@ -236,6 +249,16 @@ public final class BasicStyles {
                 }
                 s = dottedFill_0_125;
                 break;
+                
+            case mergeCellStyle:
+                if (mergeCellStyle == null)
+                {
+                    mergeCellStyle = new Style();
+                    mergeCellStyle.getCurrentCellXf().setForceApplyAlignment(true);
+                }
+                s = mergeCellStyle;
+                break;                
+                
             default:
                 break;
         }

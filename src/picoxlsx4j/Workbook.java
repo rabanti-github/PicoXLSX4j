@@ -15,6 +15,7 @@ import java.util.Map;
 import picoxlsx4j.exception.FormatException;
 import picoxlsx4j.exception.IOException;
 import picoxlsx4j.exception.UndefinedStyleException;
+import picoxlsx4j.exception.UnknownRangeException;
 import picoxlsx4j.exception.UnknownWorksheetException;
 import picoxlsx4j.exception.WorksheetNameAlreadxExistsException;
 import picoxlsx4j.lowLevel.LowLevel;
@@ -530,7 +531,57 @@ public class Workbook {
         output.setNumberFormats(tempNumberFormats);
         return output;
 
-        }     
+    }
+    
+    /**
+     * Method to resolve all merged cells in all worksheets. Only the value of the very first cell of the locked cells range will be visible. The other values are still present (set to EMPTY) but will not be stored in the worksheet.
+     * @throws UndefinedStyleException Thrown if an unreferenced style was in the style sheet
+     * @throws UnknownRangeException Thrown if the cell range was not found
+     */
+    public void resolveMergedCells() throws UndefinedStyleException, UnknownRangeException
+    {
+        Style mergStyle = BasicStyles.MergeCellStyle();
+        int pos;
+        List<Cell.Address> addresses;
+        Cell cell;
+        Worksheet sheet;
+        Cell.Address address;
+        Iterator itr;
+        Map.Entry<String, Cell.Range> range;
+        for (int i = 0; i < this.worksheets.size(); i++)
+        {
+            sheet = this.worksheets.get(i);
+            itr = sheet.getMergedCells().entrySet().iterator();
+            while (itr.hasNext())
+            {
+                range = (Map.Entry<String, Cell.Range>)itr.next();
+                pos = 0;
+                addresses = Cell.getCellRange(range.getValue().StartAddress, range.getValue().EndAddress);
+                for (int j = 0; j < addresses.size(); j++)
+                {
+                    address = addresses.get(j);
+                    if (sheet.getCells().containsKey(address.toString()) == false)
+                    {
+                        cell = new Cell();
+                        cell.setFieldType(Cell.CellType.EMPTY);
+                        cell.setRowAddress(address.Row);
+                        cell.setColumnAddress(address.Column);
+                        sheet.AddCell(cell);
+                    }
+                    else
+                    {
+                        cell = sheet.getCells().get(address.toString());
+                    }
+                    if (pos != 0)
+                    {
+                        cell.setFieldType(Cell.CellType.EMPTY);
+                    }
+                    cell.setStyle(mergStyle, this);
+                    pos++;
+                }
+            }
+        }
+    }    
 
     /**
     * Saves the workbook

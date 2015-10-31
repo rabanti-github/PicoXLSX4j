@@ -34,6 +34,7 @@ public class PicoXLSX4j {
         demo3();
         demo4();
         demo5();
+        demo6();
     }
     
             private static void basicDemo()
@@ -42,8 +43,8 @@ public class PicoXLSX4j {
             {
             Workbook workbook = new Workbook("basic.xlsx", "Sheet1");           // Create new workbook
             workbook.getCurrentWorksheet().addNextCell("Test");                 // Add cell A1
-            workbook.getCurrentWorksheet().addNextCell("Test2");                // Add cell A1
-            workbook.getCurrentWorksheet().addNextCell("Test3");                // Add cell A1
+            workbook.getCurrentWorksheet().addNextCell("Test2");                // Add cell B1
+            workbook.getCurrentWorksheet().addNextCell("Test3");                // Add cell C1
             workbook.save();
             }
             catch(Exception e)
@@ -229,6 +230,34 @@ public class PicoXLSX4j {
             {
                 System.out.println(e.getMessage());
             } 
+        }
+        
+        private static void demo6()
+        {
+            try
+            {               
+            Workbook workbook = new Workbook("test6.xlsx", "Sheet1");                                        // Create new workbook
+            workbook.getCurrentWorksheet().addNextCell("Mergerd1");                                          // Add cell A1
+            workbook.getCurrentWorksheet().mergeCells("A1:C1");                                              // Merge cells from A1 to C1
+            workbook.getCurrentWorksheet().goToNextRow();                                                    // Go to next row
+            workbook.getCurrentWorksheet().addNextCell(false);                                               // Add cell A2
+            workbook.getCurrentWorksheet().mergeCells("A2:D2");                                              // Merge cells from A2 to D1
+            workbook.getCurrentWorksheet().goToNextRow();                                                    // Go to next row
+            workbook.getCurrentWorksheet().addNextCell("22.2d");                                             // Add cell A3
+            workbook.getCurrentWorksheet().mergeCells("A3:E4");                                              // Merge cells from A3 to E4
+            workbook.addWorksheet("Protected");                                                              // Add a new worksheet
+            workbook.getCurrentWorksheet().addAllowedActionOnSheetProtection(Worksheet.SheetProtectionValue.sort);               // Allow to sort sheet (worksheet is automatically set as protected)
+            workbook.getCurrentWorksheet().addAllowedActionOnSheetProtection(Worksheet.SheetProtectionValue.insertRows);         // Allow to insert rows
+            workbook.getCurrentWorksheet().addAllowedActionOnSheetProtection(Worksheet.SheetProtectionValue.selectLockedCells);  // Allow to select cells (locked cells caused automatically to select unlocked cells)
+            workbook.getCurrentWorksheet().addNextCell("Cell A1");                                           // Add cell A1
+            workbook.getCurrentWorksheet().addNextCell("Cell B1");                                           // Add cell B1
+            workbook.getCurrentWorksheet().getCells().get("A1").setCellLockedState(false, true, workbook);   // Set the locking state of cell A1 (not locked but value is hidden when cell selected)
+            workbook.save();                                                                                 // Save the workbook
+            }
+            catch(Exception e)
+            {
+                System.out.println(e.getMessage());
+            }
         }        
     
 }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import picoxlsx4j.exception.FormatException;
-import picoxlsx4j.exception.OutOfRangeException;
+import picoxlsx4j.exception.UnknownRangeException;
 import picoxlsx4j.exception.UndefinedStyleException;
 import java.util.regex.*;
 
@@ -46,6 +46,10 @@ public class Cell implements Comparable<Cell>{
          * Type for Formulas (The cell will be handled differently)
          */
         FORMULA,
+        /**
+         * Type for empty cells. This type is only used for merged cells (all cells except the first of the cell range)
+         */
+        EMPTY,
         /**
          * Default Type, not specified
          */
@@ -173,11 +177,11 @@ public class Cell implements Comparable<Cell>{
         this.rowAddress = row;
     }
      /**
-      * Method resets the Cell type an tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT. CellType FORMULA will skip this method
+      * Method resets the Cell type an tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT. CellTypes FORMULA and EMPTY will skip this method
       */
     public void resolveCellType()
     {
-        if (this.fieldType == CellType.FORMULA) {return;}
+        if (this.fieldType == CellType.FORMULA || this.fieldType == CellType.EMPTY) {return;}
         Class t = this.value.getClass();
         if (t.equals(Integer.class)) { this.fieldType = CellType.NUMBER; }
         else if (t.equals(Float.class)) { this.fieldType = CellType.NUMBER; }
@@ -190,9 +194,9 @@ public class Cell implements Comparable<Cell>{
     /**
      * Gets the cell Address as string in the format A1 - XFD16384
      * @return Cell address
-     * @throws OutOfRangeException Thrown in case of a illegal address
+     * @throws UnknownRangeException Thrown in case of a illegal address
      */
-    public String getCellAddressString() throws OutOfRangeException 
+    public String getCellAddressString() throws UnknownRangeException 
     {
         return Cell.resolveCellAddress(this.columnAddress, this.rowAddress);
     }
@@ -320,9 +324,9 @@ public class Cell implements Comparable<Cell>{
      * @param endAddress End address as string in the format A1 - XFD16384
      * @return List of cell addresses
      * @throws FormatException Thrown if one of the passed addresses contains malformed information
-     * @throws OutOfRangeException Thrown if one of the passed addresses is out of range
+     * @throws UnknownRangeException Thrown if one of the passed addresses is out of range
      */
-    public static List<Address> getCellRange(String startAddress, String endAddress) throws FormatException, OutOfRangeException
+    public static List<Address> getCellRange(String startAddress, String endAddress) throws FormatException, UnknownRangeException
     {
         Address start = resolveCellCoordinate(startAddress);
         Address end = resolveCellCoordinate(endAddress);
@@ -419,17 +423,17 @@ public class Cell implements Comparable<Cell>{
      * @param column Column address of the cell (zero-based)
      * @param row Row address of the cell (zero-based)
      * @return Cell Address as string in the format A1 - XFD16384
-     * @throws OutOfRangeException Thrown if the start or end address was out of range
+     * @throws UnknownRangeException Thrown if the start or end address was out of range
      */
-    public static String resolveCellAddress(int column, int row) throws OutOfRangeException
+    public static String resolveCellAddress(int column, int row) throws UnknownRangeException
     {
             if (row >= 1048576 || row < 0)
             {
-                throw new OutOfRangeException("The row number (" + Integer.toString(row) + ") is out of range. Range is from 0 to 1048575 (1048576 rows).");
+                throw new UnknownRangeException("The row number (" + Integer.toString(row) + ") is out of range. Range is from 0 to 1048575 (1048576 rows).");
             }
             if (column >= 16384 || column < 0)
             {
-                throw new OutOfRangeException("The column number (" + Integer.toString(column) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+                throw new UnknownRangeException("The column number (" + Integer.toString(column) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
             }
             // A - XFD
             int j = 0;
@@ -462,9 +466,9 @@ public class Cell implements Comparable<Cell>{
      * @param address Address as string in the format A1 - XFD16384
      * @return Address object of the passed string
      * @throws FormatException Thrown if the passed address was malformed
-     * @throws OutOfRangeException Thrown if the resolved address is out of range
+     * @throws UnknownRangeException Thrown if the resolved address is out of range
      */
-    public static Address resolveCellCoordinate(String address) throws FormatException, OutOfRangeException
+    public static Address resolveCellCoordinate(String address) throws FormatException, UnknownRangeException
     {
         int row, column;
         if (Helper.isNullOrEmpty(address))
@@ -485,11 +489,11 @@ public class Cell implements Comparable<Cell>{
         
         if (row >= 1048576 || row < 0)
         {
-            throw new OutOfRangeException("The row number (" + Integer.toString(row) + ") is out of range. Range is from 0 to 1048575 (1048576 rows).");
+            throw new UnknownRangeException("The row number (" + Integer.toString(row) + ") is out of range. Range is from 0 to 1048575 (1048576 rows).");
         }     
         if (column >= 16384 || column < 0)
         {
-            throw new OutOfRangeException("The column number (" + Integer.toString(column) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+            throw new UnknownRangeException("The column number (" + Integer.toString(column) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
         }
         
         Address output = new Address(column, row);
@@ -500,9 +504,9 @@ public class Cell implements Comparable<Cell>{
      * Gets the column number from the column address (A - XFD)
      * @param columnAddress Column address (A - XFD)
      * @return Column number (zero-based)
-     * @throws OutOfRangeException Thrown if the column is out of range
+     * @throws UnknownRangeException Thrown if the column is out of range
      */
-    public static int resolveColumn(String columnAddress) throws OutOfRangeException
+    public static int resolveColumn(String columnAddress) throws UnknownRangeException
     {
         int temp;
         int result = 0;
@@ -517,11 +521,40 @@ public class Cell implements Comparable<Cell>{
         }
         if (result - 1 >= 16384 || result - 1 < 0)
         {
-            throw new OutOfRangeException("The column number (" + Integer.toString(result - 1) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+            throw new UnknownRangeException("The column number (" + Integer.toString(result - 1) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
         }        
         return result - 1;
     }
 
+    /**
+     * Sets the lock state of the cell
+     * @param isLocked If true, the cell will be locked if the worksheet is protected
+     * @param isHidden If true, the value of the cell will be invisible if the worksheet is protected
+     * @param workbookReference Workbook reference. Locking of cells uses styles which are managed in the workbook
+     */
+    public void setCellLockedState(boolean isLocked, boolean isHidden, Workbook workbookReference)
+    {
+        Style lockStyle;
+        if (this.cellStyle == null)
+        {
+            lockStyle = new Style();
+        }
+        else
+        {
+            lockStyle = this.cellStyle.copy();
+        }
+        lockStyle.getCurrentCellXf().setLocked(isLocked);
+        lockStyle.getCurrentCellXf().setHidden(isHidden);
+        try
+        {
+        this.setStyle(lockStyle, workbookReference);
+        }
+        catch(Exception e)
+        {
+            // Should never happen
+        }
+    }    
+    
     /**
      * Nested class representing a cell range (used like a simple struct)
      */
@@ -546,6 +579,17 @@ public class Cell implements Comparable<Cell>{
             this.StartAddress = start;
             this.EndAddress = end;
         }
+        
+        /**
+         * Overwritten toString method
+         * @return Returns the range (e.g. 'A1:B12')
+         */
+        @Override
+        public String toString()
+        {
+            return StartAddress.toString() + ":" + EndAddress.toString();
+        }
+        
     }
     
     /**
@@ -576,9 +620,9 @@ public class Cell implements Comparable<Cell>{
         /**
          * Gets the address as string
          * @return Address as string
-         * @throws OutOfRangeException Thrown if the column or row is out of range
+         * @throws UnknownRangeException Thrown if the column or row is out of range
          */
-        public String getAddress() throws OutOfRangeException
+        public String getAddress() throws UnknownRangeException
         {
             return resolveCellAddress(this.Column, this.Row);
         }
