@@ -894,11 +894,17 @@ public class LowLevel {
         }
         if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.selectLockedCells) == false )
         {
-            actualLockingValues.put(Worksheet.SheetProtectionValue.selectLockedCells, 1);
+            if (actualLockingValues.containsKey(Worksheet.SheetProtectionValue.selectLockedCells) == false)
+            {
+                actualLockingValues.put(Worksheet.SheetProtectionValue.selectLockedCells, 1);
+            }            
         }
         if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.selectUnlockedCells) == false || sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.selectLockedCells) == false)
         {
-            actualLockingValues.put(Worksheet.SheetProtectionValue.selectUnlockedCells, 1);
+            if (actualLockingValues.containsKey(Worksheet.SheetProtectionValue.selectUnlockedCells) == false)
+            {
+                actualLockingValues.put(Worksheet.SheetProtectionValue.selectUnlockedCells, 1);
+            }            
         }
         if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.formatCells)) { actualLockingValues.put(Worksheet.SheetProtectionValue.formatCells, 0); }
         if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.formatColumns)) { actualLockingValues.put(Worksheet.SheetProtectionValue.formatColumns, 0); }
@@ -916,17 +922,20 @@ public class LowLevel {
         String temp;
         Iterator itr;
         Map.Entry<Worksheet.SheetProtectionValue, Integer> item;        
-       // foreach(KeyValuePair<Worksheet.SheetProtectionValue, int>item in actualLockingValues)
-            itr = actualLockingValues.entrySet().iterator();
-            while (itr.hasNext())
-            {
+        itr = actualLockingValues.entrySet().iterator();
+        while (itr.hasNext())
+        {
             item = (Map.Entry<Worksheet.SheetProtectionValue, Integer>)itr.next();
             temp = item.getKey().name();// Note! If the enum names differs from the OOXML definitions, this method will cause invalid OOXML entries
-             }
+         }
+            if (Helper.isNullOrEmpty(sheet.getSheetProtectionPassword()) == false)
+            {
+                String hash = generatePasswordHash(sheet.getSheetProtectionPassword());
+                sb.append(" password=\"" + hash + "\"");
+            }        
         sb.append(" sheet=\"1\"/>\r\n");
        return sb.toString();
     }    
-    
     
     /**
      * Method to create the XML string for the app-properties document
@@ -1126,6 +1135,31 @@ public class LowLevel {
         {
             throw new IOException("There was an error while creating the byte stream. Please see the inner exception.", e);
         }  
+    }
+    
+    /**
+     * Method to generate an Excel internal password hash to protect workbooks or worksheets<br>
+     * This method is derived from the c++ implementation by Kohei Yoshida (<a href="http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/">http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/</a>)<br>
+     * <b>WARNING!</b> Do not use this method to encrypt 'real' passwords or data outside from PicoXLSX4j. This is only a minor security feature. Use a proper cryptography method instead.
+     * @param password
+     * @return 
+     */
+    public static String generatePasswordHash(String password)
+    {
+        if (Helper.isNullOrEmpty(password)) { return ""; }
+        int PasswordLength = password.length();
+        int passwordHash = 0;
+        char character;
+        for(int i = PasswordLength; i > 0; i--)
+        {
+            character = password.charAt(i - 1);
+            passwordHash = ((passwordHash >> 14) & 0x01) | ((passwordHash << 1) & 0x7fff);
+            passwordHash ^= character;
+        }
+        passwordHash = ((passwordHash >> 14) & 0x01) | ((passwordHash << 1) & 0x7fff);
+        passwordHash ^= (0x8000 | ('N' << 8) | 'K');
+        passwordHash ^= PasswordLength;
+        return Integer.toHexString(passwordHash).toUpperCase();
     }    
     
 }

@@ -132,6 +132,7 @@ public class Worksheet {
     private Map<String, Cell.Range> mergedCells;
     private boolean useSheetProtection;
     private List<SheetProtectionValue> sheetProtectionValues;
+    private String sheetProtectionPassword;
     private int sheetID;
     
     public String getSheetName() {
@@ -279,8 +280,14 @@ public class Worksheet {
     public Map<String, Cell.Range> getMergedCells() {
         return mergedCells;
     }
-    
-    
+
+    /**
+     * Gets the password used for sheet protection
+     * @return Password (UTF-8)
+     */
+    public String getSheetProtectionPassword() {
+        return sheetProtectionPassword;
+    } 
 
     /**
      * Default constructor
@@ -637,7 +644,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void AddCell(boolean value, int columnAddress, int rowAddress) throws UndefinedStyleException, UnknownRangeException
+    public void addCell(boolean value, int columnAddress, int rowAddress) throws UndefinedStyleException, UnknownRangeException
     {
         Cell c = new Cell(value, Cell.CellType.BOOL, columnAddress, rowAddress);
         addNextCell(c, false);
@@ -663,7 +670,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void AddCell(Cell cell) throws UndefinedStyleException, UnknownRangeException
+    public void addCell(Cell cell) throws UndefinedStyleException, UnknownRangeException
     {
         addNextCell(cell, false);
     }    
@@ -693,7 +700,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void AddCellFormula(String formula, int columnAddress, int rowAddress) throws UndefinedStyleException, UnknownRangeException
+    public void addCellFormula(String formula, int columnAddress, int rowAddress) throws UndefinedStyleException, UnknownRangeException
     {
         Cell c = new Cell(formula, Cell.CellType.FORMULA, columnAddress, rowAddress);
         addNextCell(c, false);
@@ -710,7 +717,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void AddObjectCellRange(List<Object> values, Cell.Address startAddress, Cell.Address endAddress) throws UnknownRangeException, UndefinedStyleException
+    public void addObjectCellRange(List<Object> values, Cell.Address startAddress, Cell.Address endAddress) throws UnknownRangeException, UndefinedStyleException
     {
         addCellRangeInternal(values, startAddress, endAddress);
     }    
@@ -1188,6 +1195,23 @@ public class Worksheet {
             }
             this.sheetProtectionValues.add(typeOfProtection);
             this.setUseSheetProtection(true);
+        }
+    }
+    
+    /**
+     * Sets or removes the password for worksheet protection. If set, UseSheetProtection will be also set to true
+     * @param password Password (UTF-8) to protect the worksheet. If the password is null or empty, no password will be used
+     */
+    public void setSheetProtectionPassword(String password)
+    {
+        if (Helper.isNullOrEmpty(password) == true)
+        {
+            this.sheetProtectionPassword = null;
+        }
+        else
+        {
+            this.sheetProtectionPassword = password;
+            this.useSheetProtection = true;
         }
     }    
     

@@ -566,7 +566,7 @@ public class Workbook {
                         cell.setFieldType(Cell.CellType.EMPTY);
                         cell.setRowAddress(address.Row);
                         cell.setColumnAddress(address.Column);
-                        sheet.AddCell(cell);
+                        sheet.addCell(cell);
                     }
                     else
                     {

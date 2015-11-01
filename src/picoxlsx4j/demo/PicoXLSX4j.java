@@ -24,7 +24,8 @@ import picoxlsx4j.style.Style;
 public class PicoXLSX4j {
 
     /**
-     * @param args the command line arguments
+     * Method to run all demos 
+     * @param args the command line arguments (not used)
      */
     public static void main(String[] args)  {
        
@@ -37,7 +38,10 @@ public class PicoXLSX4j {
         demo6();
     }
     
-            private static void basicDemo()
+        /**
+         * This is a very basic demo (adding three values and save the workbook)
+         */
+        private static void basicDemo()
         {
             try
             {
@@ -53,6 +57,9 @@ public class PicoXLSX4j {
             }
         }
  
+        /**
+         * This method shows the usage of AddNextCell with several data types and formulas
+         */
         private static void demo1()
         {
             try
@@ -77,6 +84,9 @@ public class PicoXLSX4j {
             }
         }            
      
+        /**
+         * This demo shows the usage of several data types, the method AddCell, more than one worksheet and the SaveAs method
+         */
         private static void demo2()
         {
             try
@@ -108,6 +118,9 @@ public class PicoXLSX4j {
             }            
         }
         
+        /**
+         * This demo shows the usage of flipped direction when using AddnextCell
+         */
         private static void demo3()
         {
             try
@@ -133,6 +146,9 @@ public class PicoXLSX4j {
             } 
         }
         
+        /**
+         * This demo shows the usage of several styles, column widths and row heights
+         */
         private static void demo4()
         {
             try
@@ -187,6 +203,9 @@ public class PicoXLSX4j {
             } 
         }
         
+        /**
+         * This demo shows the usage of cell ranges, adding and removing styles, and meta data 
+         */
         private static void demo5()
         {
             try
@@ -232,6 +251,9 @@ public class PicoXLSX4j {
             } 
         }
         
+        /**
+         * This demo shows the usage of merging cells, protecting cells and worksheet password protection
+         */
         private static void demo6()
         {
             try
@@ -252,7 +274,11 @@ public class PicoXLSX4j {
             workbook.getCurrentWorksheet().addNextCell("Cell A1");                                           // Add cell A1
             workbook.getCurrentWorksheet().addNextCell("Cell B1");                                           // Add cell B1
             workbook.getCurrentWorksheet().getCells().get("A1").setCellLockedState(false, true, workbook);   // Set the locking state of cell A1 (not locked but value is hidden when cell selected)
-            workbook.save();                                                                                 // Save the workbook
+            workbook.addWorksheet("PWD-Protected");                                                          // Add a new worksheet
+            workbook.getCurrentWorksheet().addCell("This worksheet is password protected. The password is:",0,0);  // Add cell A1
+            workbook.getCurrentWorksheet().addCell("test123", 0, 1);                                         // Add cell A2
+            workbook.getCurrentWorksheet().setSheetProtectionPassword("test123");                            // Set the password "test123"
+            workbook.save();                                                                                 // Save the workbook            
             }
             catch(Exception e)
             {

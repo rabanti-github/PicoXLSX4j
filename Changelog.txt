@@ -1,3 +1,9 @@
+v1.2.1	01.11.2015
+******************
+- Added support to protect worksheets with a password
+- Minor bug fixes
+- Added more documentation
+
 v1.2.0	31.10.2015
 ******************
 - Added support for merging cells
