@@ -252,7 +252,7 @@ public class PicoXLSX4j {
         }
         
         /**
-         * This demo shows the usage of merging cells, protecting cells and worksheet password protection
+         * This demo shows the usage of merging cells, protecting cells, worksheet password protection and workbook protection
          */
         private static void demo6()
         {
@@ -278,6 +278,7 @@ public class PicoXLSX4j {
             workbook.getCurrentWorksheet().addCell("This worksheet is password protected. The password is:",0,0);  // Add cell A1
             workbook.getCurrentWorksheet().addCell("test123", 0, 1);                                         // Add cell A2
             workbook.getCurrentWorksheet().setSheetProtectionPassword("test123");                            // Set the password "test123"
+            workbook.setWorkbookProtection(true, true, true, null);                                          // Set workbook protection (windows locked, structure locked, no password)
             workbook.save();                                                                                 // Save the workbook            
             }
             catch(Exception e)

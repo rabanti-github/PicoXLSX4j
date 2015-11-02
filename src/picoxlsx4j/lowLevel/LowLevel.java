@@ -251,6 +251,25 @@ public class LowLevel {
         }
         StringBuilder sb = new StringBuilder();
         sb.append("<x:workbook xmlns:x=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\r\n");
+        if (this.workbook.isWorkbookProtectionUsed() == true)
+        {
+            sb.append("<x:workbookProtection");
+            if (this.workbook.isWindowsLockedIfProtected() == true)
+            {
+                sb.append(" lockWindows=\"1\"");
+            }
+            if (this.workbook.isStructureLockedIfProtected() == true)
+            {
+                sb.append(" lockStructure=\"1\"");
+            }
+            if (Helper.isNullOrEmpty(this.workbook.getWorkbookProtectionPassword()) == false)
+            {
+                sb.append("workbookPassword=\"");
+                sb.append(generatePasswordHash(this.workbook.getWorkbookProtectionPassword()));
+                sb.append("\"");
+            }
+            sb.append("/>\r\n");
+        } 
         sb.append("<x:sheets>\r\n");
         int id;
         for (int i = 0; i < this.workbook.getWorksheets().size(); i++)

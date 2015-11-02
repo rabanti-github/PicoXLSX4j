@@ -38,6 +38,10 @@ public class Workbook {
     private Worksheet currentWorksheet;
     private List<Style> styles;
     private Metadata workbookMetadata;
+    private String workbookProtectionPassword;
+    private boolean lockWindowsIfProtected;
+    private boolean lockStructureIfProtected;
+    private boolean useWorkbookProtection;
 
     /**
      * Gets the current worksheet
@@ -94,6 +98,46 @@ public class Workbook {
     public void setWorkbookMetadata(Metadata workbookMetadata) {
         this.workbookMetadata = workbookMetadata;
     }    
+
+    /**
+     * Gets whether the workbook is protected
+     * @return If true, the workbook is protected otherwise not
+     */
+    public boolean isWorkbookProtectionUsed() {
+        return useWorkbookProtection;
+    }
+
+    /**
+     * Sets whether the workbook is protected
+     * @param useWorkbookProtection If true, the workbook is protected otherwise not
+     */
+    public void setWorkbookProtection(boolean useWorkbookProtection) {
+        this.useWorkbookProtection = useWorkbookProtection;
+    }
+
+    /**
+     * Gets the password used for workbook protection
+     * @return Password (UTF-8)
+     */
+    public String getWorkbookProtectionPassword() {
+        return workbookProtectionPassword;
+    }
+    
+    /**
+     * Gets whether the windows are locked if workbook is protected
+     * @return True if the windows are locked when the workbook is protected
+     */
+    public boolean isWindowsLockedIfProtected() {
+        return lockWindowsIfProtected;
+    }
+
+    /**
+     * Gets whether the structure are locked if workbook is protected
+     * @return True if the structure is locked when the workbook is protected
+     */
+    public boolean isStructureLockedIfProtected() {
+        return lockStructureIfProtected;
+    }
     
     /**
      * Default Constructor with additional parameter to create a default worksheet
@@ -227,6 +271,28 @@ public class Workbook {
             this.currentWorksheet = null;
         }        
     }
+    
+    /**
+     * Sets or removes the workbook protection. If protectWindows and protectStructure are both false, the workbook will not be protected
+     * @param state If true, the workbook will be protected, otherwise not
+     * @param protectWindows If true, the windows will be locked if the workbook is protected
+     * @param protectStructure If true, the structure will be locked if the workbook is protected
+     * @param password Optional password. If null or empty, no password will be set in case of protection
+     */
+    public void setWorkbookProtection(boolean state, boolean protectWindows, boolean protectStructure, String password)
+    {
+        this.lockWindowsIfProtected = protectWindows;
+        this.lockStructureIfProtected = protectStructure;
+        this.workbookProtectionPassword = password;
+        if (protectWindows == false && protectStructure == false)
+        {
+            this.useWorkbookProtection = false;
+        }
+        else
+        {
+            this.useWorkbookProtection = state;
+        }
+    }    
     
     /**
     * Adds a style to the style sheet of the workbook
