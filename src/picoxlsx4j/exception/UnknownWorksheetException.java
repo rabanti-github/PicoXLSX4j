@@ -10,7 +10,7 @@ package picoxlsx4j.exception;
  * Class for exceptions regarding an unknown worksheet (name not found)
  * @author Raphael Stoeckli
  */
-public class UnknownWorksheetException extends Exception{
+public class UnknownWorksheetException extends RuntimeException{
     
     /**
      * Default constructor

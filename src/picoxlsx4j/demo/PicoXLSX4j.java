@@ -43,12 +43,13 @@ public class PicoXLSX4j {
          */
         private static void basicDemo()
         {
-            try
-            {
+
             Workbook workbook = new Workbook("basic.xlsx", "Sheet1");           // Create new workbook
             workbook.getCurrentWorksheet().addNextCell("Test");                 // Add cell A1
             workbook.getCurrentWorksheet().addNextCell("Test2");                // Add cell B1
             workbook.getCurrentWorksheet().addNextCell("Test3");                // Add cell C1
+            try
+            {
             workbook.save();
             }
             catch(Exception e)
@@ -62,8 +63,6 @@ public class PicoXLSX4j {
          */
         private static void demo1()
         {
-            try
-            {
             Workbook workbook = new Workbook("test1.xlsx", "Sheet1");           // Create new workbook
             workbook.getCurrentWorksheet().addNextCell("Test");                 // Add cell A1
             workbook.getCurrentWorksheet().addNextCell(123);                    // Add cell B1
@@ -76,6 +75,8 @@ public class PicoXLSX4j {
             workbook.getCurrentWorksheet().addNextCellFormula("B1*22");         // Add cell A3 as formula (B1 times 22)
             workbook.getCurrentWorksheet().addNextCellFormula("ROUNDDOWN(A2,1)"); // Add cell B3 as formula (Floor A2 with one decimal place)
             workbook.getCurrentWorksheet().addNextCellFormula("PI()");          // Add cell C3 as formula (Pi = 3.14.... )
+            try
+            {
             workbook.save();                                                    // Save the workbook
             }
             catch(Exception e)
@@ -88,9 +89,7 @@ public class PicoXLSX4j {
          * This demo shows the usage of several data types, the method AddCell, more than one worksheet and the SaveAs method
          */
         private static void demo2()
-        {
-            try
-            {            
+        {         
             Workbook workbook = new Workbook(false);                            // Create new workbook
             workbook.addWorksheet("Sheet1");                                    // Add a new Worksheet and set it as current sheet
             workbook.getCurrentWorksheet().addNextCell("月曜日");                // Add cell A1 (Unicode)
@@ -110,6 +109,8 @@ public class PicoXLSX4j {
             values.add("V2");
             values.add("V3");
             workbook.getCurrentWorksheet().addStringCellRange(values, "A4:C4"); // Add a cell range to A4 - C4
+            try
+            {   
             workbook.saveAs("test2j.xlsx");                                     // Save the workbook
             }
             catch(Exception e)
@@ -123,8 +124,6 @@ public class PicoXLSX4j {
          */
         private static void demo3()
         {
-            try
-            { 
             Workbook workbook = new Workbook("test3.xlsx", "Sheet1");           // Create new workbook
             workbook.getCurrentWorksheet().setCurrentCellDirection(Worksheet.CellDirection.RowToRow);  // Change the cell direction
             workbook.getCurrentWorksheet().addNextCell(1);                      // Add cell A1
@@ -138,6 +137,8 @@ public class PicoXLSX4j {
             workbook.getCurrentWorksheet().addNextCell("D");                    // Add cell B4
             workbook.getCurrentWorksheet().removeCell("A2");                    // Delete cell A2
             workbook.getCurrentWorksheet().removeCell(1,1);                     // Delete cell B2
+            try
+            {             
             workbook.save();                                                    // Save the workbook
             }
             catch(Exception e)
@@ -150,9 +151,7 @@ public class PicoXLSX4j {
          * This demo shows the usage of several styles, column widths and row heights
          */
         private static void demo4()
-        {
-            try
-            {            
+        {        
             Workbook workbook = new Workbook("test4.xlsx", "Sheet1");           // Create new workbook
             List<String> values = new ArrayList<>();                            // Create a List of values
             values.add("Header1");
@@ -194,7 +193,8 @@ public class PicoXLSX4j {
             workbook.getCurrentWorksheet().setColumnWidth(2, 25f);              // Set column width
             workbook.getCurrentWorksheet().setRowHeight(0, 20);                 // Set row height
             workbook.getCurrentWorksheet().setRowHeight(1, 30);                 // Set row height
-                      
+            try
+            {    
             workbook.save();                                                    // Save the workbook
             }
             catch(Exception e)
@@ -207,9 +207,7 @@ public class PicoXLSX4j {
          * This demo shows the usage of cell ranges, adding and removing styles, and meta data 
          */
         private static void demo5()
-        {
-            try
-            {   
+        { 
             Workbook workbook = new Workbook("test5.xlsx", "Sheet1");           // Create new workbook
             List<String> values = new ArrayList<>();                            // Create a List of values
             values.add("Header1");
@@ -242,7 +240,8 @@ public class PicoXLSX4j {
             workbook.getWorkbookMetadata().setSubject("This is the 5th PicoXLSX test");  // Add meta data to workbook
             workbook.getWorkbookMetadata().setCreator("PicoXLSX");                       // Add meta data to workbook
             workbook.getWorkbookMetadata().setKeywords("Keyword1;Keyword2;Keyword3");    // Add meta data to workbook
-
+            try
+            {  
             workbook.save();                                                    // Save the workbook
             }
             catch(Exception e)
@@ -255,9 +254,7 @@ public class PicoXLSX4j {
          * This demo shows the usage of merging cells, protecting cells, worksheet password protection and workbook protection
          */
         private static void demo6()
-        {
-            try
-            {               
+        {             
             Workbook workbook = new Workbook("test6.xlsx", "Sheet1");                                        // Create new workbook
             workbook.getCurrentWorksheet().addNextCell("Mergerd1");                                          // Add cell A1
             workbook.getCurrentWorksheet().mergeCells("A1:C1");                                              // Merge cells from A1 to C1
@@ -279,6 +276,8 @@ public class PicoXLSX4j {
             workbook.getCurrentWorksheet().addCell("test123", 0, 1);                                         // Add cell A2
             workbook.getCurrentWorksheet().setSheetProtectionPassword("test123");                            // Set the password "test123"
             workbook.setWorkbookProtection(true, true, true, null);                                          // Set workbook protection (windows locked, structure locked, no password)
+            try
+            {  
             workbook.save();                                                                                 // Save the workbook            
             }
             catch(Exception e)

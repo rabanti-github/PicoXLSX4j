@@ -10,7 +10,7 @@ package picoxlsx4j.exception;
  * Class for exceptions regarding format error incidents
  * @author Raphael Stoeckli
  */
-public class FormatException extends Exception{
+public class FormatException extends RuntimeException{
     
     private Exception innerException;
 

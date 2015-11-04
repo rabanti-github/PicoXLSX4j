@@ -1,3 +1,8 @@
+v1.2.3	04.11.2015
+******************
+- Changed all Exceptions to RuntimeExceptions, apart from IOEception
+- Fixed typos
+
 v1.2.2	02.11.2015
 ******************
 - Added support for protecting workbooks

@@ -144,7 +144,7 @@ public class Worksheet {
      * @param sheetName Name of the sheet
      * @throws FormatException Thrown if the name contains illegal characters or is longer than 31 characters
      */
-    public void setSheetName(String sheetName) throws FormatException {
+    public void setSheetName(String sheetName) {
         if (Helper.isNullOrEmpty(sheetName))
         {
             throw new FormatException("The sheet name must be between 1 and 31 characters");
@@ -303,7 +303,7 @@ public class Worksheet {
      * @param id ID of the worksheet (for internal use)
      * @throws FormatException Thrown if the name contains illegal characters or is to long
      */
-    public Worksheet(String name, int id) throws FormatException
+    public Worksheet(String name, int id)
     {
         init();
         setSheetName(name);
@@ -336,7 +336,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addNextCell(Object value) throws UnknownRangeException, UndefinedStyleException
+    public void addNextCell(Object value)
     {
         Cell c = new Cell(value, Cell.CellType.DEFAULT, this.currentColumnNumber, this.currentRowNumber);
         addNextCell(c, true);
@@ -348,7 +348,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addNextCell(String value) throws UndefinedStyleException, UnknownRangeException
+    public void addNextCell(String value)
     {
         Cell c = new Cell(value, Cell.CellType.STRING, this.currentColumnNumber, this.currentRowNumber);
         addNextCell(c, true);
@@ -360,7 +360,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */    
-    public void addNextCell(int value) throws UndefinedStyleException, UnknownRangeException
+    public void addNextCell(int value)
     {
         Cell c = new Cell(value, Cell.CellType.NUMBER, this.currentColumnNumber, this.currentRowNumber);
         addNextCell(c, true);
@@ -372,7 +372,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addNextCell(double value) throws UndefinedStyleException, UnknownRangeException
+    public void addNextCell(double value)
     {
         Cell c = new Cell(value, Cell.CellType.NUMBER, this.currentColumnNumber, this.currentRowNumber);
         addNextCell(c, true);
@@ -384,7 +384,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */    
-    public void addNextCell(float value) throws UndefinedStyleException, UnknownRangeException
+    public void addNextCell(float value)
     {
         Cell c = new Cell(value, Cell.CellType.NUMBER, this.currentColumnNumber, this.currentRowNumber);
         addNextCell(c, true);
@@ -396,7 +396,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */    
-    public void addNextCell(Date value) throws UndefinedStyleException, UnknownRangeException
+    public void addNextCell(Date value)
     {
         Cell c = new Cell(value, Cell.CellType.DATE, this.currentColumnNumber, this.currentRowNumber);
         addNextCell(c, true);
@@ -408,7 +408,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */    
-    public void addNextCell(boolean value) throws UndefinedStyleException, UnknownRangeException
+    public void addNextCell(boolean value)
     {
         Cell c = new Cell(value, Cell.CellType.BOOL, this.currentColumnNumber, this.currentRowNumber);
         addNextCell(c, true);
@@ -420,7 +420,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */    
-    public void addNextCellFormula(String formula) throws UndefinedStyleException, UnknownRangeException
+    public void addNextCellFormula(String formula)
     {
         Cell c = new Cell(formula, Cell.CellType.FORMULA, this.currentColumnNumber, this.currentRowNumber);
         addNextCell(c, true);
@@ -433,7 +433,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    private void addNextCell(Cell cell, boolean increment) throws UndefinedStyleException, UnknownRangeException
+    private void addNextCell(Cell cell, boolean increment)
     {
         if (this.activeStyle != null)
         {
@@ -476,7 +476,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addCell(Object value, int columnAddress, int rowAddress) throws UndefinedStyleException, UnknownRangeException
+    public void addCell(Object value, int columnAddress, int rowAddress)
     {
         Cell c = new Cell(value, Cell.CellType.DEFAULT, columnAddress, rowAddress);
         addNextCell(c, false);
@@ -490,7 +490,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addCell(Object value, String address) throws FormatException, UnknownRangeException, UndefinedStyleException
+    public void addCell(Object value, String address)
     {
         Cell.Address adr = Cell.resolveCellCoordinate(address);
         addCell(value, adr.Column, adr.Row);
@@ -504,7 +504,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addCell(String value, int columnAddress, int rowAddress) throws UndefinedStyleException, UnknownRangeException
+    public void addCell(String value, int columnAddress, int rowAddress)
     {
         Cell c = new Cell(value, Cell.CellType.STRING, columnAddress, rowAddress);
         addNextCell(c, false);
@@ -518,7 +518,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addCell(String value, String address) throws FormatException, UnknownRangeException, UndefinedStyleException
+    public void addCell(String value, String address)
     {
         Cell.Address adr = Cell.resolveCellCoordinate(address);
         addCell(value, adr.Column, adr.Row);
@@ -532,7 +532,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addCell(int value, int columnAddress, int rowAddress) throws UndefinedStyleException, UnknownRangeException
+    public void addCell(int value, int columnAddress, int rowAddress)
     {
         Cell c = new Cell(value, Cell.CellType.NUMBER, columnAddress, rowAddress);
         addNextCell(c, false);
@@ -546,7 +546,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */    
-    public void addCell(int value, String address) throws FormatException, UnknownRangeException, UndefinedStyleException
+    public void addCell(int value, String address)
     {
         Cell.Address adr = Cell.resolveCellCoordinate(address);
         addCell(value, adr.Column, adr.Row);
@@ -560,7 +560,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addCell(double value, int columnAddress, int rowAddress) throws UndefinedStyleException, UnknownRangeException
+    public void addCell(double value, int columnAddress, int rowAddress)
     {
         Cell c = new Cell(value, Cell.CellType.NUMBER, columnAddress, rowAddress);
         addNextCell(c, false);
@@ -574,7 +574,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */    
-    public void addCell(double value, String address) throws FormatException, UnknownRangeException, UndefinedStyleException
+    public void addCell(double value, String address)
     {
         Cell.Address adr = Cell.resolveCellCoordinate(address);
         addCell(value, adr.Column, adr.Row);
@@ -588,7 +588,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addCell(float value, int columnAddress, int rowAddress) throws UndefinedStyleException, UnknownRangeException
+    public void addCell(float value, int columnAddress, int rowAddress)
    {
        Cell c = new Cell(value, Cell.CellType.NUMBER, columnAddress, rowAddress);
        addNextCell(c, false);
@@ -602,7 +602,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */    
-    public void addCell(float value, String address) throws FormatException, UnknownRangeException, UndefinedStyleException
+    public void addCell(float value, String address)
     {
         Cell.Address adr = Cell.resolveCellCoordinate(address);
         addCell(value, adr.Column, adr.Row);
@@ -616,7 +616,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addCell(Date value, int columnAddress, int rowAddress) throws UndefinedStyleException, UnknownRangeException
+    public void addCell(Date value, int columnAddress, int rowAddress)
     {
         Cell c = new Cell(value, Cell.CellType.DATE, columnAddress, rowAddress);
         addNextCell(c, false);
@@ -630,7 +630,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */    
-    public void addCell(Date value, String address) throws FormatException, UnknownRangeException, UndefinedStyleException
+    public void addCell(Date value, String address)
     {
         Cell.Address adr = Cell.resolveCellCoordinate(address);
         addCell(value, adr.Column, adr.Row);
@@ -644,7 +644,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addCell(boolean value, int columnAddress, int rowAddress) throws UndefinedStyleException, UnknownRangeException
+    public void addCell(boolean value, int columnAddress, int rowAddress)
     {
         Cell c = new Cell(value, Cell.CellType.BOOL, columnAddress, rowAddress);
         addNextCell(c, false);
@@ -658,7 +658,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addCell(boolean value, String address) throws FormatException, UnknownRangeException, UndefinedStyleException
+    public void addCell(boolean value, String address)
     {
         Cell.Address adr = Cell.resolveCellCoordinate(address);
         addCell(value, adr.Column, adr.Row);
@@ -670,7 +670,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addCell(Cell cell) throws UndefinedStyleException, UnknownRangeException
+    public void addCell(Cell cell)
     {
         addNextCell(cell, false);
     }    
@@ -685,7 +685,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addCellFormula(String formula, String address) throws UndefinedStyleException, FormatException, UnknownRangeException
+    public void addCellFormula(String formula, String address)
     {
         Cell.Address adr = Cell.resolveCellCoordinate(address);
         Cell c = new Cell(formula, Cell.CellType.FORMULA, adr.Column, adr.Row);
@@ -700,7 +700,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addCellFormula(String formula, int columnAddress, int rowAddress) throws UndefinedStyleException, UnknownRangeException
+    public void addCellFormula(String formula, int columnAddress, int rowAddress)
     {
         Cell c = new Cell(formula, Cell.CellType.FORMULA, columnAddress, rowAddress);
         addNextCell(c, false);
@@ -710,14 +710,14 @@ public class Worksheet {
     
     /**
      * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
-     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs distinct function name.
+     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs a distinct function name.
      * @param values List of unspecified objects to insert
      * @param startAddress Start address
      * @param endAddress End address
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addObjectCellRange(List<Object> values, Cell.Address startAddress, Cell.Address endAddress) throws UnknownRangeException, UndefinedStyleException
+    public void addObjectCellRange(List<Object> values, Cell.Address startAddress, Cell.Address endAddress)
     {
         addCellRangeInternal(values, startAddress, endAddress);
     }    
@@ -730,7 +730,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addObjectCellRange(List<Object> values, String cellRange) throws FormatException, UnknownRangeException, UndefinedStyleException
+    public void addObjectCellRange(List<Object> values, String cellRange)
     {
         Cell.Range rng = Cell.resolveCellRange(cellRange);
         addCellRangeInternal(values, rng.StartAddress, rng.EndAddress);
@@ -738,14 +738,14 @@ public class Worksheet {
     
     /**
      * Adds a list of string values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
-     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs distinct function name.
+     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs a distinct function name.
      * @param values List of string values to insert
      * @param startAddress Start address
      * @param endAddress End address
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */    
-    public void addStringCellRange(List<String> values, Cell.Address startAddress, Cell.Address endAddress) throws UnknownRangeException, UndefinedStyleException
+    public void addStringCellRange(List<String> values, Cell.Address startAddress, Cell.Address endAddress)
     {
         addCellRangeInternal(values, startAddress, endAddress);
     }    
@@ -758,7 +758,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addStringCellRange(List<String> values, String cellRange) throws FormatException, UnknownRangeException, UndefinedStyleException
+    public void addStringCellRange(List<String> values, String cellRange)
     {
         Cell.Range rng = Cell.resolveCellRange(cellRange);
         addCellRangeInternal(values, rng.StartAddress, rng.EndAddress);
@@ -766,14 +766,14 @@ public class Worksheet {
     
     /**
      * Adds a list of integer values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
-     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs distinct function name.
+     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs a distinct function name.
      * @param values List of integer values to insert
      * @param startAddress Start address
      * @param endAddress End address
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */       
-    public void addIntegerCellRange(List<Integer> values, Cell.Address startAddress, Cell.Address endAddress) throws UnknownRangeException, UndefinedStyleException
+    public void addIntegerCellRange(List<Integer> values, Cell.Address startAddress, Cell.Address endAddress)
     {
         addCellRangeInternal(values, startAddress, endAddress);
     }    
@@ -786,7 +786,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addIntegerCellRange(List<Integer> values, String cellRange) throws FormatException, UnknownRangeException, UndefinedStyleException
+    public void addIntegerCellRange(List<Integer> values, String cellRange)
     {
         Cell.Range rng = Cell.resolveCellRange(cellRange);
         addCellRangeInternal(values, rng.StartAddress, rng.EndAddress);
@@ -794,14 +794,14 @@ public class Worksheet {
     
      /**
      * Adds a list of double values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
-     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs distinct function name.
+     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs a distinct function name.
      * @param values List of double values to insert
      * @param startAddress Start address
      * @param endAddress End address
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */   
-    public void addDoubleCellRange(List<Double> values, Cell.Address startAddress, Cell.Address endAddress) throws UnknownRangeException, UndefinedStyleException
+    public void addDoubleCellRange(List<Double> values, Cell.Address startAddress, Cell.Address endAddress)
     {
         addCellRangeInternal(values, startAddress, endAddress);
     }    
@@ -814,7 +814,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addDoubleCellRange(List<Double> values, String cellRange) throws FormatException, UnknownRangeException, UndefinedStyleException
+    public void addDoubleCellRange(List<Double> values, String cellRange)
     {
         Cell.Range rng = Cell.resolveCellRange(cellRange);
         addCellRangeInternal(values, rng.StartAddress, rng.EndAddress);
@@ -822,14 +822,14 @@ public class Worksheet {
     
     /**
      * Adds a list of float values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
-     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs distinct function name.
+     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs a distinct function name.
      * @param values List of float values to insert
      * @param startAddress Start address
      * @param endAddress End address
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */       
-    public void addFloatCellRange(List<Float> values, Cell.Address startAddress, Cell.Address endAddress) throws UnknownRangeException, UndefinedStyleException
+    public void addFloatCellRange(List<Float> values, Cell.Address startAddress, Cell.Address endAddress)
     {
         addCellRangeInternal(values, startAddress, endAddress);
     }  
@@ -842,7 +842,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addFloatCellRange(List<Float> values, String cellRange) throws FormatException, UnknownRangeException, UndefinedStyleException
+    public void addFloatCellRange(List<Float> values, String cellRange)
     {
         Cell.Range rng = Cell.resolveCellRange(cellRange);
         addCellRangeInternal(values, rng.StartAddress, rng.EndAddress);
@@ -850,14 +850,14 @@ public class Worksheet {
     
     /**
      * Adds a list of date values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
-     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs distinct function name.
+     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs a distinct function name.
      * @param values List of date values to insert
      * @param startAddress Start address
      * @param endAddress End address
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */       
-    public void addDateCellRange(List<Date> values, Cell.Address startAddress, Cell.Address endAddress) throws UnknownRangeException, UndefinedStyleException
+    public void addDateCellRange(List<Date> values, Cell.Address startAddress, Cell.Address endAddress)
     {
         addCellRangeInternal(values, startAddress, endAddress);
     }  
@@ -870,7 +870,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addDateCellRange(List<Date> values, String cellRange) throws FormatException, UnknownRangeException, UndefinedStyleException
+    public void addDateCellRange(List<Date> values, String cellRange)
     {
         Cell.Range rng = Cell.resolveCellRange(cellRange);
         addCellRangeInternal(values, rng.StartAddress, rng.EndAddress);
@@ -878,14 +878,14 @@ public class Worksheet {
  
     /**
      * Adds a list of boolean values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
-     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs distinct function name.
+     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs a distinct function name.
      * @param values List of boolean values to insert
      * @param startAddress Start address
      * @param endAddress End address
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */        
-    public void addBooleanCellRange(List<Boolean> values, Cell.Address startAddress, Cell.Address endAddress) throws UnknownRangeException, UndefinedStyleException
+    public void addBooleanCellRange(List<Boolean> values, Cell.Address startAddress, Cell.Address endAddress)
     {
         addCellRangeInternal(values, startAddress, endAddress);
     }  
@@ -898,7 +898,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addBooleanCellRange(List<Boolean> values, String cellRange) throws FormatException, UnknownRangeException, UndefinedStyleException
+    public void addBooleanCellRange(List<Boolean> values, String cellRange)
     {
         Cell.Range rng = Cell.resolveCellRange(cellRange);
         addCellRangeInternal(values, rng.StartAddress, rng.EndAddress);
@@ -913,7 +913,7 @@ public class Worksheet {
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    private <T> void addCellRangeInternal(List<T> values, Cell.Address startAddress, Cell.Address endAddress) throws UnknownRangeException, UndefinedStyleException
+    private <T> void addCellRangeInternal(List<T> values, Cell.Address startAddress, Cell.Address endAddress)
     {
         List<Cell.Address> addresses = Cell.getCellRange(startAddress, endAddress);
         if (values.size() != addresses.size())
@@ -939,7 +939,7 @@ public class Worksheet {
      * @return Returns true if the cell could be removed (existed), otherwise false (did not exist)
      * @throws UnknownRangeException Thrown if the resolved cell address is out of range
      */
-    public boolean removeCell(int columnAddress, int rowAddress) throws UnknownRangeException
+    public boolean removeCell(int columnAddress, int rowAddress)
     {
         String address = Cell.resolveCellAddress(columnAddress, rowAddress);
         if (this.cells.containsKey(address))
@@ -960,7 +960,7 @@ public class Worksheet {
      * @throws UnknownRangeException Thrown if the resolved cell address is out of range
      * @throws FormatException Thrown if the passed address is malformed
      */
-    public boolean removeCell(String address) throws UnknownRangeException, FormatException
+    public boolean removeCell(String address)
     {
         Cell.Address adr = Cell.resolveCellCoordinate(address);
         return removeCell(adr.Column, adr.Row);
@@ -990,7 +990,7 @@ public class Worksheet {
      * @param rowAddress Row number (zero based)
      * @throws UnknownRangeException Thrown if the address is out of the valid range. Range is from 0 to 1048575 (1048576 rows)
      */
-    public void setCurrentRowAddress(int rowAddress) throws UnknownRangeException
+    public void setCurrentRowAddress(int rowAddress)
     {
         if (rowAddress >= 1048576 || rowAddress < 0)
         {
@@ -1004,7 +1004,7 @@ public class Worksheet {
      * @param columnAddress Column number (zero based)
      * @throws UnknownRangeException Thrown if the address is out of the valid range. Range is from 0 to 16383 (16384 columns)
      */
-    public void setCurrentColumnAddress(int columnAddress) throws UnknownRangeException
+    public void setCurrentColumnAddress(int columnAddress)
     {
         if (columnAddress >= 16383 || columnAddress < 0)
         {
@@ -1019,7 +1019,7 @@ public class Worksheet {
      * @throws UnknownRangeException Thrown if the address is out of the valid range. Range is for rows from 0 to 1048575 (1048576 rows) and for columns from 0 to 16383 (16384 columns)
      * @throws FormatException Thrown if the passed address is malformed
      */
-    public void setCurentCellAddress(String address) throws UnknownRangeException, FormatException
+    public void setCurentCellAddress(String address)
     {
         Cell.Address adr = Cell.resolveCellCoordinate(address);
         setCurentCellAddress(adr.Column, adr.Row);
@@ -1031,7 +1031,7 @@ public class Worksheet {
      * @param rowAddress Row number (zero based)
      * @throws UnknownRangeException Thrown if the address is out of the valid range. Range is for rows from 0 to 1048575 (1048576 rows) and for columns from 0 to 16383 (16384 columns)
      */
-    public void setCurentCellAddress(int columnAddress, int rowAddress) throws UnknownRangeException
+    public void setCurentCellAddress(int columnAddress, int rowAddress)
     {
         setCurrentColumnAddress(columnAddress);
         setCurrentRowAddress(rowAddress);
@@ -1043,7 +1043,7 @@ public class Worksheet {
      * @param width Row number (zero based)
      * @throws UnknownRangeException Thrown if the address is out of the valid range. Range is from 0 to 16383 (16384 columns)
      */
-    public void SetColumnWidth(String columnAddress, float width) throws UnknownRangeException
+    public void SetColumnWidth(String columnAddress, float width)
     {
         int columnNumber = Cell.resolveColumn(columnAddress);
         setColumnWidth(columnNumber, width);
@@ -1055,7 +1055,7 @@ public class Worksheet {
      * @param width Width from 0 to 255.0
      * @throws UnknownRangeException Thrown if the address is out of the valid range. Range is from 0 to 16383 (16384 columns)
      */
-    public void setColumnWidth(int columnNumber, float width) throws UnknownRangeException
+    public void setColumnWidth(int columnNumber, float width)
     {
         if (columnNumber >= 16384 || columnNumber < 0)
         {
@@ -1074,7 +1074,7 @@ public class Worksheet {
      * @param height Height from 0 to 409.5
      * @throws UnknownRangeException Thrown if the address is out of the valid range. Range is from 0 to 1048575 (1048576 rows)
      */
-    public void setRowHeight(int rowNumber, float height) throws UnknownRangeException
+    public void setRowHeight(int rowNumber, float height)
    {
        if (rowNumber >= 1048576 || rowNumber < 0)
        {
@@ -1123,7 +1123,7 @@ public class Worksheet {
      * @return Returns the validated range of the merged cells (e.g. 'A1:B12')
      * @throws picoxlsx4j.exception.FormatException Thrown if the passed address is malformed
      */
-    public String mergeCells(String cellRange) throws FormatException
+    public String mergeCells(String cellRange)
     {
         Cell.Range range = Cell.resolveCellRange(cellRange);
         return mergeCells(range.StartAddress, range.EndAddress);
@@ -1153,7 +1153,7 @@ public class Worksheet {
      * @throws UnknownRangeException Thrown if the passed cell range was not merged earlier
      * @throws FormatException Thrown if the passed address is malformed
      */
-    public void removeMergedCells(String range) throws UnknownRangeException, FormatException
+    public void removeMergedCells(String range)
     {
         range = range.toUpperCase();
         if (this.mergedCells.containsKey(range) == false)

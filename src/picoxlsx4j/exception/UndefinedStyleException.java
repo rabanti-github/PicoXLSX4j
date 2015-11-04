@@ -10,7 +10,7 @@ package picoxlsx4j.exception;
  * Class for exceptions regarding undefined Styles
  * @author Raphael Stoeckli
  */
-public class UndefinedStyleException extends Exception{
+public class UndefinedStyleException extends RuntimeException{
     
     /**
      * Default constructor

@@ -10,7 +10,7 @@ package picoxlsx4j.exception;
  * Class for exceptions regarding an already existing worksheet (same name)
  * @author Raphael Stoeckli
  */
-public class WorksheetNameAlreadxExistsException extends Exception{
+public class WorksheetNameAlreadxExistsException extends RuntimeException{
     
     /**
      * Default constructor

@@ -10,7 +10,7 @@ package picoxlsx4j.exception;
  * Class for exceptions regarding an unsupported data type
  * @author Raphael Stoeckli
  */
-public class UnsupportedDataTypeException extends Exception{
+public class UnsupportedDataTypeException extends RuntimeException{
     
     /**
      * Default constructor

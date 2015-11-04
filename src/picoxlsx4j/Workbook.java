@@ -171,7 +171,7 @@ public class Workbook {
      * @throws WorksheetNameAlreadxExistsException thrown if the passed worksheet name already exists
      * @throws FormatException Thrown if the worksheet name contains illegal characters
      */
-    public Workbook(String filename, String sheetName) throws WorksheetNameAlreadxExistsException, FormatException
+    public Workbook(String filename, String sheetName)
     {
         this.worksheets = new ArrayList<>();
         this.styles = new ArrayList<>();
@@ -188,7 +188,7 @@ public class Workbook {
     * @throws WorksheetNameAlreadxExistsException Thrown if the name of the worksheet already exists
     * @throws FormatException Thrown if the worksheet name contains illegal characters
     */
-    public void addWorksheet(String name) throws WorksheetNameAlreadxExistsException, FormatException
+    public void addWorksheet(String name)
     {
         for (int i = 0; i < this.worksheets.size(); i++)
         {
@@ -208,7 +208,7 @@ public class Workbook {
     * @return Returns the current worksheet
     * @throws UnknownWorksheetException Thrown if the name of the worksheet is unknown
     */   
-    public Worksheet setCurrentWorksheet(String name) throws UnknownWorksheetException
+    public Worksheet setCurrentWorksheet(String name)
     {
         boolean exists = false;
         for(int i = 0; i < this.worksheets.size(); i++)
@@ -232,7 +232,7 @@ public class Workbook {
     * @param name Name of the worksheet
     * @throws UnknownWorksheetException Thrown if the name of the worksheet is unknown
     */
-    public void removeWorksheet(String name) throws UnknownWorksheetException
+    public void removeWorksheet(String name)
     {
         boolean exists = false;
         boolean resetCurrent = false;
@@ -301,7 +301,7 @@ public class Workbook {
     * @return Returns the added style. In case of an existing style, the distinct style will be returned
     * @throws UndefinedStyleException Thrown if the style could not be added to the style sheet
     */
-    public Style addStyle(Style style, boolean distinct) throws UndefinedStyleException
+    public Style addStyle(Style style, boolean distinct)
     {
             boolean styleExits = false;
             boolean identicalStyle = false;
@@ -343,7 +343,7 @@ public class Workbook {
     * @param style Style to remove
     * @throws UndefinedStyleException Thrown if the style is not defined in the style sheet
     */
-    public void removeStyle(Style style) throws UndefinedStyleException
+    public void removeStyle(Style style)
     {
         removeStyle(style, false);
     }
@@ -353,7 +353,7 @@ public class Workbook {
     * @param styleName Name of the style to be removed
     * @throws UndefinedStyleException Thrown if the style is not defined in the style sheet
     */
-    public void removeStyle(String styleName) throws UndefinedStyleException
+    public void removeStyle(String styleName)
     {
         removeStyle(styleName, false);
     }    
@@ -364,7 +364,7 @@ public class Workbook {
     * @param onlyIfUnused If true, the style will only be removed if not used in any cell
     * @throws UndefinedStyleException Thrown if the style is not defined in the style sheet
     */
-    public void removeStyle(Style style, boolean onlyIfUnused) throws UndefinedStyleException
+    public void removeStyle(Style style, boolean onlyIfUnused)
     {
         if (style == null)
         {
@@ -379,7 +379,7 @@ public class Workbook {
     * @param onlyIfUnused If true, the style will only be removed if not used in any cell
     * @throws UndefinedStyleException Thrown if the style is not defined in the style sheet
     */
-    public void removeStyle(String styleName, boolean onlyIfUnused) throws UndefinedStyleException
+    public void removeStyle(String styleName, boolean onlyIfUnused)
     {
         if (Helper.isNullOrEmpty(styleName))
         {
@@ -443,7 +443,7 @@ public class Workbook {
      * @return Returns a sorted collection of styles
      * @throws UndefinedStyleException Thrown if an unreferenced style was in the style sheet
      */
-    public StyleCollection reorganizeStyles() throws UndefinedStyleException
+    public StyleCollection reorganizeStyles()
     {
         Iterator itr;
         Map.Entry<String, Cell> cell;
@@ -604,7 +604,7 @@ public class Workbook {
      * @throws UndefinedStyleException Thrown if an unreferenced style was in the style sheet
      * @throws UnknownRangeException Thrown if the cell range was not found
      */
-    public void resolveMergedCells() throws UndefinedStyleException, UnknownRangeException
+    public void resolveMergedCells()
     {
         Style mergStyle = BasicStyles.MergeCellStyle();
         int pos;

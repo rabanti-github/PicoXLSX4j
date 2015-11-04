@@ -196,7 +196,7 @@ public class Cell implements Comparable<Cell>{
      * @return Cell address
      * @throws UnknownRangeException Thrown in case of a illegal address
      */
-    public String getCellAddressString() throws UnknownRangeException 
+    public String getCellAddressString()
     {
         return Cell.resolveCellAddress(this.columnAddress, this.rowAddress);
     }
@@ -208,7 +208,7 @@ public class Cell implements Comparable<Cell>{
      * @return If the passed style already exists in the workbook, the existing one will be returned, otherwise the passed one
      * @throws UndefinedStyleException Thrown if the style is not referenced in the workbook
      */
-    public Style setStyle(Style style, Workbook workbookReference) throws UndefinedStyleException
+    public Style setStyle(Style style, Workbook workbookReference)
     {
         if (workbookReference == null)
        {
@@ -228,7 +228,7 @@ public class Cell implements Comparable<Cell>{
      * @param workbookReference Workbook reference. All styles will be managed in this workbook
      * @throws UndefinedStyleException Thrown if the workbook to remove was not found in the style sheet collection
      */
-    public void removeStyle(Workbook workbookReference) throws UndefinedStyleException
+    public void removeStyle(Workbook workbookReference)
     {
         if (workbookReference == null)
        {
@@ -312,7 +312,7 @@ public class Cell implements Comparable<Cell>{
      * @return List of cell addresses
      * @throws FormatException Thrown if the passed address range is malformed
      */
-    public static List<Address> getCellRange(String range) throws FormatException
+    public static List<Address> getCellRange(String range)
     {
        Range range2 = resolveCellRange(range);
        return getCellRange(range2.StartAddress, range2.EndAddress);
@@ -326,7 +326,7 @@ public class Cell implements Comparable<Cell>{
      * @throws FormatException Thrown if one of the passed addresses contains malformed information
      * @throws UnknownRangeException Thrown if one of the passed addresses is out of range
      */
-    public static List<Address> getCellRange(String startAddress, String endAddress) throws FormatException, UnknownRangeException
+    public static List<Address> getCellRange(String startAddress, String endAddress)
     {
         Address start = resolveCellCoordinate(startAddress);
         Address end = resolveCellCoordinate(endAddress);
@@ -394,7 +394,7 @@ public class Cell implements Comparable<Cell>{
      * @return Range object of the passed string range
      * @throws FormatException Thrown if the passed range is malformed
      */
-    public static Range resolveCellRange(String range) throws FormatException
+    public static Range resolveCellRange(String range)
     {
         if (Helper.isNullOrEmpty(range))
         {
@@ -425,7 +425,7 @@ public class Cell implements Comparable<Cell>{
      * @return Cell Address as string in the format A1 - XFD16384
      * @throws UnknownRangeException Thrown if the start or end address was out of range
      */
-    public static String resolveCellAddress(int column, int row) throws UnknownRangeException
+    public static String resolveCellAddress(int column, int row)
     {
             if (row >= 1048576 || row < 0)
             {
@@ -468,7 +468,7 @@ public class Cell implements Comparable<Cell>{
      * @throws FormatException Thrown if the passed address was malformed
      * @throws UnknownRangeException Thrown if the resolved address is out of range
      */
-    public static Address resolveCellCoordinate(String address) throws FormatException, UnknownRangeException
+    public static Address resolveCellCoordinate(String address)
     {
         int row, column;
         if (Helper.isNullOrEmpty(address))
@@ -506,7 +506,7 @@ public class Cell implements Comparable<Cell>{
      * @return Column number (zero-based)
      * @throws UnknownRangeException Thrown if the column is out of range
      */
-    public static int resolveColumn(String columnAddress) throws UnknownRangeException
+    public static int resolveColumn(String columnAddress)
     {
         int temp;
         int result = 0;
@@ -622,7 +622,7 @@ public class Cell implements Comparable<Cell>{
          * @return Address as string
          * @throws UnknownRangeException Thrown if the column or row is out of range
          */
-        public String getAddress() throws UnknownRangeException
+        public String getAddress()
         {
             return resolveCellAddress(this.Column, this.Row);
         }

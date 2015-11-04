@@ -157,7 +157,7 @@ public class LowLevel {
      * @throws UnknownRangeException Thrown if a referenced cell was out of range
      * @throws IOException Thrown in case of an error while creating the XML document
      */
-    private Document createStyleSheetDocument() throws UndefinedStyleException, UnknownRangeException, IOException
+    private Document createStyleSheetDocument() throws IOException
     {
         StyleCollection styles = this.workbook.reorganizeStyles();
         String bordersString = createStyleBorderString(styles.getBorders());
@@ -243,7 +243,7 @@ public class LowLevel {
      * @throws UnknownRangeException Thrown if a referenced cell was out of range
      * @throws IOException Thrown in case of an error while creating the XML document
      */
-    private Document createWorkbookDocument() throws UnknownRangeException, IOException
+    private Document createWorkbookDocument() throws IOException
     {
         if (this.workbook.getWorksheets().isEmpty())
         {
@@ -517,7 +517,7 @@ public class LowLevel {
      * @return String with formated XML data
      * @throws UnknownRangeException Thrown if a referenced cell was out of range
      */
-    private String createStyleXfsString(List<Style> styles) throws UnknownRangeException
+    private String createStyleXfsString(List<Style> styles)
     {
         StringBuilder sb = new StringBuilder();
         StringBuilder sb2 = null;

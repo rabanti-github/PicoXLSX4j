@@ -10,7 +10,7 @@ package picoxlsx4j.exception;
  * Class for exceptions regarding out-of-range incidents
  * @author Raphael Stoeckli
  */
-public class OutOfRangeException extends Exception{
+public class OutOfRangeException extends RuntimeException{
  
     /**
      * Default constructor

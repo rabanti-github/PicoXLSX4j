@@ -146,7 +146,7 @@ public class CellXf implements Comparable<CellXf>
       * @param textRotation Text rotation in degrees (from +90 to -90)
       * @throws UnknownRangeException Thrown if the rotation angle is out of range
       */
-     public void setTextRotation(int textRotation) throws UnknownRangeException {
+     public void setTextRotation(int textRotation) {
          this.textRotation = textRotation;
          this.textDirection = TextDirectionValue.horizontal;
          calculateInternalRotation();
@@ -165,7 +165,7 @@ public class CellXf implements Comparable<CellXf>
       * @param textDirection Direction of the text within the cell
       * @throws UnknownRangeException Thrown if the text rotation and direction causes a conflict
       */
-     public void setTextDirection(TextDirectionValue textDirection) throws UnknownRangeException {
+     public void setTextDirection(TextDirectionValue textDirection) {
          this.textDirection = textDirection;
          calculateInternalRotation();            
      }
@@ -301,7 +301,7 @@ public class CellXf implements Comparable<CellXf>
       * @return Returns the valid rotation in degrees for internal uses (LowLevel)
       * @throws UnknownRangeException Thrown if the rotation is out of range
       */
-     public int calculateInternalRotation() throws UnknownRangeException
+     public int calculateInternalRotation()
      {
          if (this.textRotation < -90 || this.textRotation > 90)
          {

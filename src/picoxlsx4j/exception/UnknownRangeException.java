@@ -10,7 +10,7 @@ package picoxlsx4j.exception;
  * Class for exceptions regarding unknown cell ranges
  * @author Raphael Stoeckli
  */
-public class UnknownRangeException extends Exception{
+public class UnknownRangeException extends RuntimeException{
  
     /**
      * Default constructor

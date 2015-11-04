@@ -233,7 +233,7 @@ public class Metadata {
      * @param applicationVersion Version of the creation application
      * @throws FormatException Thrown if the passed version results in a higher major or minor number of 99999
      */
-    public void setApplicationVersion(String applicationVersion) throws FormatException {
+    public void setApplicationVersion(String applicationVersion) {
         this.applicationVersion = applicationVersion;
         checkVersion();
     }    
@@ -259,7 +259,7 @@ public class Metadata {
      * @return Formated version number (e.g. 1.0 or 55.987)
      * @throws FormatException Thrown if the major number is to long or one of the numbers is negative
      */
-    public static String parseVersion(int major, int minor, int build, int revision) throws FormatException
+    public static String parseVersion(int major, int minor, int build, int revision)
     {
         if (major < 0 || minor < 0 || build < 0 || revision < 0)
         {
@@ -287,7 +287,7 @@ public class Metadata {
      * Checks the format of the passed version string
      * @throws FormatException Thrown if the version string is malformed
      */
-    private void checkVersion() throws FormatException
+    private void checkVersion()
     {
         if (Helper.isNullOrEmpty(this.applicationVersion)) { return; }
         String[] split = this.applicationVersion.split(".");
