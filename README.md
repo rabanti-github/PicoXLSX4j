@@ -8,7 +8,7 @@ PicoXLSX4j is a small Java library to create XLSX files (Microsoft Excel 2007 or
 
 # Requirements
 PicoXLSX4j was created with Java 8 and is fully compatible with Java 7<br>
-The only requirement for developments are a current JDK do develop and JRE to run.
+The only requirement for developments are a current JDK to develop and JRE to run.
 
 # Installation
 ## As JAR
