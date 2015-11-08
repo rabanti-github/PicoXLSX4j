@@ -970,7 +970,7 @@ public class LowLevel {
         appendXMLtag(sb, "0", "DocSecurity", null);
         appendXMLtag(sb, "false", "ScaleCrop", null);
         appendXMLtag(sb, md.getManager(), "Manager", null);
-        appendXMLtag(sb, md.getCompany(), "Manager", null);
+        appendXMLtag(sb, md.getCompany(), "Company", null);
         appendXMLtag(sb, "false", "LinksUpToDate", null);
         appendXMLtag(sb, "false", "SharedDoc", null);
         appendXMLtag(sb, md.getHyperlinkBase(), "HyperlinkBase", null);
