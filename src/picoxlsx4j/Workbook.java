@@ -186,7 +186,7 @@ public class Workbook {
     * Adding a new Worksheet
     * @param name Name of the new worksheet
     * @throws WorksheetNameAlreadxExistsException Thrown if the name of the worksheet already exists
-    * @throws FormatException Thrown if the worksheet name contains illegal characters
+    * @throws FormatException Thrown if the worksheet name contains illegal characters or is out of range (length between 1 an 31
     */
     public void addWorksheet(String name)
     {
@@ -439,7 +439,7 @@ public class Workbook {
     }
     
     /**
-     * Method to prepare the styles before saving the workbook. Don't use the method otherwise,because styles will be reordered and probably removed from the style sheet
+     * Method to prepare the styles before saving the workbook. Don't use the method otherwise. Styles will be reordered and probably removed from the style sheet
      * @return Returns a sorted collection of styles
      * @throws UndefinedStyleException Thrown if an unreferenced style was in the style sheet
      */

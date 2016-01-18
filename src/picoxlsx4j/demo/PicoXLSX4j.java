@@ -36,6 +36,7 @@ public class PicoXLSX4j {
         demo4();
         demo5();
         demo6();
+        demo7();
     }
     
         /**
@@ -111,7 +112,7 @@ public class PicoXLSX4j {
             workbook.getCurrentWorksheet().addStringCellRange(values, "A4:C4"); // Add a cell range to A4 - C4
             try
             {   
-            workbook.saveAs("test2j.xlsx");                                     // Save the workbook
+            workbook.saveAs("test2.xlsx");                                     // Save the workbook
             }
             catch(Exception e)
             {
@@ -284,6 +285,44 @@ public class PicoXLSX4j {
             {
                 System.out.println(e.getMessage());
             }
+        }    
+        
+        /**
+         * This demo shows the usage of hiding rows and columns, and auto-filter
+         */
+        private static void demo7()
+        { 
+            Workbook workbook = new Workbook("test7.xlsx", "Sheet1");                                   // Create new workbook
+            Worksheet ws = workbook.getCurrentWorksheet();                                              // Create reference (shortening)
+            List<String> values = new ArrayList<>();                                                    // Create a List of values
+            values.add("Cell A1");                                                                      // set a value
+            values.add("Cell B1");                                                                      // set a value
+            values.add("Cell C1");                                                                      // set a value
+            values.add("Cell D1");                                                                      // set a value
+            ws.addStringCellRange(values, "A1:D1");                                                     // Insert cell range
+            values = new ArrayList<>();                                                                 // Create a List of values
+            values.add("Cell A2");                                                                      // set a value
+            values.add("Cell B2");                                                                      // set a value
+            values.add("Cell C2");                                                                      // set a value
+            values.add("Cell D2");                                                                      // set a value            
+            ws.addStringCellRange(values, "A2:D2");                                                     // Insert cell range
+            values = new ArrayList<>();                 // Create a List of values
+            values.add("Cell A3");                                                                      // set a value
+            values.add("Cell B3");                                                                      // set a value
+            values.add("Cell C3");                                                                      // set a value
+            values.add("Cell D3");                                                                      // set a value            
+            ws.addStringCellRange(values, "A3:D3");                                                     // Insert cell range
+            ws.addHiddenColumn("C");                                                                    // Hide column C
+            ws.addHiddenRow(1);                                                                         // Hider row 2 (zero-based: 1)
+            ws.setAutoFilter(1, 3);                                                                     // Set auto-filter for column B to D
+            try
+            {  
+            workbook.save();                                                                            // Save the workbook            
+            }
+            catch(Exception e)
+            {
+                System.out.println(e.getMessage());
+            }      
         }        
     
 }

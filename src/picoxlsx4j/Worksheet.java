@@ -9,18 +9,20 @@ package picoxlsx4j;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import picoxlsx4j.Worksheet.CellDirection;
 import picoxlsx4j.exception.FormatException;
+import picoxlsx4j.exception.OutOfRangeException;
 import picoxlsx4j.exception.UnknownRangeException;
 import picoxlsx4j.exception.UndefinedStyleException;
 import picoxlsx4j.style.Style;
 
 /**
- * Class representing the style sheet of a workbook
+ * Class representing a worksheet of a workbook
  */
 public class Worksheet {
     
@@ -127,13 +129,16 @@ public class Worksheet {
     private Map<String, Cell> cells;  
     private float defaultRowHeight;
     private float defaultColumnWidth;
-    private Map<Integer, Float> columnWidths;
+    //private Map<Integer, Float> columnWidths;
     private Map<Integer, Float> rowHeights;
     private Map<String, Cell.Range> mergedCells;
+    private Map<Integer, Column> columns;
+    private Map<Integer, Boolean> hiddenRows;
     private boolean useSheetProtection;
     private List<SheetProtectionValue> sheetProtectionValues;
     private String sheetProtectionPassword;
     private int sheetID;
+    private Cell.Range autoFilterRange;
     
     public String getSheetName() {
         return sheetName;
@@ -216,15 +221,15 @@ public class Worksheet {
     public void setDefaultColumnWidth(float defaultColumnWidth) {
         this.defaultColumnWidth = defaultColumnWidth;
     }
-
-    /**
+/*
+    / **
      * Gets the map of column widths. Key is the column number (zero-based), value is a float from 0 to 255.0
      * @return Map of column widths
-     */
+     * /
     public Map<Integer, Float> getColumnWidths() {
         return columnWidths;
     }
-
+*/
     /**
      * Gets the map of row heights. Key is the row number (zero-based), value is a float from 0 to 409.5
      * @return Map of row heights
@@ -290,6 +295,30 @@ public class Worksheet {
     } 
 
     /**
+     * Gets the map of all columns with non-standard properties, like auto filter applied or a special width
+     * @return 
+     */
+    public Map<Integer, Column> getColumns() {
+        return columns;
+    }
+
+    /**
+     * Gets the range of the auto filter. If null, no auto filters are applied
+     * @return 
+     */
+    public Cell.Range getAutoFilterRange() {
+        return autoFilterRange;
+    }
+
+    /**
+     * Gets the Map of hidden rows.  Key is the row number (zero-based), value is a boolean. True indicates hidden, false visible.Entries with the value false are not affecting the worksheet. These entries can be removed<br>
+     * @return Map with hidden rows
+     */
+    public Map<Integer, Boolean> getHiddenRows() {
+        return hiddenRows;
+    }
+
+    /**
      * Default constructor
      */
     public Worksheet()
@@ -321,12 +350,13 @@ public class Worksheet {
         this.currentColumnNumber = 0;
         this.defaultColumnWidth = DEFAULT_COLUMN_WIDTH;
         this.defaultRowHeight = DEFAULT_ROW_HEIGHT;
-        this.columnWidths = new HashMap<>();
         this.rowHeights = new HashMap<>();
         this.activeStyle = null;
         this.workbookReference = null;
         this.mergedCells = new HashMap<>();
         this.sheetProtectionValues = new ArrayList<>();
+        this.hiddenRows = new HashMap<>();
+        this.columns = new HashMap<>();
     }
     
 /* ************************************************* */ 
@@ -485,7 +515,7 @@ public class Worksheet {
     /**
      * Adds a object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
      * @param value Unspecified value to insert
-     * @param address Cell address in the format A1 - XFD16384
+     * @param address Cell address in the format A1 - XFD1048576
      * @throws FormatException Thrown if the passed address is malformed
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
@@ -513,7 +543,7 @@ public class Worksheet {
     /**
      * Adds a string value to the defined cell address
      * @param value String value to insert
-     * @param address Cell address in the format A1 - XFD16384
+     * @param address Cell address in the format A1 - XFD1048576
      * @throws FormatException Thrown if the passed address is malformed
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
@@ -541,7 +571,7 @@ public class Worksheet {
     /**
      * Adds a integer value to the defined cell address
      * @param value Integer value to insert
-     * @param address Cell address in the format A1 - XFD16384
+     * @param address Cell address in the format A1 - XFD1048576
      * @throws FormatException Thrown if the passed address is malformed
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
@@ -569,7 +599,7 @@ public class Worksheet {
     /**
      * Adds a double value to the defined cell address
      * @param value Double value to insert
-     * @param address Cell address in the format A1 - XFD16384
+     * @param address Cell address in the format A1 - XFD1048576
      * @throws FormatException Thrown if the passed address is malformed
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
@@ -597,7 +627,7 @@ public class Worksheet {
     /**
      * Adds a float value to the defined cell address
      * @param value Float value to insert
-     * @param address Cell address in the format A1 - XFD16384
+     * @param address Cell address in the format A1 - XFD1048576
      * @throws FormatException Thrown if the passed address is malformed
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
@@ -625,7 +655,7 @@ public class Worksheet {
     /**
      * Adds a date value to the defined cell address
      * @param value Date value to insert
-     * @param address Cell address in the format A1 - XFD16384
+     * @param address Cell address in the format A1 - XFD1048576
      * @throws FormatException Thrown if the passed address is malformed
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
@@ -653,7 +683,7 @@ public class Worksheet {
      /**
      * Adds a boolean value to the defined cell address
      * @param value Boolean value to insert
-     * @param address Cell address in the format A1 - XFD16384
+     * @param address Cell address in the format A1 - XFD1048576
      * @throws FormatException Thrown if the passed address is malformed
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
@@ -680,7 +710,7 @@ public class Worksheet {
     /**
      * Adds a cell formula as string to the defined cell address
      * @param formula Formula to insert
-     * @param address Cell address in the format A1 - XFD16384
+     * @param address Cell address in the format A1 - XFD1048576
      * @throws FormatException Thrown if the passed address is malformed
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
@@ -955,7 +985,7 @@ public class Worksheet {
     
     /**
      * Removes a previous inserted cell at the defined address
-     * @param address Cell address in the format A1 - XFD16384
+     * @param address Cell address in the format A1 - XFD1048576
      * @return Returns true if the cell could be removed (existed), otherwise false (did not exist)
      * @throws UnknownRangeException Thrown if the resolved cell address is out of range
      * @throws FormatException Thrown if the passed address is malformed
@@ -1015,7 +1045,7 @@ public class Worksheet {
     
     /**
      * Set the current cell address
-     * @param address Cell address in the format A1 - XFD16384
+     * @param address Cell address in the format A1 - XFD1048576
      * @throws UnknownRangeException Thrown if the address is out of the valid range. Range is for rows from 0 to 1048575 (1048576 rows) and for columns from 0 to 16383 (16384 columns)
      * @throws FormatException Thrown if the passed address is malformed
      */
@@ -1065,7 +1095,16 @@ public class Worksheet {
         {
             throw new UnknownRangeException("The column width (" + Float.toString(width) + ") is out of range. Range is from 0 to 255 (chars).");
         }
-        this.columnWidths.put(columnNumber, width);
+        if (this.columns.containsKey(columnNumber))
+        {
+            this.columns.get(columnNumber).setWidth(width);
+        }
+        else
+        {
+            Column c = new Column(columnNumber);
+            c.setWidth(width);
+            this.columns.put(columnNumber, c);
+        }
     }  
    
     /**
@@ -1214,5 +1253,221 @@ public class Worksheet {
             this.useSheetProtection = true;
         }
     }    
+    
+    /**
+     * Sets the defined row as hidden
+     * @param rowNumber Row number to hide on the worksheet
+     * @exception OutOfRangeException Thrown if the passed column number was out of range
+     */
+    public void addHiddenRow(int rowNumber)
+    {
+        setRowHiddenState(rowNumber, true);
+    }
+    
+    /**
+     * Sets a previously defined, hidden row as visible again
+     * @param rowNumber Row number to hide on the worksheet
+     * @exception OutOfRangeException Thrown if the passed column number was out of range
+     */
+    public void removeHiddenRow(int rowNumber)
+    {
+        setRowHiddenState(rowNumber, false);
+    }
+    
+    /**
+     * Sets the defined row as hidden or visible
+     * @param rowNumber Row number to hide on the worksheet
+     * @param state If true, the row will be hidden, otherwise visible
+     * @exception OutOfRangeException Thrown if the passed column number was out of range
+     */
+    private void setRowHiddenState(int rowNumber, boolean state)
+    {
+        if (rowNumber >= 1048576 || rowNumber < 0)
+        {
+            throw new OutOfRangeException("The row number (" + Integer.toString(rowNumber) + ") is out of range. Range is from 0 to 1048575 (1048576 rows).");
+        }
+        if (this.hiddenRows.containsKey(rowNumber))
+        {
+            if (state == true)
+            {
+                this.hiddenRows.put(rowNumber, state);
+            }
+            else
+            {
+                this.hiddenRows.remove(rowNumber);
+            }
+        }
+        else if (state == true)
+        {
+            this.hiddenRows.put(rowNumber, state);
+        }
+    }
+    
+    /**
+     * Sets the defined column as hidden
+     * @param columnNumber Column number to hide on the worksheet
+     * @exception OutOfRangeException Thrown if the passed row number was out of range
+     */
+    public void addHiddenColumn(int columnNumber)
+    {
+        setColumnHiddenState(columnNumber, true);
+    }
+    
+    /**
+     * Sets the defined column as hidden
+     * @param columnAddress Column address to hide on the worksheet
+     * @exception OutOfRangeException Thrown if the passed row number was out of range
+     */
+    public void addHiddenColumn(String columnAddress)
+    {
+        int columnNumber = Cell.resolveColumn(columnAddress);
+        setColumnHiddenState(columnNumber, true);
+    }
+    
+    /**
+     * Sets a previously defined, hidden column as visible again
+     * @param columnNumber Column number to make visible again
+     * @exception OutOfRangeException Thrown if the passed row number was out of range
+     */
+    public void removeHiddenColumn(int columnNumber)
+    {
+        setColumnHiddenState(columnNumber, false);
+    }
+    
+    /**
+     * Sets a previously defined, hidden column as visible again
+     * @param columnAddress Column address to make visible again
+     * @exception OutOfRangeException Thrown if the passed row number was out of range
+     */
+    public void removeHiddenColumn(String columnAddress)
+    {
+        int columnNumber = Cell.resolveColumn(columnAddress);
+        setColumnHiddenState(columnNumber, false);
+    }
+    
+    /**
+     * Sets the defined column as hidden or visible
+     * @param columnNumber Column number to hide on the worksheet
+     * @param state If true, the column will be hidden, otherwise be visible
+     * @exception OutOfRangeException Thrown if the passed row number was out of range
+     */
+    private void setColumnHiddenState(int columnNumber, boolean state)
+    {
+        if (columnNumber >= 16384 || columnNumber < 0)
+        {
+            throw new OutOfRangeException("The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+        }
+        if (this.columns.containsKey(columnNumber) && state == true)
+        {
+            this.columns.get(columnNumber).setHidden(state);
+        }
+        else if (state == true)
+        {
+            Column c = new Column(columnNumber);
+            c.setHidden(state);
+            this.columns.put(columnNumber, c);
+        }
+    }
+    
+    /**
+     * Sets the column auto filter within the defined column range
+     * @param startColumn Column number with the first appearance of a auto filter drop down
+     * @param endColumn Column number with the last appearance of a auto filter drop down
+     * @exception OutOfRangeException Thrown if one of the passed column numbers are out of range
+     */
+    public void setAutoFilter(int startColumn, int endColumn)
+    {
+        if (startColumn >= 16384 || startColumn < 0)
+        {
+            throw new OutOfRangeException("The start column number (" + Integer.toString(startColumn) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+        }
+        if (endColumn >= 16384 || endColumn < 0)
+        {
+            throw new OutOfRangeException("The end column number (" + Integer.toString(endColumn) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+        }
+        String start = Cell.resolveCellAddress(startColumn, 0);
+        String end = Cell.resolveCellAddress(endColumn, 0);
+        if (endColumn < startColumn)
+        {
+            setAutoFilter(end + ":" + start);
+        }
+        else
+        {
+            setAutoFilter(start + ":" + end);
+        }
+    }
+    
+    /**
+     * Sets the column auto filter within the defined column range
+     * @param range Range to apply auto filter on. The range could be 'A1:C10' for instance. The end row will be recalculated automatically when saving the file
+     * @exception OutOfRangeException Thrown if the passed range out of range
+     * @exception FormatException Thrown if the passed range is malformed
+     */
+    public void setAutoFilter(String range)
+    {
+        this.autoFilterRange = Cell.resolveCellRange(range);
+        recalculateAutoFilter();
+        recalculateColumns();
+    } 
+    
+    /**
+     * Removes auto filters from the worksheet
+     */
+    public void removeAutoFilter()
+    {
+        this.autoFilterRange = null;
+    }    
+
+    /**
+     * Method to recalculate the auto filter (columns) of this worksheet. This is an internal method. There is no need to use it. It must be public to require access from the LowLevel class
+     */
+    public void recalculateAutoFilter()
+    {
+       if (this.autoFilterRange == null) { return; }
+       int start = this.autoFilterRange.StartAddress.Column;
+       int end = this.autoFilterRange.EndAddress.Column;
+       int endRow = 0;
+       for(Map.Entry<String, Cell> item  : this.getCells().entrySet())
+       {
+           if (item.getValue().getColumnAddress() < start || item.getValue().getColumnAddress() > end) { continue; }
+           if (item.getValue().getRowAddress() > endRow) {endRow = item.getValue().getRowAddress();}
+       }
+       Column c;
+       for(int i = start; i <= end; i++)
+       {
+           if (this.columns.containsKey(i) == false)
+           {
+               c = new Column(i);
+               c.setAutoFilter(true);
+               this.columns.put(i, c);
+           }
+           else
+           {
+               this.getColumns().get(i).setAutoFilter(true);
+           }
+       }
+       Cell.Range temp = new Cell.Range(new Cell.Address(start, 0), new Cell.Address(end, endRow));
+       this.autoFilterRange = temp;       
+    }
+    
+    /**
+     * Method to recalculate the collection of columns of this worksheet. This is an internal method. There is no need to use it. It must be public to require access from the LowLevel class
+     */
+    public void recalculateColumns()
+    {
+       ArrayList<Integer> columnsToDelete = new ArrayList<>();
+       for(Map.Entry<Integer, Column> col  : this.getColumns().entrySet())
+       {
+           if (col.getValue().hasAutoFilter() == false && col.getValue().isHidden() == false && col.getValue().getWidth() != Worksheet.DEFAULT_COLUMN_WIDTH)
+           {
+               columnsToDelete.add(col.getKey());
+           }
+       }
+        for(Iterator<Integer> index = columnsToDelete.iterator(); index.hasNext(); )
+        {
+            this.columns.remove(index.next());
+        }       
+    }
+        
     
 }

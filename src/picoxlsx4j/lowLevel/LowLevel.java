@@ -30,6 +30,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import picoxlsx4j.Cell;
+import picoxlsx4j.Column;
 import picoxlsx4j.Helper;
 import picoxlsx4j.Metadata;
 import picoxlsx4j.Workbook;
@@ -47,7 +48,7 @@ import picoxlsx4j.style.StyleCollection;
 
 
 /**
- * Class for low level handling (XML, formatting, preparing of packing)
+ * Class for low level handling (XML, formatting, preparing of packing)<br>This class is only for internal use. Use the high level API (e.g. class Workbook) to manipulate data and create Excel files.
  * @author Raphael Stoeckli
  */
 public class LowLevel {
@@ -117,6 +118,8 @@ public class LowLevel {
      */
     private Document createWorksheetPart(Worksheet worksheet) throws IOException
     {
+        worksheet.recalculateAutoFilter();
+        worksheet.recalculateColumns();
         List<List<Cell>> celldata = getSortedSheetData(worksheet);
         StringBuilder sb = new StringBuilder();
         String line;
@@ -143,7 +146,10 @@ public class LowLevel {
         
         sb.append(createMergedCellsString(worksheet));
         sb.append(createSheetProtectionString(worksheet));        
-        
+        if (worksheet.getAutoFilterRange() != null)
+        {
+            sb.append("<x:autoFilter ref=\"" + worksheet.getAutoFilterRange().toString() + "\"/>\r\n");
+        }
         sb.append("</x:worksheet>");
         
         Document doc = createXMLDocument(sb.toString());
@@ -699,25 +705,28 @@ public class LowLevel {
      */
     private String createColsString(Worksheet worksheet)
     {
-        if (worksheet.getColumnWidths().size() > 0)
+        if (worksheet.getColumns().size() > 0)
         {
             String col;
+            String hidden = "";
             StringBuilder sb = new StringBuilder();
             
-            Iterator itr = worksheet.getColumnWidths().entrySet().iterator();
-            Map.Entry<Integer, Float> width;
-            while (itr.hasNext())
+            //Iterator itr = worksheet.getColumnWidths().entrySet().iterator();
+            //Map.Entry<Integer, Float> width;
+            //while (itr.hasNext())
+            for (Map.Entry<Integer, Column> column : worksheet.getColumns().entrySet())
             {  
-                width = (Map.Entry<Integer, Float>)itr.next();
-                if (width.getValue() == worksheet.getDefaultColumnWidth()) { continue; }
-                col = Integer.toString(width.getKey() + 1);
-                sb.append("<x:col customWidth=\"1\" width=\"");
-                sb.append(width.getValue());
-                sb.append("\" max=\"");
-                sb.append(col);
-                sb.append("\" min=\"");
-                sb.append(col);
-                sb.append("\"/>\r\n");
+                //width = (Map.Entry<Integer, Float>)itr.next();
+                if (column.getValue().getWidth() == worksheet.getDefaultColumnWidth() && column.getValue().isHidden() == false) { continue; }
+                if (worksheet.getColumns().containsKey(column.getKey()))
+                {
+                    if (worksheet.getColumns().get(column.getKey()).isHidden() == true)
+                    {
+                        hidden = " hidden=\"1\"";
+                    }
+                }
+                col = Integer.toString(column.getKey() + 1); // Add 1 for Address
+                sb.append("<x:col customWidth=\"1\" width=\"" + Float.toString(column.getValue().getWidth()) + "\" max=\"" + col + "\" min=\"" + col + "\"" + hidden + "/>\r\n");
             }            
             String value = sb.toString();
             if (value.length() > 0)
@@ -745,6 +754,7 @@ public class LowLevel {
     {
         int rowNumber = columnFields.get(0).getRowAddress();
         String heigth = "";
+        String hidden = "";
         if (worksheet.getRowHeights().containsKey(rowNumber))
         {
             if (worksheet.getRowHeights().get(rowNumber) != worksheet.getDefaultRowHeight())
@@ -752,12 +762,19 @@ public class LowLevel {
                 heigth = " x14ac:dyDescent=\"0.25\" customHeight=\"1\" ht=\"" + Float.toString(worksheet.getRowHeights().get(rowNumber)) + "\"";
             }
         }
+        if (worksheet.getHiddenRows().containsKey(rowNumber))
+        {
+            if (worksheet.getHiddenRows().get(rowNumber) == true)
+            {
+                hidden = " hidden=\"1\"";
+            }
+        }        
         StringBuilder sb = new StringBuilder();
         if (columnFields.size() > 0)
         {
             sb.append("<x:row r=\"");
             sb.append((rowNumber + 1));
-            sb.append("\"" + heigth + ">\r\n");
+            sb.append("\"" + heigth + hidden + ">\r\n");
         }
         else
         {

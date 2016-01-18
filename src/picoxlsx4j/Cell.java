@@ -192,7 +192,7 @@ public class Cell implements Comparable<Cell>{
     }
     
     /**
-     * Gets the cell Address as string in the format A1 - XFD16384
+     * Gets the cell Address as string in the format A1 - XFD1048576
      * @return Cell address
      * @throws UnknownRangeException Thrown in case of a illegal address
      */
@@ -320,8 +320,8 @@ public class Cell implements Comparable<Cell>{
     
     /**
      * Get a list of cell addresses from a cell range
-     * @param startAddress Start address as string in the format A1 - XFD16384
-     * @param endAddress End address as string in the format A1 - XFD16384
+     * @param startAddress Start address as string in the format A1 - XFD1048576
+     * @param endAddress End address as string in the format A1 - XFD1048576
      * @return List of cell addresses
      * @throws FormatException Thrown if one of the passed addresses contains malformed information
      * @throws UnknownRangeException Thrown if one of the passed addresses is out of range
@@ -422,7 +422,7 @@ public class Cell implements Comparable<Cell>{
      * Gets the address of a cell by the column and row number (zero based)
      * @param column Column address of the cell (zero-based)
      * @param row Row address of the cell (zero-based)
-     * @return Cell Address as string in the format A1 - XFD16384
+     * @return Cell Address as string in the format A1 - XFD1048576
      * @throws UnknownRangeException Thrown if the start or end address was out of range
      */
     public static String resolveCellAddress(int column, int row)
@@ -431,39 +431,12 @@ public class Cell implements Comparable<Cell>{
             {
                 throw new UnknownRangeException("The row number (" + Integer.toString(row) + ") is out of range. Range is from 0 to 1048575 (1048576 rows).");
             }
-            if (column >= 16384 || column < 0)
-            {
-                throw new UnknownRangeException("The column number (" + Integer.toString(column) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
-            }
-            // A - XFD
-            int j = 0;
-            int k = 0;
-            int l = 0;
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i <= column; i++)
-            {
-                if (j > 25)
-                {
-                    k++;
-                    j = 0;
-                }
-                if (k > 25)
-                {
-                    l++;
-                    k = 0;
-                }
-                j++;
-            }
-            if (l > 0) { sb.append((char)(l + 64)); }
-            if (k > 0) { sb.append((char)(k + 64)); }
-            sb.append((char)(j + 64));
-            sb.append(Integer.toString(row + 1));
-            return sb.toString();
+            return resolveColumnAddress(column) + Integer.toString(row + 1);    
     }
     
     /**
      * Gets the column and row number (zero based) of a cell by the address
-     * @param address Address as string in the format A1 - XFD16384
+     * @param address Address as string in the format A1 - XFD1048576
      * @return Address object of the passed string
      * @throws FormatException Thrown if the passed address was malformed
      * @throws UnknownRangeException Thrown if the resolved address is out of range
@@ -524,6 +497,43 @@ public class Cell implements Comparable<Cell>{
             throw new UnknownRangeException("The column number (" + Integer.toString(result - 1) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
         }        
         return result - 1;
+    }
+    
+    /**
+     * Gets the column address (A - XFD)
+     * @param columnNumber Column number (zero-based)
+     * @return Column address (A - XFD)
+     * @throws UnknownRangeException Thrown if the passed column number is out of range
+     */
+    public static String resolveColumnAddress(int columnNumber)
+    {
+        if (columnNumber >= 16384 || columnNumber < 0)
+        {
+            throw new UnknownRangeException("The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+        }
+        // A - XFD
+        int j = 0;
+        int k = 0;
+        int l = 0;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i <= columnNumber; i++)
+        {
+            if (j > 25)
+            {
+                k++;
+                j = 0;
+            }
+            if (k > 25)
+            {
+                l++;
+                k = 0;
+            }
+            j++;
+        }
+        if (l > 0) { sb.append((char)(l + 64)); }
+        if (k > 0) { sb.append((char)(k + 64)); }
+        sb.append((char)(j + 64));
+        return sb.toString();
     }
 
     /**
