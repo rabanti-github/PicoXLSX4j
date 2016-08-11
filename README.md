@@ -17,4 +17,4 @@ Simply place the PicoXLSX4j.jar into the lib folder of your project and create a
 Place all .java files from the PicoXLSX4j source folder into your project. The folder structure defines the packages. Please use refactoring if you want to relocate the files.
 
 # Usage
-The [Demo class](https://github.com/rabanti-github/PicoXLSX4j/blob/master/src/picoxlsx4j/demo/PicoXLSX4j.java) contains eight simple use cases. You can find also the full documentation in the [Javadoc-Folder](https://github.com/rabanti-github/PicoXLSX4j/tree/master/dist/javadoc) or as Javadoc annotations in the .java files.<br>
+The [Demo class](https://github.com/rabanti-github/PicoXLSX4j/blob/master/src/picoxlsx4j/demo/PicoXLSX4j.java) contains nine simple use cases. You can find also the full documentation in the [Javadoc-Folder](https://github.com/rabanti-github/PicoXLSX4j/tree/master/dist/javadoc) or as Javadoc annotations in the .java files.<br>
