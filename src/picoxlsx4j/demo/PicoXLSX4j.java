@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2015
+ * Copyright Raphael Stoeckli © 2016
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -37,6 +37,7 @@ public class PicoXLSX4j {
         demo5();
         demo6();
         demo7();
+        demo8();
     }
     
         /**
@@ -323,6 +324,32 @@ public class PicoXLSX4j {
             {
                 System.out.println(e.getMessage());
             }      
+        }   
+        
+        /**
+         * This demo shows the usage of cell and worksheet selection
+         */
+        private static void demo8()
+        {
+            Workbook workbook = new Workbook("test8.xlsx", "Sheet1");  					// Create new workbook
+            workbook.getCurrentWorksheet().addNextCell("Test");              				// Add cell A1
+            workbook.getCurrentWorksheet().setSelectedCells("A5:B10");					// Set the selection to the range A5:B10
+            workbook.addWorksheet("Sheet2");								// Create new worksheet
+            workbook.getCurrentWorksheet().addNextCell("Test2");              				// Add cell A1
+            Cell.Range range = new Cell.Range(new Cell.Address(1,1), new Cell.Address(3,3));		// Create a cell range for the selection B2:D4
+            workbook.getCurrentWorksheet().setSelectedCells(range);					// Set the selection to the range
+            workbook.addWorksheet("Sheet3");								// Create new worksheet
+            workbook.getCurrentWorksheet().addNextCell("Test3");              				// Add cell A1
+            workbook.getCurrentWorksheet().setSelectedCells(new Cell.Address(2,2), new Cell.Address(4,4));	// Set the selection to the range C3:E5
+            workbook.setSelectedWorksheet(1);								// Set the second Tab as selected (zero-based: 1)
+            try
+            {  
+            workbook.save();                                                                            // Save the workbook            
+            }
+            catch(Exception e)
+            {
+                System.out.println(e.getMessage());
+            }                                            				// Save the workbook
         }        
     
 }

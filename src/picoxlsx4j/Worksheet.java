@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2015
+ * Copyright Raphael Stoeckli © 2016
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -139,7 +139,20 @@ public class Worksheet {
     private String sheetProtectionPassword;
     private int sheetID;
     private Cell.Range autoFilterRange;
+    private Cell.Range selectedCells;
+
+    /**
+     * Gets the range of selected cells of this worksheet. Null if no cells are selected
+     * @return Cell range of the selected cells
+     */
+    public Cell.Range getSelectedCells() {
+        return selectedCells;
+    }
     
+    /**
+     * Gets the name of the sheet
+     * @return Name of the sheet
+     */
     public String getSheetName() {
         return sheetName;
     }
@@ -296,7 +309,7 @@ public class Worksheet {
 
     /**
      * Gets the map of all columns with non-standard properties, like auto filter applied or a special width
-     * @return 
+     * @return map of columns
      */
     public Map<Integer, Column> getColumns() {
         return columns;
@@ -304,7 +317,7 @@ public class Worksheet {
 
     /**
      * Gets the range of the auto filter. If null, no auto filters are applied
-     * @return 
+     * @return Range of auto filter
      */
     public Cell.Range getAutoFilterRange() {
         return autoFilterRange;
@@ -1468,6 +1481,43 @@ public class Worksheet {
             this.columns.remove(index.next());
         }       
     }
-        
+    
+    /**
+     * Sets the selected cells on this worksheet
+     * @param range Cell range to select
+     */
+    public void setSelectedCells(Cell.Range range)
+    {
+        this.selectedCells = range;
+    }
+    
+    /**
+     * Sets the selected cells on this worksheet
+     * @param startAddress Start address of the range
+     * @param endAddress End address of the range
+     */
+    public void setSelectedCells(Cell.Address startAddress, Cell.Address endAddress)
+    {
+       this.selectedCells = new Cell.Range(startAddress, endAddress); 
+    }
+    
+    /**
+     * Sets the selected cells on this worksheet
+     * @param range Cell range to select
+     * @exception OutOfRangeException Thrown if the passed range out of range
+     * @exception FormatException Thrown if the passed range is malformed
+     */
+    public void setSelectedCells(String range)
+    {
+        this.selectedCells = Cell.resolveCellRange(range);
+    }  
+    
+    /**
+     * Removes the cell selection of this worksheet
+     */
+    public void removeSelectedCells()
+    {
+        this.selectedCells = null;
+    }
     
 }

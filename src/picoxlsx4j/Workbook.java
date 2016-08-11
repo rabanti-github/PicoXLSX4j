@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2015
+ * Copyright Raphael Stoeckli © 2016
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import picoxlsx4j.exception.FormatException;
 import picoxlsx4j.exception.IOException;
+import picoxlsx4j.exception.OutOfRangeException;
 import picoxlsx4j.exception.UndefinedStyleException;
 import picoxlsx4j.exception.UnknownRangeException;
 import picoxlsx4j.exception.UnknownWorksheetException;
@@ -42,6 +43,15 @@ public class Workbook {
     private boolean lockWindowsIfProtected;
     private boolean lockStructureIfProtected;
     private boolean useWorkbookProtection;
+    private int selectedWorksheet;
+
+    /**
+     * Gets the selected worksheet. The selected worksheet is not the current worksheet while design time but the seelected sheet in the output file
+     * @return Zero-based worksheet index
+     */
+    public int getSelectedWorksheet() {
+        return selectedWorksheet;
+    }
 
     /**
      * Gets the current worksheet
@@ -269,8 +279,50 @@ public class Workbook {
         else
         {
             this.currentWorksheet = null;
+        }
+        if (this.selectedWorksheet > this.worksheets.size() - 1)
+        {
+            this.selectedWorksheet = this.worksheets.size() - 1;
+        }
+    }
+    
+    /**
+     * Sets the selected worksheet in the output workbook<br>Note: This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this
+     * @param worksheetIndex Zero-based worksheet index
+     * @throws OutOfRangeException Throws a OutOfRangeException if the index of the worksheet is out of range
+     */
+    public void setSelectedWorksheet(int worksheetIndex)
+    {
+        if (worksheetIndex < 0 || worksheetIndex > this.worksheets.size() - 1)
+        {
+            throw new OutOfRangeException("The worksheet index " + Integer.toString(worksheetIndex) + " is out of range");
+        }
+        this.selectedWorksheet = worksheetIndex;
+    }
+    
+    /**
+     * Sets the selected worksheet in the output workbook<br>Note: This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this
+     * @param worksheet Worksheet object (must be in the collection of worksheets)
+     * @throws UnknownWorksheetException Throws a UnknownWorksheetException if the worksheet was not found in the worksheet collection
+     */
+    public void setSelectedWorksheet(Worksheet worksheet)
+    {
+        boolean check = false;
+        for (int i = 0; i < this.worksheets.size(); i++)
+        {
+            if (this.worksheets.get(i).equals(worksheet))
+            {
+                this.selectedWorksheet = i;
+                check = true;
+                break;
+            }
+        }
+        if (check == false)
+        {
+            throw new UnknownWorksheetException("The passed worksheet object is not in the worksheet collection.");
         }        
     }
+    
     
     /**
      * Sets or removes the workbook protection. If protectWindows and protectStructure are both false, the workbook will not be protected

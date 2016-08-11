@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2015
+ * Copyright Raphael Stoeckli © 2016
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -123,34 +123,49 @@ public class LowLevel {
         List<List<Cell>> celldata = getSortedSheetData(worksheet);
         StringBuilder sb = new StringBuilder();
         String line;
-        sb.append("<x:worksheet xmlns:x=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14ac\" xmlns:x14ac=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac\">\r\n");
-        sb.append("<x:sheetFormatPr x14ac:dyDescent=\"0.25\" defaultRowHeight=\"");
+        sb.append("<worksheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14ac\" xmlns:x14ac=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac\">");
+        
+        if (worksheet.getSelectedCells() != null)
+        {
+            sb.append("<sheetViews><sheetView workbookViewId=\"0\"");
+            if (this.workbook.getSelectedWorksheet() == worksheet.getSheetID() - 1)
+            {
+                    sb.append(" tabSelected=\"1\"");
+            }
+            sb.append("><selection sqref=\"");
+            sb.append(worksheet.getSelectedCells().toString());
+            sb.append("\" activeCell=\"");
+            sb.append(worksheet.getSelectedCells().StartAddress.toString());
+            sb.append("\"/></sheetView></sheetViews>");
+        }
+        
+        sb.append("<sheetFormatPr x14ac:dyDescent=\"0.25\" defaultRowHeight=\"");
         sb.append(worksheet.getDefaultRowHeight());
         sb.append("\" baseColWidth=\"");
         sb.append(worksheet.getDefaultColumnWidth());
-        sb.append("\"/>\r\n");
+        sb.append("\"/>");
         String colWidths = createColsString(worksheet);
         if (Helper.isNullOrEmpty(colWidths) == false)
         {
-            sb.append("<x:cols>\r\n");
+            sb.append("<cols>");
             sb.append(colWidths);
-            sb.append("</x:cols>\r\n");
+            sb.append("</cols>");
         }
-        sb.append("<x:sheetData>\r\n");
+        sb.append("<sheetData>");
         for(int i = 0; i < celldata.size(); i++)
         {
             line = createRowString(celldata.get(i), worksheet);
-            sb.append(line + "\r\n");
+            sb.append(line + "");
         }
-        sb.append("</x:sheetData>\r\n");
+        sb.append("</sheetData>");
         
         sb.append(createMergedCellsString(worksheet));
         sb.append(createSheetProtectionString(worksheet));        
         if (worksheet.getAutoFilterRange() != null)
         {
-            sb.append("<x:autoFilter ref=\"" + worksheet.getAutoFilterRange().toString() + "\"/>\r\n");
+            sb.append("<autoFilter ref=\"" + worksheet.getAutoFilterRange().toString() + "\"/>");
         }
-        sb.append("</x:worksheet>");
+        sb.append("</worksheet>");
         
         Document doc = createXMLDocument(sb.toString());
         return doc;
@@ -175,37 +190,37 @@ public class LowLevel {
         String mruColorString = createMruColorsString(styles.getFonts(), styles.getFills());
         StringBuilder sb = new StringBuilder();  
         
-        sb.append("<styleSheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14ac\" xmlns:x14ac=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac\">\r\n");
+        sb.append("<styleSheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14ac\" xmlns:x14ac=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac\">");
         if (numFormatCount > 0)
         {
             sb.append("<numFmts count=\"");
             sb.append(numFormatCount);
-            sb.append("\">\r\n");
-            sb.append(numberFormatsString + "</numFmts>\r\n");
+            sb.append("\">");
+            sb.append(numberFormatsString + "</numFmts>");
         }
         sb.append("<fonts x14ac:knownFonts=\"1\" count=\"");
         sb.append(styles.getFonts().size());
-        sb.append("\">\r\n");
-        sb.append(fontsString + "</fonts>\r\n");
+        sb.append("\">");
+        sb.append(fontsString + "</fonts>");
         sb.append("<fills count=\"");
         sb.append(styles.getFills().size());
-        sb.append("\">\r\n");
-        sb.append(fillsString + "</fills>\r\n");
+        sb.append("\">");
+        sb.append(fillsString + "</fills>");
         sb.append("<borders count=\"");
         sb.append(styles.getBorders().size());
-        sb.append("\">\r\n");
-        sb.append(bordersString + "</borders>\r\n");
+        sb.append("\">");
+        sb.append(bordersString + "</borders>");
         sb.append("<cellXfs count=\"");
         sb.append(this.workbook.getStyles().size());
-        sb.append("\">\r\n");
-        sb.append(xfsStings + "</cellXfs>\r\n");
+        sb.append("\">");
+        sb.append(xfsStings + "</cellXfs>");
         if (this.workbook.getWorkbookMetadata() != null)
         {
             if (Helper.isNullOrEmpty(mruColorString) == false && this.workbook.getWorkbookMetadata().isUseColorMRU() == true)
             {
-                sb.append("<colors>\r\n");
+                sb.append("<colors>");
                 sb.append(mruColorString);
-                sb.append("</colors>\r\n");
+                sb.append("</colors>");
             }
         }
         sb.append("</styleSheet>");
@@ -221,7 +236,7 @@ public class LowLevel {
     private Document createAppPropertiesDocument() throws IOException
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("<Properties xmlns=\"http://schemas.openxmlformats.org/officeDocument/2006/extended-properties\" xmlns:vt=\"http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes\">\r\n");
+        sb.append("<Properties xmlns=\"http://schemas.openxmlformats.org/officeDocument/2006/extended-properties\" xmlns:vt=\"http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes\">");
         sb.append(createAppString());
         sb.append("</Properties>");
         Document doc = createXMLDocument(sb.toString());
@@ -236,7 +251,7 @@ public class LowLevel {
     private Document createCorePropertiesDocument() throws IOException
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("<cp:coreProperties xmlns:cp=\"http://schemas.openxmlformats.org/package/2006/metadata/core-properties\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:dcterms=\"http://purl.org/dc/terms/\" xmlns:dcmitype=\"http://purl.org/dc/dcmitype/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n");
+        sb.append("<cp:coreProperties xmlns:cp=\"http://schemas.openxmlformats.org/package/2006/metadata/core-properties\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:dcterms=\"http://purl.org/dc/terms/\" xmlns:dcmitype=\"http://purl.org/dc/dcmitype/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
         sb.append(createCorePropertiesString());
         sb.append("</cp:coreProperties>");
         Document doc = createXMLDocument(sb.toString());
@@ -256,10 +271,16 @@ public class LowLevel {
             throw new UnknownRangeException("The workbook can not be created because no worksheet was defined.");
         }
         StringBuilder sb = new StringBuilder();
-        sb.append("<x:workbook xmlns:x=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\r\n");
+        sb.append("<workbook xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">");
+        if (this.workbook.getSelectedWorksheet() > 0)
+        {
+            sb.append("<bookViews><workbookView activeTab=\"");
+            sb.append(Integer.toString(this.workbook.getSelectedWorksheet()));
+            sb.append("\"/></bookViews>");
+        }        
         if (this.workbook.isWorkbookProtectionUsed() == true)
         {
-            sb.append("<x:workbookProtection");
+            sb.append("<workbookProtection");
             if (this.workbook.isWindowsLockedIfProtected() == true)
             {
                 sb.append(" lockWindows=\"1\"");
@@ -274,21 +295,21 @@ public class LowLevel {
                 sb.append(generatePasswordHash(this.workbook.getWorkbookProtectionPassword()));
                 sb.append("\"");
             }
-            sb.append("/>\r\n");
+            sb.append("/>");
         } 
-        sb.append("<x:sheets>\r\n");
+        sb.append("<sheets>");
         int id;
         for (int i = 0; i < this.workbook.getWorksheets().size(); i++)
         {
             id = this.workbook.getWorksheets().get(i).getSheetID();
-            sb.append("<x:sheet r:id=\"rId");
+            sb.append("<sheet r:id=\"rId");
             sb.append(id);
             sb.append("\" sheetId=\"");
             sb.append(id);
-            sb.append("\" name=\"" + LowLevel.escapeXMLAttributeChars(this.workbook.getWorksheets().get(i).getSheetName()) + "\"/>\r\n");
+            sb.append("\" name=\"" + LowLevel.escapeXMLAttributeChars(this.workbook.getWorksheets().get(i).getSheetName()) + "\"/>");
         }
-        sb.append("</x:sheets>\r\n");
-        sb.append("</x:workbook>");
+        sb.append("</sheets>");
+        sb.append("</workbook>");
         Document doc = createXMLDocument(sb.toString());
         return doc;
     }    
@@ -305,41 +326,41 @@ public class LowLevel {
         for(int i = 0; i < fontStyles.size(); i++)
         {
             item = fontStyles.get(i);
-            sb.append("<font>\r\n");
-            if (item.isBold() == true) { sb.append("<b/>\r\n"); }
-            if (item.isItalic() == true) { sb.append("<i/>\r\n"); }
-            if (item.isUnderline() == true) { sb.append("<u/>\r\n"); }
-            if (item.isDoubleUnderline() == true) { sb.append("<u val=\"double\"/>\r\n"); }
-            if (item.isStrike() == true) { sb.append("<strike/>\r\n"); }
-            if (item.getVerticalAlign() == Font.VerticalAlignValue.subscript) { sb.append("<vertAlign val=\"subscript\"/>\r\n"); }
-            else if (item.getVerticalAlign() == Font.VerticalAlignValue.superscript) { sb.append("<vertAlign val=\"superscript\"/>\r\n"); }
+            sb.append("<font>");
+            if (item.isBold() == true) { sb.append("<b/>"); }
+            if (item.isItalic() == true) { sb.append("<i/>"); }
+            if (item.isUnderline() == true) { sb.append("<u/>"); }
+            if (item.isDoubleUnderline() == true) { sb.append("<u val=\"double\"/>"); }
+            if (item.isStrike() == true) { sb.append("<strike/>"); }
+            if (item.getVerticalAlign() == Font.VerticalAlignValue.subscript) { sb.append("<vertAlign val=\"subscript\"/>"); }
+            else if (item.getVerticalAlign() == Font.VerticalAlignValue.superscript) { sb.append("<vertAlign val=\"superscript\"/>"); }
             sb.append("<sz val=\"");
             sb.append(item.getSize());
-            sb.append("\"/>\r\n");
+            sb.append("\"/>");
             if (Helper.isNullOrEmpty(item.getColorValue()))
             {
                 sb.append("<color theme=\"");
                 sb.append(item.getColorTheme());
-                sb.append("\"/>\r\n");
+                sb.append("\"/>");
             }
             else
             {
-                sb.append("<color rgb=\"" + item.getColorValue() + "\"/>\r\n");
+                sb.append("<color rgb=\"" + item.getColorValue() + "\"/>");
             }
-            sb.append("<name val=\"" + item.getName() + "\"/>\r\n");
-            sb.append("<family val=\"" + item.getFamily() + "\"/>\r\n");
+            sb.append("<name val=\"" + item.getName() + "\"/>");
+            sb.append("<family val=\"" + item.getFamily() + "\"/>");
             if (item.getScheme() != Font.SchemeValue.none)
             {
                 if (item.getScheme() == Font.SchemeValue.major)
-                { sb.append("<scheme val=\"major\"/>\r\n"); }
+                { sb.append("<scheme val=\"major\"/>"); }
                 else if (item.getScheme() == Font.SchemeValue.minor)
-                { sb.append("<scheme val=\"minor\"/>\r\n"); }
+                { sb.append("<scheme val=\"minor\"/>"); }
             }
             if (Helper.isNullOrEmpty(item.getCharset()) == false)
             {
-                sb.append("<charset val=\"" + item.getCharset() + "\"/>\r\n");
+                sb.append("<charset val=\"" + item.getCharset() + "\"/>");
             }
-            sb.append("</font>\r\n");
+            sb.append("</font>");
         }
         return sb.toString();
     }    
@@ -356,17 +377,17 @@ public class LowLevel {
         for (int i = 0; i < borderStyles.size(); i++)
         {
             item = borderStyles.get(i);
-            if (item.isDiagonalDown() == true && item.isDiagonalUp() == false) { sb.append("<border diagonalDown=\"1\">\r\n"); }
-            else if (item.isDiagonalDown() == false && item.isDiagonalUp() == true) { sb.append("<border diagonalUp=\"1\">\r\n"); }
-            else if (item.isDiagonalDown() == true && item.isDiagonalUp() == true) { sb.append("<border diagonalDown=\"1\" diagonalUp=\"1\">\r\n"); }
-            else { sb.append("<border>\r\n"); }
+            if (item.isDiagonalDown() == true && item.isDiagonalUp() == false) { sb.append("<border diagonalDown=\"1\">"); }
+            else if (item.isDiagonalDown() == false && item.isDiagonalUp() == true) { sb.append("<border diagonalUp=\"1\">"); }
+            else if (item.isDiagonalDown() == true && item.isDiagonalUp() == true) { sb.append("<border diagonalDown=\"1\" diagonalUp=\"1\">"); }
+            else { sb.append("<border>"); }
 
             if (item.getLeftStyle() != Border.StyleValue.none)
             {
-                sb.append("<left style=\"" + Border.getStyleName(item.getLeftStyle()) + "\">\r\n");
-                if (Helper.isNullOrEmpty(item.getLeftColor()) == true) { sb.append("<color rgb=\"" + item.getLeftColor() + "\"/>\r\n"); }
-                else { sb.append("<color auto=\"1\"/>\r\n"); }
-                sb.append("</left>\r\n");
+                sb.append("<left style=\"" + Border.getStyleName(item.getLeftStyle()) + "\">");
+                if (Helper.isNullOrEmpty(item.getLeftColor()) == true) { sb.append("<color rgb=\"" + item.getLeftColor() + "\"/>"); }
+                else { sb.append("<color auto=\"1\"/>"); }
+                sb.append("</left>");
             }
             else
             {
@@ -374,10 +395,10 @@ public class LowLevel {
             }
             if (item.getRightStyle() != Border.StyleValue.none)
             {
-                sb.append("<right style=\"" + Border.getStyleName(item.getRightStyle()) + "\">\r\n");
-                if (Helper.isNullOrEmpty(item.getRightColor()) == true) { sb.append("<color rgb=\"" + item.getRightColor() + "\"/>\r\n"); }
-                else { sb.append("<color auto=\"1\"/>\r\n"); }
-                sb.append("</right>\r\n");
+                sb.append("<right style=\"" + Border.getStyleName(item.getRightStyle()) + "\">");
+                if (Helper.isNullOrEmpty(item.getRightColor()) == true) { sb.append("<color rgb=\"" + item.getRightColor() + "\"/>"); }
+                else { sb.append("<color auto=\"1\"/>"); }
+                sb.append("</right>");
             }
             else
             {
@@ -385,10 +406,10 @@ public class LowLevel {
             }
             if (item.getTopStyle() != Border.StyleValue.none)
             {
-                sb.append("<top style=\"" + Border.getStyleName(item.getTopStyle()) + "\">\r\n");
-                if (Helper.isNullOrEmpty(item.getTopColor()) == true) { sb.append("<color rgb=\"" + item.getTopColor() + "\"/>\r\n"); }
-                else { sb.append("<color auto=\"1\"/>\r\n"); }
-                sb.append("</top>\r\n");
+                sb.append("<top style=\"" + Border.getStyleName(item.getTopStyle()) + "\">");
+                if (Helper.isNullOrEmpty(item.getTopColor()) == true) { sb.append("<color rgb=\"" + item.getTopColor() + "\"/>"); }
+                else { sb.append("<color auto=\"1\"/>"); }
+                sb.append("</top>");
             }
             else
             {
@@ -396,10 +417,10 @@ public class LowLevel {
             }
             if (item.getBottomStyle() != Border.StyleValue.none)
             {
-                sb.append("<bottom style=\"" + Border.getStyleName(item.getBottomStyle()) + "\">\r\n");
-                if (Helper.isNullOrEmpty(item.getBottomColor()) == true) { sb.append("<color rgb=\"" + item.getBottomColor() + "\"/>\r\n"); }
-                else { sb.append("<color auto=\"1\"/>\r\n"); }
-                sb.append("</bottom>\r\n");
+                sb.append("<bottom style=\"" + Border.getStyleName(item.getBottomStyle()) + "\">");
+                if (Helper.isNullOrEmpty(item.getBottomColor()) == true) { sb.append("<color rgb=\"" + item.getBottomColor() + "\"/>"); }
+                else { sb.append("<color auto=\"1\"/>"); }
+                sb.append("</bottom>");
             }
             else
             {
@@ -407,17 +428,17 @@ public class LowLevel {
             }
             if (item.getDiagonalStyle() != Border.StyleValue.none)
             {
-                sb.append("<diagonal style=\"" + Border.getStyleName(item.getDiagonalStyle()) + "\">\r\n");
-                if (Helper.isNullOrEmpty(item.getDiagonalColor()) == true) { sb.append("<color rgb=\"" + item.getDiagonalColor() + "\"/>\r\n"); }
-                else { sb.append("<color auto=\"1\"/>\r\n"); }
-                sb.append("</diagonal>\r\n");
+                sb.append("<diagonal style=\"" + Border.getStyleName(item.getDiagonalStyle()) + "\">");
+                if (Helper.isNullOrEmpty(item.getDiagonalColor()) == true) { sb.append("<color rgb=\"" + item.getDiagonalColor() + "\"/>"); }
+                else { sb.append("<color auto=\"1\"/>"); }
+                sb.append("</diagonal>");
             }
             else
             {
                 sb.append("<diagonal/>");
             }
 
-            sb.append("</border>\r\n");
+            sb.append("</border>");
         }
         return sb.toString();
     }    
@@ -434,32 +455,32 @@ public class LowLevel {
         for (int i = 0; i < fillStyles.size(); i++)
         {
             item = fillStyles.get(i);
-            sb.append("<fill>\r\n");
+            sb.append("<fill>");
             sb.append("<patternFill patternType=\"" + Fill.getPatternName(item.getPatternFill()) + "\"");
             if (item.getPatternFill() == Fill.PatternValue.solid)
             {
-                sb.append(">\r\n");
-                sb.append("<fgColor rgb=\"" + item.getForegroundColor() + "\"/>\r\n");
+                sb.append(">");
+                sb.append("<fgColor rgb=\"" + item.getForegroundColor() + "\"/>");
                 sb.append("<bgColor indexed=\"");
                 sb.append(item.getIndexedColor());
-                sb.append("\"/>\r\n");
-                sb.append("</patternFill>\r\n");
+                sb.append("\"/>");
+                sb.append("</patternFill>");
             }
             else if (item.getPatternFill() == Fill.PatternValue.mediumGray || item.getPatternFill() == Fill.PatternValue.lightGray || item.getPatternFill() == Fill.PatternValue.gray0625 || item.getPatternFill() == Fill.PatternValue.darkGray)
             {
-                sb.append(">\r\n");
-                sb.append("<fgColor rgb=\"" + item.getForegroundColor() + "\"/>\r\n");
+                sb.append(">");
+                sb.append("<fgColor rgb=\"" + item.getForegroundColor() + "\"/>");
                 if (Helper.isNullOrEmpty(item.getBackgroundColor()) == false)
                 {
-                    sb.append("<bgColor rgb=\"" + item.getBackgroundColor() + "\"/>\r\n");
+                    sb.append("<bgColor rgb=\"" + item.getBackgroundColor() + "\"/>");
                 }
-                sb.append("</patternFill>\r\n");
+                sb.append("</patternFill>");
             }
             else
             {
-                sb.append("/>\r\n");
+                sb.append("/>");
             }
-            sb.append("</fill>\r\n");
+            sb.append("</fill>");
         }
         return sb.toString();
     }  
@@ -503,12 +524,12 @@ public class LowLevel {
         }
         if (tempColors.size() > 0)
         {
-            sb.append("<mruColors>\r\n");
+            sb.append("<mruColors>");
             for(int i = 0; i < tempColors.size(); i++)
             {
-                sb.append("<color rgb=\"" + tempColors.get(i) + "\"/>\r\n");
+                sb.append("<color rgb=\"" + tempColors.get(i) + "\"/>");
             }
-            sb.append("</mruColors>\r\n");
+            sb.append("</mruColors>");
             return sb.toString();
         }
         else
@@ -576,7 +597,7 @@ public class LowLevel {
                     sb2.append(textRotation);
                     sb2.append("\"");
                 }
-                sb2.append("/>\r\n"); // </xf>\r\n
+                sb2.append("/>"); // </xf>
                 alignmentString = sb2.toString();
             }
             
@@ -584,15 +605,15 @@ public class LowLevel {
             {
                 if (item.getCurrentCellXf().isHidden() == true && item.getCurrentCellXf().isLocked() == true)
                 {
-                    protectionString = "<protection locked=\"1\" hidden=\"1\"/>\r\n";
+                    protectionString = "<protection locked=\"1\" hidden=\"1\"/>";
                 }
                 else if (item.getCurrentCellXf().isHidden() == true && item.getCurrentCellXf().isLocked() == false)
                 {
-                    protectionString = "<protection hidden=\"1\" locked=\"0\"/>\r\n";
+                    protectionString = "<protection hidden=\"1\" locked=\"0\"/>";
                 }
                 else
                 {
-                    protectionString = "<protection hidden=\"0\" locked=\"1\"/>\r\n";
+                    protectionString = "<protection hidden=\"0\" locked=\"1\"/>";
                 }
             }
             
@@ -642,14 +663,14 @@ public class LowLevel {
             }
             if (alignmentString.isEmpty() == false  || protectionString.isEmpty() == false)
             {
-                sb.append(">\r\n");
+                sb.append(">");
                 sb.append(alignmentString);
                 sb.append(protectionString);
-                sb.append("</xf>\r\n");
+                sb.append("</xf>");
             }
             else
             {
-                sb.append("/>\r\n");
+                sb.append("/>");
             }
         }
         return sb.toString();
@@ -672,7 +693,7 @@ public class LowLevel {
             {
                 sb.append("<numFmt formatCode=\"" + item.getCustomFormatCode() + "\" numFmtId=\"");
                 sb.append(item.getCustomFormatID());
-                sb.append("\"/>\r\n");
+                sb.append("\"/>");
             }
         }
         return sb.toString();
@@ -726,7 +747,7 @@ public class LowLevel {
                     }
                 }
                 col = Integer.toString(column.getKey() + 1); // Add 1 for Address
-                sb.append("<x:col customWidth=\"1\" width=\"" + Float.toString(column.getValue().getWidth()) + "\" max=\"" + col + "\" min=\"" + col + "\"" + hidden + "/>\r\n");
+                sb.append("<col customWidth=\"1\" width=\"" + Float.toString(column.getValue().getWidth()) + "\" max=\"" + col + "\" min=\"" + col + "\"" + hidden + "/>");
             }            
             String value = sb.toString();
             if (value.length() > 0)
@@ -772,13 +793,13 @@ public class LowLevel {
         StringBuilder sb = new StringBuilder();
         if (columnFields.size() > 0)
         {
-            sb.append("<x:row r=\"");
+            sb.append("<row r=\"");
             sb.append((rowNumber + 1));
-            sb.append("\"" + heigth + hidden + ">\r\n");
+            sb.append("\"" + heigth + hidden + ">");
         }
         else
         {
-            sb.append("<x:row" + heigth + ">\r\n");
+            sb.append("<row" + heigth + ">");
         }
         String typeAttribute;
         String sValue = "";
@@ -857,24 +878,24 @@ public class LowLevel {
             }
             if (item.getFieldType() != Cell.CellType.EMPTY)
             {
-                sb.append("<x:c" + tValue + "r=\"" + item.getCellAddress() + "\"" + sValue + ">\r\n");
+                sb.append("<c" + tValue + "r=\"" + item.getCellAddress() + "\"" + sValue + ">");
                 if (item.getFieldType() == Cell.CellType.FORMULA)
                 {
-                    sb.append("<x:f>" + LowLevel.escapeXMLChars(item.getValue().toString()) + "</x:f>\r\n");
+                    sb.append("<f>" + LowLevel.escapeXMLChars(item.getValue().toString()) + "</f>");
                 }
                 else
                 {
-                    sb.append("<x:v>" + LowLevel.escapeXMLChars(value) + "</x:v>\r\n");
+                    sb.append("<v>" + LowLevel.escapeXMLChars(value) + "</v>");
                 }
-                sb.append("</x:c>\r\n");
+                sb.append("</c>");
             }
             else // Empty cell
             {
-                sb.append("<x:c" + tValue + "r=\"" + item.getCellAddress() + "\"" + sValue + "/>\r\n");
+                sb.append("<c" + tValue + "r=\"" + item.getCellAddress() + "\"" + sValue + "/>");
             }
             col++;
         }
-        sb.append("</x:row>");
+        sb.append("</row>");
         return sb.toString();
     }
     
@@ -892,14 +913,14 @@ public class LowLevel {
             Iterator itr;
             Map.Entry<String, Cell.Range> range;
             StringBuilder sb = new StringBuilder();
-            sb.append("<x:mergeCells count=\"" + Integer.toString(sheet.getMergedCells().size()) + "\">\r\n");
+            sb.append("<mergeCells count=\"" + Integer.toString(sheet.getMergedCells().size()) + "\">");
             itr = sheet.getMergedCells().entrySet().iterator();
             while (itr.hasNext())
             {
             range = (Map.Entry<String, Cell.Range>)itr.next();
-            sb.append("<x:mergeCell ref=\"" + range.getValue().toString() + "\"/>\r\n");
+            sb.append("<mergeCell ref=\"" + range.getValue().toString() + "\"/>");
             }
-       sb.append("</x:mergeCells>\r\n");
+       sb.append("</mergeCells>");
        return sb.toString();
    } 
    
@@ -954,7 +975,7 @@ public class LowLevel {
         if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.autoFilter)) { actualLockingValues.put(Worksheet.SheetProtectionValue.autoFilter, 0); }
         if (sheet.getSheetProtectionValues().contains(Worksheet.SheetProtectionValue.pivotTables)) { actualLockingValues.put(Worksheet.SheetProtectionValue.pivotTables, 0); }
         StringBuilder sb = new StringBuilder();
-        sb.append("<x:sheetProtection");
+        sb.append("<sheetProtection");
         String temp;
         Iterator itr;
         Map.Entry<Worksheet.SheetProtectionValue, Integer> item;        
@@ -969,7 +990,7 @@ public class LowLevel {
                 String hash = generatePasswordHash(sheet.getSheetProtectionPassword());
                 sb.append(" password=\"" + hash + "\"");
             }        
-        sb.append(" sheet=\"1\"/>\r\n");
+        sb.append(" sheet=\"1\"/>");
        return sb.toString();
     }    
     
@@ -1017,8 +1038,8 @@ public class LowLevel {
         String time = df.format(now);
         
         //string time = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ssZ");
-        sb.append("<dcterms:created xsi:type=\"dcterms:W3CDTF\">" + time + "</dcterms:created>\r\n");
-        sb.append("<dcterms:modified xsi:type=\"dcterms:W3CDTF\">" + time + "</dcterms:modified>\r\n");
+        sb.append("<dcterms:created xsi:type=\"dcterms:W3CDTF\">" + time + "</dcterms:created>");
+        sb.append("<dcterms:modified xsi:type=\"dcterms:W3CDTF\">" + time + "</dcterms:modified>");
 
         appendXMLtag(sb, md.getCategory(), "category", "cp");
         appendXMLtag(sb, md.getContentStatus(), "contentStatus", "cp");
@@ -1116,7 +1137,7 @@ public class LowLevel {
             sb.append(':');
         }
         sb.append(tagName);
-        sb.append(">\r\n");
+        sb.append(">");
         return true;
     }    
     
@@ -1177,8 +1198,8 @@ public class LowLevel {
      * Method to generate an Excel internal password hash to protect workbooks or worksheets<br>
      * This method is derived from the c++ implementation by Kohei Yoshida (<a href="http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/">http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/</a>)<br>
      * <b>WARNING!</b> Do not use this method to encrypt 'real' passwords or data outside from PicoXLSX4j. This is only a minor security feature. Use a proper cryptography method instead.
-     * @param password
-     * @return 
+     * @param password Password as plain text
+     * @return Encoded password
      */
     public static String generatePasswordHash(String password)
     {
