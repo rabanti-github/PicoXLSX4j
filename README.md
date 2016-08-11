@@ -1,5 +1,5 @@
 # PicoXLSX4j
-PicoXLSX4j is a small Java library to create XLSX files (Microsoft Excel 2007 or newer) in an easy and native way. It is a direct port of [PicoXLSX for C#](https://github.com/rabanti-github/PicoXLSX) for C#
+PicoXLSX4j is a small Java library to create XLSX files (Microsoft Excel 2007 or newer) in an easy and native way. It is a direct port of [PicoXLSX for C#](https://github.com/rabanti-github/PicoXLSX)
 
 * No need for an installation of Microsoft Office
 * No need for Office interop/DCOM or other bridging libraries
