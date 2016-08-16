@@ -46,7 +46,7 @@ public class Workbook {
     private int selectedWorksheet;
 
     /**
-     * Gets the selected worksheet. The selected worksheet is not the current worksheet while design time but the seelected sheet in the output file
+     * Gets the selected worksheet. The selected worksheet is not the current worksheet while design time but the selected sheet in the output file
      * @return Zero-based worksheet index
      */
     public int getSelectedWorksheet() {

@@ -374,7 +374,8 @@ public class Worksheet {
     
 /* ************************************************* */ 
     /**
-     * Adds a object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String
+     * Adds a object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String.<br>
+     * Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
@@ -384,78 +385,6 @@ public class Worksheet {
         Cell c = new Cell(value, Cell.CellType.DEFAULT, this.currentColumnNumber, this.currentRowNumber);
         addNextCell(c, true);
     } 
-    
-    /**
-     * Adds a string value to the next cell position
-     * @param value String value to insert
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addNextCell(String value)
-    {
-        Cell c = new Cell(value, Cell.CellType.STRING, this.currentColumnNumber, this.currentRowNumber);
-        addNextCell(c, true);
-    } 
-    
-    /**
-     * Adds a integer value to the next cell position
-     * @param value Integer value to insert
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */    
-    public void addNextCell(int value)
-    {
-        Cell c = new Cell(value, Cell.CellType.NUMBER, this.currentColumnNumber, this.currentRowNumber);
-        addNextCell(c, true);
-    }    
-    
-    /**
-     * Adds a double value to the next cell position
-     * @param value Double value to insert
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addNextCell(double value)
-    {
-        Cell c = new Cell(value, Cell.CellType.NUMBER, this.currentColumnNumber, this.currentRowNumber);
-        addNextCell(c, true);
-    }
-    
-    /**
-     * Adds a float value to the next cell position
-     * @param value Float value to insert
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */    
-    public void addNextCell(float value)
-    {
-        Cell c = new Cell(value, Cell.CellType.NUMBER, this.currentColumnNumber, this.currentRowNumber);
-        addNextCell(c, true);
-    } 
-    
-    /**
-     * Adds a date value to the next cell position
-     * @param value Date value to insert
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */    
-    public void addNextCell(Date value)
-    {
-        Cell c = new Cell(value, Cell.CellType.DATE, this.currentColumnNumber, this.currentRowNumber);
-        addNextCell(c, true);
-    }    
-
-    /**
-     * Adds a boolean value to the next cell position
-     * @param value Boolean value to insert
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */    
-    public void addNextCell(boolean value)
-    {
-        Cell c = new Cell(value, Cell.CellType.BOOL, this.currentColumnNumber, this.currentRowNumber);
-        addNextCell(c, true);
-    }
     
     /**
      * Adds a formula as string to the next cell position
@@ -472,11 +401,11 @@ public class Worksheet {
     /**
      * Method to insert a generic cell to the next cell position
      * @param cell Cell object to insert
-     * @param increment If true, the address value (row or column) will be incremented, otherwise not
+     * @param incremental If true, the address value (row or column) will be incremented, otherwise not
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    private void addNextCell(Cell cell, boolean increment)
+    private void addNextCell(Cell cell, boolean incremental)
     {
         if (this.activeStyle != null)
         {
@@ -484,7 +413,7 @@ public class Worksheet {
         }
         String address = cell.getCellAddressString();
         this.cells.put(address, cell);
-        if (increment == true)
+        if (incremental == true)
         {
             if (this.getCurrentCellDirection() == CellDirection.ColumnToColum)
             {
@@ -512,7 +441,8 @@ public class Worksheet {
 /* ************************************************* */  
     
     /**
-     * Adds a object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
+     * Adds a object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String.<br>
+     * Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @param columnAddress Column number (zero based)
      * @param rowAddress Row number (zero based)
@@ -526,7 +456,8 @@ public class Worksheet {
     }
     
     /**
-     * Adds a object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
+     * Adds a object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String.<br>
+     * Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @param address Cell address in the format A1 - XFD1048576
      * @throws FormatException Thrown if the passed address is malformed
@@ -539,174 +470,7 @@ public class Worksheet {
         addCell(value, adr.Column, adr.Row);
     }  
     
-    /**
-     * Adds a string value to the defined cell address
-     * @param value String value to insert
-     * @param columnAddress Column number (zero based)
-     * @param rowAddress Row number (zero based)
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addCell(String value, int columnAddress, int rowAddress)
-    {
-        Cell c = new Cell(value, Cell.CellType.STRING, columnAddress, rowAddress);
-        addNextCell(c, false);
-    }  
-    
-    /**
-     * Adds a string value to the defined cell address
-     * @param value String value to insert
-     * @param address Cell address in the format A1 - XFD1048576
-     * @throws FormatException Thrown if the passed address is malformed
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addCell(String value, String address)
-    {
-        Cell.Address adr = Cell.resolveCellCoordinate(address);
-        addCell(value, adr.Column, adr.Row);
-    }  
-    
-    /**
-     * Adds a integer value to the defined cell address
-     * @param value Integer value to insert
-     * @param columnAddress Column number (zero based)
-     * @param rowAddress Row number (zero based)
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addCell(int value, int columnAddress, int rowAddress)
-    {
-        Cell c = new Cell(value, Cell.CellType.NUMBER, columnAddress, rowAddress);
-        addNextCell(c, false);
-    }
-    
-    /**
-     * Adds a integer value to the defined cell address
-     * @param value Integer value to insert
-     * @param address Cell address in the format A1 - XFD1048576
-     * @throws FormatException Thrown if the passed address is malformed
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */    
-    public void addCell(int value, String address)
-    {
-        Cell.Address adr = Cell.resolveCellCoordinate(address);
-        addCell(value, adr.Column, adr.Row);
-    }    
-    
-    /**
-     * Adds a double value to the defined cell address
-     * @param value Double value to insert
-     * @param columnAddress Column number (zero based)
-     * @param rowAddress Row number (zero based)
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addCell(double value, int columnAddress, int rowAddress)
-    {
-        Cell c = new Cell(value, Cell.CellType.NUMBER, columnAddress, rowAddress);
-        addNextCell(c, false);
-    } 
-    
-    /**
-     * Adds a double value to the defined cell address
-     * @param value Double value to insert
-     * @param address Cell address in the format A1 - XFD1048576
-     * @throws FormatException Thrown if the passed address is malformed
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */    
-    public void addCell(double value, String address)
-    {
-        Cell.Address adr = Cell.resolveCellCoordinate(address);
-        addCell(value, adr.Column, adr.Row);
-    }  
-    
-    /**
-     * Adds a float value to the defined cell address
-     * @param value Float value to insert
-     * @param columnAddress Column number (zero based)
-     * @param rowAddress Row number (zero based)
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addCell(float value, int columnAddress, int rowAddress)
-   {
-       Cell c = new Cell(value, Cell.CellType.NUMBER, columnAddress, rowAddress);
-       addNextCell(c, false);
-   } 
-    
-    /**
-     * Adds a float value to the defined cell address
-     * @param value Float value to insert
-     * @param address Cell address in the format A1 - XFD1048576
-     * @throws FormatException Thrown if the passed address is malformed
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */    
-    public void addCell(float value, String address)
-    {
-        Cell.Address adr = Cell.resolveCellCoordinate(address);
-        addCell(value, adr.Column, adr.Row);
-    }  
-    
-    /**
-     * Adds a date value to the defined cell address
-     * @param value Date value to insert
-     * @param columnAddress Column number (zero based)
-     * @param rowAddress Row number (zero based)
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addCell(Date value, int columnAddress, int rowAddress)
-    {
-        Cell c = new Cell(value, Cell.CellType.DATE, columnAddress, rowAddress);
-        addNextCell(c, false);
-    }    
-    
-    /**
-     * Adds a date value to the defined cell address
-     * @param value Date value to insert
-     * @param address Cell address in the format A1 - XFD1048576
-     * @throws FormatException Thrown if the passed address is malformed
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */    
-    public void addCell(Date value, String address)
-    {
-        Cell.Address adr = Cell.resolveCellCoordinate(address);
-        addCell(value, adr.Column, adr.Row);
-    } 
-    
-    /**
-     * Adds a boolean value to the defined cell address
-     * @param value Boolean value to insert
-     * @param columnAddress Column number (zero based)
-     * @param rowAddress Row number (zero based)
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addCell(boolean value, int columnAddress, int rowAddress)
-    {
-        Cell c = new Cell(value, Cell.CellType.BOOL, columnAddress, rowAddress);
-        addNextCell(c, false);
-    } 
-    
-     /**
-     * Adds a boolean value to the defined cell address
-     * @param value Boolean value to insert
-     * @param address Cell address in the format A1 - XFD1048576
-     * @throws FormatException Thrown if the passed address is malformed
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addCell(boolean value, String address)
-    {
-        Cell.Address adr = Cell.resolveCellCoordinate(address);
-        addCell(value, adr.Column, adr.Row);
-    }
-    
+   
     /**
      * Adds a cell object. This object must contain a valid row and column address
      * @param cell Cell object to insert
@@ -752,196 +516,29 @@ public class Worksheet {
 /* addCellRange ************************************************* */     
     
     /**
-     * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
-     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs a distinct function name.
+     * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String.<br>
+     * Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param values List of unspecified objects to insert
      * @param startAddress Start address
      * @param endAddress End address
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addObjectCellRange(List<Object> values, Cell.Address startAddress, Cell.Address endAddress)
+    public void addCellRange(List<Object> values, Cell.Address startAddress, Cell.Address endAddress)
     {
         addCellRangeInternal(values, startAddress, endAddress);
     }    
 
     /**
-     * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
+     * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String.<br>
+     * The data types in the passed list can be mixed. Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param values List of unspecified objects to insert
      * @param cellRange Cell range as string in the format like A1:D1 or X10:X22
      * @throws FormatException Thrown if the passed address is malformed
      * @throws UndefinedStyleException Thrown if the default style was misconfigured
      * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
      */
-    public void addObjectCellRange(List<Object> values, String cellRange)
-    {
-        Cell.Range rng = Cell.resolveCellRange(cellRange);
-        addCellRangeInternal(values, rng.StartAddress, rng.EndAddress);
-    }    
-    
-    /**
-     * Adds a list of string values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
-     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs a distinct function name.
-     * @param values List of string values to insert
-     * @param startAddress Start address
-     * @param endAddress End address
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */    
-    public void addStringCellRange(List<String> values, Cell.Address startAddress, Cell.Address endAddress)
-    {
-        addCellRangeInternal(values, startAddress, endAddress);
-    }    
-    
-    /**
-     * Adds a list of string values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
-     * @param values List of string values to insert
-     * @param cellRange Cell range as string in the format like A1:D1 or X10:X22
-     * @throws FormatException Thrown if the passed address is malformed
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addStringCellRange(List<String> values, String cellRange)
-    {
-        Cell.Range rng = Cell.resolveCellRange(cellRange);
-        addCellRangeInternal(values, rng.StartAddress, rng.EndAddress);
-    } 
-    
-    /**
-     * Adds a list of integer values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
-     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs a distinct function name.
-     * @param values List of integer values to insert
-     * @param startAddress Start address
-     * @param endAddress End address
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */       
-    public void addIntegerCellRange(List<Integer> values, Cell.Address startAddress, Cell.Address endAddress)
-    {
-        addCellRangeInternal(values, startAddress, endAddress);
-    }    
-    
-    /**
-     * Adds a list of integer values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
-     * @param values List of integer values to insert
-     * @param cellRange Cell range as string in the format like A1:D1 or X10:X22
-     * @throws FormatException Thrown if the passed address is malformed
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addIntegerCellRange(List<Integer> values, String cellRange)
-    {
-        Cell.Range rng = Cell.resolveCellRange(cellRange);
-        addCellRangeInternal(values, rng.StartAddress, rng.EndAddress);
-    }     
-    
-     /**
-     * Adds a list of double values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
-     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs a distinct function name.
-     * @param values List of double values to insert
-     * @param startAddress Start address
-     * @param endAddress End address
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */   
-    public void addDoubleCellRange(List<Double> values, Cell.Address startAddress, Cell.Address endAddress)
-    {
-        addCellRangeInternal(values, startAddress, endAddress);
-    }    
-
-    /**
-     * Adds a list of double values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
-     * @param values List of double values to insert
-     * @param cellRange Cell range as string in the format like A1:D1 or X10:X22
-     * @throws FormatException Thrown if the passed address is malformed
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addDoubleCellRange(List<Double> values, String cellRange)
-    {
-        Cell.Range rng = Cell.resolveCellRange(cellRange);
-        addCellRangeInternal(values, rng.StartAddress, rng.EndAddress);
-    } 
-    
-    /**
-     * Adds a list of float values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
-     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs a distinct function name.
-     * @param values List of float values to insert
-     * @param startAddress Start address
-     * @param endAddress End address
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */       
-    public void addFloatCellRange(List<Float> values, Cell.Address startAddress, Cell.Address endAddress)
-    {
-        addCellRangeInternal(values, startAddress, endAddress);
-    }  
-    
-    /**
-     * Adds a list of float values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
-     * @param values List of float values to insert
-     * @param cellRange Cell range as string in the format like A1:D1 or X10:X22
-     * @throws FormatException Thrown if the passed address is malformed
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addFloatCellRange(List<Float> values, String cellRange)
-    {
-        Cell.Range rng = Cell.resolveCellRange(cellRange);
-        addCellRangeInternal(values, rng.StartAddress, rng.EndAddress);
-    }   
-    
-    /**
-     * Adds a list of date values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
-     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs a distinct function name.
-     * @param values List of date values to insert
-     * @param startAddress Start address
-     * @param endAddress End address
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */       
-    public void addDateCellRange(List<Date> values, Cell.Address startAddress, Cell.Address endAddress)
-    {
-        addCellRangeInternal(values, startAddress, endAddress);
-    }  
-    
-    /**
-     * Adds a list of date values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
-     * @param values List of date values to insert
-     * @param cellRange Cell range as string in the format like A1:D1 or X10:X22
-     * @throws FormatException Thrown if the passed address is malformed
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addDateCellRange(List<Date> values, String cellRange)
-    {
-        Cell.Range rng = Cell.resolveCellRange(cellRange);
-        addCellRangeInternal(values, rng.StartAddress, rng.EndAddress);
-    }    
- 
-    /**
-     * Adds a list of boolean values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String<br>
-     * Note: Due to limitations of Java generics can this group of methods not be defined as overloading method with a single function name. Each inner type needs a distinct function name.
-     * @param values List of boolean values to insert
-     * @param startAddress Start address
-     * @param endAddress End address
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */        
-    public void addBooleanCellRange(List<Boolean> values, Cell.Address startAddress, Cell.Address endAddress)
-    {
-        addCellRangeInternal(values, startAddress, endAddress);
-    }  
-    
-    /**
-     * Adds a list of date values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
-     * @param values List of date values to insert
-     * @param cellRange Cell range as string in the format like A1:D1 or X10:X22
-     * @throws FormatException Thrown if the passed address is malformed
-     * @throws UndefinedStyleException Thrown if the default style was misconfigured
-     * @throws UnknownRangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addBooleanCellRange(List<Boolean> values, String cellRange)
+    public void addCellRange(List<Object> values, String cellRange)
     {
         Cell.Range rng = Cell.resolveCellRange(cellRange);
         addCellRangeInternal(values, rng.StartAddress, rng.EndAddress);

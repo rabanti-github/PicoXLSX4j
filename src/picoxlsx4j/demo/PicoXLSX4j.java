@@ -106,11 +106,11 @@ public class PicoXLSX4j {
             workbook.getCurrentWorksheet().addCell(779, 2, 1);                  // Add cell C2 (zero based addresses: column 2=C, row 1=2)
             workbook.getCurrentWorksheet().addCell(false, 3, 2);                // Add cell D3 (zero based addresses: column 3=D, row 2=3)
             workbook.getCurrentWorksheet().addNextCell(0);                      // Add cell E3 (direction: column to column)
-            List<String> values = new ArrayList<>();                            // Create a List of values
+            List<Object> values = new ArrayList<>();                            // Create a List of mixed values
             values.add("V1");
-            values.add("V2");
-            values.add("V3");
-            workbook.getCurrentWorksheet().addStringCellRange(values, "A4:C4"); // Add a cell range to A4 - C4
+            values.add(true);
+            values.add(16.8);
+            workbook.getCurrentWorksheet().addCellRange(values, "A4:C4"); // Add a cell range to A4 - C4
             try
             {   
             workbook.saveAs("test2.xlsx");                                     // Save the workbook
@@ -155,11 +155,11 @@ public class PicoXLSX4j {
         private static void demo4()
         {        
             Workbook workbook = new Workbook("test4.xlsx", "Sheet1");           // Create new workbook
-            List<String> values = new ArrayList<>();                            // Create a List of values
+            List<Object> values = new ArrayList<>();                            // Create a List of values
             values.add("Header1");
             values.add("Header2");
             values.add("Header3");
-            workbook.getCurrentWorksheet().addStringCellRange(values, new Cell.Address(0,0), new Cell.Address(2,0));   // Add a cell range to A4 - C4
+            workbook.getCurrentWorksheet().addCellRange(values, new Cell.Address(0,0), new Cell.Address(2,0));         // Add a cell range to A4 - C4
             workbook.getCurrentWorksheet().getCells().get("A1").setStyle(BasicStyles.Bold(), workbook);                // Assign predefined basic style to cell
             workbook.getCurrentWorksheet().getCells().get("B1").setStyle(BasicStyles.Bold(), workbook);                // Assign predefined basic style to cell
             workbook.getCurrentWorksheet().getCells().get("C1").setStyle(BasicStyles.Bold(), workbook);                // Assign predefined basic style to cell
@@ -211,32 +211,32 @@ public class PicoXLSX4j {
         private static void demo5()
         { 
             Workbook workbook = new Workbook("test5.xlsx", "Sheet1");           // Create new workbook
-            List<String> values = new ArrayList<>();                            // Create a List of values
+            List<Object> values = new ArrayList<>();                            // Create a List of values
             values.add("Header1");
             values.add("Header2");
             values.add("Header3");
             workbook.getCurrentWorksheet().setActiveStyle(BasicStyles.BorderFrameHeader(), workbook);    // Assign predefined basic style as active style
-            workbook.getCurrentWorksheet().addStringCellRange(values, "A1:C1"); // Add cell range
+            workbook.getCurrentWorksheet().addCellRange(values, "A1:C1"); // Add cell range
 
             values = new ArrayList<>();                                         // Create a List of values
             values.add("Cell A2");
             values.add("Cell B2");
             values.add("Cell C2");            
             workbook.getCurrentWorksheet().setActiveStyle(BasicStyles.BorderFrame(), workbook);          // Assign predefined basic style as active style
-            workbook.getCurrentWorksheet().addStringCellRange(values, "A2:C2"); // Add cell range
+            workbook.getCurrentWorksheet().addCellRange(values, "A2:C2"); // Add cell range
 
             values = new ArrayList<>();                                         // Create a List of values
             values.add("Cell A3");
             values.add("Cell B3");
             values.add("Cell C3");            
-            workbook.getCurrentWorksheet().addStringCellRange(values, "A3:C3"); // Add cell range
+            workbook.getCurrentWorksheet().addCellRange(values, "A3:C3"); // Add cell range
 
             values = new ArrayList<>();                                         // Create a List of values
             values.add("Cell A4");
             values.add("Cell B4");
             values.add("Cell C4");            
             workbook.getCurrentWorksheet().clearActiveStyle();                  // Clear the active style 
-            workbook.getCurrentWorksheet().addStringCellRange(values, "A4:C4"); // Add cell range
+            workbook.getCurrentWorksheet().addCellRange(values, "A4:C4"); // Add cell range
 
             workbook.getWorkbookMetadata().setTitle("Test 5");                           // Add meta data to workbook
             workbook.getWorkbookMetadata().setSubject("This is the 5th PicoXLSX test");  // Add meta data to workbook
@@ -295,24 +295,24 @@ public class PicoXLSX4j {
         { 
             Workbook workbook = new Workbook("test7.xlsx", "Sheet1");                                   // Create new workbook
             Worksheet ws = workbook.getCurrentWorksheet();                                              // Create reference (shortening)
-            List<String> values = new ArrayList<>();                                                    // Create a List of values
+            List<Object> values = new ArrayList<>();                                                    // Create a List of values
             values.add("Cell A1");                                                                      // set a value
             values.add("Cell B1");                                                                      // set a value
             values.add("Cell C1");                                                                      // set a value
             values.add("Cell D1");                                                                      // set a value
-            ws.addStringCellRange(values, "A1:D1");                                                     // Insert cell range
+            ws.addCellRange(values, "A1:D1");                                                     // Insert cell range
             values = new ArrayList<>();                                                                 // Create a List of values
             values.add("Cell A2");                                                                      // set a value
             values.add("Cell B2");                                                                      // set a value
             values.add("Cell C2");                                                                      // set a value
             values.add("Cell D2");                                                                      // set a value            
-            ws.addStringCellRange(values, "A2:D2");                                                     // Insert cell range
+            ws.addCellRange(values, "A2:D2");                                                     // Insert cell range
             values = new ArrayList<>();                 // Create a List of values
             values.add("Cell A3");                                                                      // set a value
             values.add("Cell B3");                                                                      // set a value
             values.add("Cell C3");                                                                      // set a value
             values.add("Cell D3");                                                                      // set a value            
-            ws.addStringCellRange(values, "A3:D3");                                                     // Insert cell range
+            ws.addCellRange(values, "A3:D3");                                                     // Insert cell range
             ws.addHiddenColumn("C");                                                                    // Hide column C
             ws.addHiddenRow(1);                                                                         // Hider row 2 (zero-based: 1)
             ws.setAutoFilter(1, 3);                                                                     // Set auto-filter for column B to D

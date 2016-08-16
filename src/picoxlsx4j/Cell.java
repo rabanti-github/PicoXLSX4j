@@ -160,6 +160,7 @@ public class Cell implements Comparable<Cell>{
     {
         this.fieldType = type;
         this.value = value;
+        resolveCellType();
     }
         
     /**
@@ -175,6 +176,10 @@ public class Cell implements Comparable<Cell>{
         this.value = value;
         this.columnAddress = column;
         this.rowAddress = row;
+        if (type == CellType.DEFAULT)
+        {
+            resolveCellType();
+        }
     }
      /**
       * Method resets the Cell type an tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT. CellTypes FORMULA and EMPTY will skip this method
@@ -184,6 +189,7 @@ public class Cell implements Comparable<Cell>{
         if (this.fieldType == CellType.FORMULA || this.fieldType == CellType.EMPTY) {return;}
         Class t = this.value.getClass();
         if (t.equals(Integer.class)) { this.fieldType = CellType.NUMBER; }
+        if (t.equals(Long.class)) { this.fieldType = CellType.NUMBER; }
         else if (t.equals(Float.class)) { this.fieldType = CellType.NUMBER; }
         else if (t.equals(Double.class)) { this.fieldType = CellType.NUMBER; }
         else if (t.equals(Boolean.class)) { this.fieldType = CellType.BOOL; }
@@ -273,6 +279,10 @@ public class Cell implements Comparable<Cell>{
             o = list.get(i);
             t = o.getClass();
             if (t.equals(Integer.class))
+            {
+                c = new Cell(o, CellType.NUMBER);
+            }
+            else if (t.equals(Long.class))
             {
                 c = new Cell(o, CellType.NUMBER);
             }

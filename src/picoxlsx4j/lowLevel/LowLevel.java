@@ -54,6 +54,8 @@ import picoxlsx4j.style.StyleCollection;
 public class LowLevel {
         
     private Workbook workbook;
+    private HashMap<String, String> sharedStrings;
+    private int sharedStringsTotalCount;
   
     /**
      * Constructor with defined workbook object
@@ -61,7 +63,9 @@ public class LowLevel {
      */
     public LowLevel(Workbook workbook)
     {
-       this.workbook = workbook;  
+       this.workbook = workbook;
+       this.sharedStrings = new HashMap<>();
+       this.sharedStringsTotalCount = 0;
     }
     
     /**
@@ -77,7 +81,7 @@ public class LowLevel {
         Document app = createAppPropertiesDocument();
         Document core = createCorePropertiesDocument();
         Document styles = createStyleSheetDocument();
-        Document book = createWorkbookDocument();        
+        Document book = createWorkbookDocument();
         String file;
         Worksheet sheet;
         Packer p = new Packer();
@@ -95,9 +99,10 @@ public class LowLevel {
             p.addPart("xl/worksheets/" + file, "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml", doc);
         }
         rel.addRelationshipEntry("/xl/styles.xml", "http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles");
+        rel.addRelationshipEntry("/xl/sharedStrings.xml", "http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings");
         p.addPart("docProps/core.xml", "application/vnd.openxmlformats-package.core-properties+xml", core);
         p.addPart("docProps/app.xml", "application/vnd.openxmlformats-officedocument.extended-properties+xml", app);
-
+        p.addPart("xl/sharedStrings.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", createSharedStringsDocument()); 
         p.addPart("xl/workbook.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", book, false);
         p.addPart("xl/styles.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", styles);
         p.pack(this.workbook.getFilename());
@@ -313,6 +318,31 @@ public class LowLevel {
         Document doc = createXMLDocument(sb.toString());
         return doc;
     }    
+    
+     /**
+     * Method to create shared strings as XML document
+     * @return Formated XML document
+     * @throws IOException Thrown in case of an error while creating the XML document
+     */
+    private Document createSharedStringsDocument() throws IOException
+    {
+            StringBuilder sb = new StringBuilder();
+            sb.append("<sst xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" count=\"");
+            sb.append(Integer.toString(this.sharedStringsTotalCount));
+            sb.append("\" uniqueCount=\"");
+            sb.append(Integer.toString(this.sharedStrings.size()));
+            sb.append("\">");
+            for (Map.Entry<String, String> str : sharedStrings.entrySet())
+            {  
+                sb.append("<si><t>");
+                sb.append(str.getKey());
+                sb.append("</t></si>");
+            }
+            sb.append("</sst>");
+            Document doc = createXMLDocument(sb.toString());
+            return doc;
+    }
+    
     
     /**
      * Method to create the XML string for the font part of the style sheet document
@@ -844,10 +874,13 @@ public class LowLevel {
                 {
                     value = Integer.toString((int)item.getValue());
                 }
+                else if(t.equals(Long.class))
+                {
+                    value = Long.toString((long)item.getValue());
+                }
                 else if(t.equals(Double.class))
                 {
                     value = Double.toString((double)item.getValue());
-
                 }
                 else if (t.equals(Float.class))
                 {
@@ -864,17 +897,33 @@ public class LowLevel {
             }
             // String parsing
             else
-            {
-                typeAttribute = "str";
-                tValue = " t=\"" + typeAttribute + "\" ";      
+            {      
                 if (item.getValue() == null)
                 {
+                    typeAttribute = "str";
                     value = "";
                 }
-                else
+                else // handle shared Strings
                 {
-                    value = item.getValue().toString();
-                }                
+                  //  value = item.getValue().toString();
+                    if (item.getFieldType() == Cell.CellType.FORMULA)
+                    {
+                        typeAttribute = "str";
+                        value = item.getValue().toString();
+                    }
+                    else
+                    {
+                        typeAttribute = "s";
+                        value = item.getValue().toString();
+                        if (this.sharedStrings.containsKey(value) == false)
+                        {
+                            this.sharedStrings.put(value, Integer.toString(sharedStrings.size()));
+                        }
+                        value = this.sharedStrings.get(value);
+                        this.sharedStringsTotalCount++;
+                    }
+                }
+                tValue = " t=\"" + typeAttribute + "\" ";                
             }
             if (item.getFieldType() != Cell.CellType.EMPTY)
             {
@@ -1045,7 +1094,7 @@ public class LowLevel {
         appendXMLtag(sb, md.getContentStatus(), "contentStatus", "cp");
 
         return sb.toString();
-    }    
+    }        
     
     /**
      * Method to sort the cells of a worksheet as preparation for the XML document
