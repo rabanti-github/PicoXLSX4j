@@ -335,7 +335,7 @@ public class LowLevel {
             for (Map.Entry<String, String> str : sharedStrings.entrySet())
             {  
                 sb.append("<si><t>");
-                sb.append(str.getKey());
+                sb.append(escapeXMLChars(str.getKey()));
                 sb.append("</t></si>");
             }
             sb.append("</sst>");
@@ -1142,6 +1142,7 @@ public class LowLevel {
      */
     public static String escapeXMLChars(String input)
     {
+        input = input.replace("&", "&amp;");
         input = input.replace("<", "&lt;");
         input = input.replace(">", "&gt;");
         return input;

@@ -1,3 +1,7 @@
+v1.5.1	15.11.2016
+******************
+- Fixed bug in sharedStrings table
+
 v1.5.0	16.08.2016
 ******************
 Note: Using this version of the library with old code can cause compatibility issues due to the removal of some methods (see below).
