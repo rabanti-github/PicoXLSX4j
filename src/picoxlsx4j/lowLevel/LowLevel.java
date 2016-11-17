@@ -54,7 +54,7 @@ import picoxlsx4j.style.StyleCollection;
 public class LowLevel {
         
     private Workbook workbook;
-    private HashMap<String, String> sharedStrings;
+    private SortedMap sharedStrings;
     private int sharedStringsTotalCount;
   
     /**
@@ -64,7 +64,7 @@ public class LowLevel {
     public LowLevel(Workbook workbook)
     {
        this.workbook = workbook;
-       this.sharedStrings = new HashMap<>();
+       this.sharedStrings = new SortedMap();
        this.sharedStringsTotalCount = 0;
     }
     
@@ -332,10 +332,13 @@ public class LowLevel {
             sb.append("\" uniqueCount=\"");
             sb.append(Integer.toString(this.sharedStrings.size()));
             sb.append("\">");
-            for (Map.Entry<String, String> str : sharedStrings.entrySet())
+            ArrayList<String> keys = this.sharedStrings.getKeys();
+            //for (Map.Entry<String, String> str : sharedStrings.entrySet())
+            for(int i = 0; i < keys.size(); i++)
             {  
                 sb.append("<si><t>");
-                sb.append(escapeXMLChars(str.getKey()));
+                //sb.append(escapeXMLChars(str.getKey()));
+                sb.append(escapeXMLChars(keys.get(i)));
                 sb.append("</t></si>");
             }
             sb.append("</sst>");
@@ -917,7 +920,7 @@ public class LowLevel {
                         value = item.getValue().toString();
                         if (this.sharedStrings.containsKey(value) == false)
                         {
-                            this.sharedStrings.put(value, Integer.toString(sharedStrings.size()));
+                            this.sharedStrings.add(value, Integer.toString(sharedStrings.size()));
                         }
                         value = this.sharedStrings.get(value);
                         this.sharedStringsTotalCount++;

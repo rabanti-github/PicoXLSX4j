@@ -186,6 +186,12 @@ public class Cell implements Comparable<Cell>{
       */
     public void resolveCellType()
     {
+        if(this.value == null)
+        {
+            this.setFieldType(CellType.EMPTY);
+            value = "";
+            return;
+        }        
         if (this.fieldType == CellType.FORMULA || this.fieldType == CellType.EMPTY) {return;}
         Class t = this.value.getClass();
         if (t.equals(Integer.class)) { this.fieldType = CellType.NUMBER; }
