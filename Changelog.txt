@@ -1,3 +1,7 @@
+v1.5.3	02.12.2016
+******************
+- Fixed bug in the handling of the cell types
+
 v1.5.2	17.11.2016
 ******************
 - Fixed general bug in the handling of the sharedStrings table. Please update

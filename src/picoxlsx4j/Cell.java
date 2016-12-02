@@ -193,13 +193,12 @@ public class Cell implements Comparable<Cell>{
             return;
         }        
         if (this.fieldType == CellType.FORMULA || this.fieldType == CellType.EMPTY) {return;}
-        Class t = this.value.getClass();
-        if (t.equals(Integer.class)) { this.fieldType = CellType.NUMBER; }
-        if (t.equals(Long.class)) { this.fieldType = CellType.NUMBER; }
-        else if (t.equals(Float.class)) { this.fieldType = CellType.NUMBER; }
-        else if (t.equals(Double.class)) { this.fieldType = CellType.NUMBER; }
-        else if (t.equals(Boolean.class)) { this.fieldType = CellType.BOOL; }
-        else if (t.equals(Date.class)) { this.fieldType = CellType.DATE; }
+        if (value instanceof Integer) { this.fieldType = CellType.NUMBER; }
+        else if (value instanceof Long) { this.fieldType = CellType.NUMBER; }
+        else if (value instanceof Float) { this.fieldType = CellType.NUMBER; }
+        else if (value instanceof Double) { this.fieldType = CellType.NUMBER; }
+        else if (value instanceof Boolean) { this.fieldType = CellType.BOOL; }
+        else if (value instanceof Date) { this.fieldType = CellType.DATE; }
         else { this.fieldType = CellType.STRING; } // Default
     }
     
@@ -279,36 +278,34 @@ public class Cell implements Comparable<Cell>{
         List<Cell> output = new ArrayList<>();
         Cell c = null;
         Object o = null;
-        Class t = null;
         for (int i = 0; i < list.size(); i++)
         {
             o = list.get(i);
-            t = o.getClass();
-            if (t.equals(Integer.class))
+            if (o instanceof Integer)
             {
                 c = new Cell(o, CellType.NUMBER);
             }
-            else if (t.equals(Long.class))
+            else if (o instanceof Long)
             {
                 c = new Cell(o, CellType.NUMBER);
             }
-            else if (t.equals(Float.class))
+            else if (o instanceof Float)
             {
                 c = new Cell(o, CellType.NUMBER);
             }
-            else if (t.equals(Double.class))
+            else if (o instanceof Double)
             {
                 c = new Cell(o, CellType.NUMBER);
             }
-            else if (t.equals(Boolean.class))
+            else if (o instanceof Boolean)
             {
                 c = new Cell(o, CellType.BOOL);
             }
-            else if (t.equals(Date.class))
+            else if (o instanceof Date)
             {
                 c = new Cell(o, CellType.DATE);
             }
-            else if (t.equals(String.class))
+            else if (o instanceof String)
             {
                 c = new Cell(o, CellType.STRING);
             }

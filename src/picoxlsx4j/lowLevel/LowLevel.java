@@ -870,22 +870,22 @@ public class LowLevel {
             {
                 typeAttribute = "n";
                 tValue = " t=\"" + typeAttribute + "\" ";
-                Class t = item.getValue().getClass();
+                Object o = item.getValue();
 
 
-                if (t.equals(Integer.class))
+                if (o instanceof Integer)
                 {
                     value = Integer.toString((int)item.getValue());
                 }
-                else if(t.equals(Long.class))
+                else if(o instanceof Long)
                 {
                     value = Long.toString((long)item.getValue());
                 }
-                else if(t.equals(Double.class))
+                else if(o instanceof Double)
                 {
                     value = Double.toString((double)item.getValue());
                 }
-                else if (t.equals(Float.class))
+                else if (o instanceof Float)
                 {
                     value = Float.toString((float)item.getValue());
                 }
