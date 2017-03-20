@@ -35,7 +35,7 @@ public final class BasicStyles {
         /**
         * Format text with a double underline
         */
-        doubleUnderlien,
+        doubleUnderline,
         /**
         * Format text with a strike-through
         */
@@ -96,7 +96,7 @@ public final class BasicStyles {
     * @return Style object
     */
     public static Style DoubleUnderline()
-    { return getStyle(StyleEnum.doubleUnderlien);}
+    { return getStyle(StyleEnum.doubleUnderline);}
     /**
     * Gets the strike style
     * @return Style object
@@ -186,7 +186,7 @@ public final class BasicStyles {
                 }
                 s = underline;
                 break;
-            case doubleUnderlien:
+            case doubleUnderline:
                 if (doubleUnderline == null)
                 {
                     doubleUnderline = new Style();

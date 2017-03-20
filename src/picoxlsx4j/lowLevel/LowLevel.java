@@ -1139,16 +1139,75 @@ public class LowLevel {
      }    
     
     /**
-     * Method to escape XML characters between two XML tags
+     * Method to escape XML characters between two XML tags<br>Note: The XML specs allow characters up to the character value of 0x10FFFF. However, the Java char range is only up to 0xFFFF. PicoXLSX4j will neglect all values above this level in the sanitizing check. Illegal characters like 0x1 will be replaced with a white space (0x20)
      * @param input Input string to process
      * @return Escaped string
      */
     public static String escapeXMLChars(String input)
     {
-        input = input.replace("&", "&amp;");
-        input = input.replace("<", "&lt;");
-        input = input.replace(">", "&gt;");
-        return input;
+        int len = input.length();
+        List<Integer> illegalCharacters = new ArrayList<Integer>(len);
+        List<Integer> characterTypes = new ArrayList<Integer>(len);
+        int i;
+        char c;
+        for (i = 0; i < len; i++)
+        {
+            c = input.charAt(i);
+           if  ((c < 0x9) || (c > 0xA && c < 0xD) || (c > 0xD && c < 0x20) || (c > 0xD7FF && c < 0xE000) || (c > 0xFFFD))
+           {
+               illegalCharacters.add(i);
+               characterTypes.add(0);
+               continue;
+           } // Note: XML specs allow characters up to 0x10FFFF. However, the Java char range is only up to 0xFFFF; Higher values are neglected here 
+            if (c == 0x3C) // <
+            {
+                illegalCharacters.add(i);
+                characterTypes.add(1);
+            }
+            else if (c == 0x3E) // >
+            {
+                illegalCharacters.add(i);
+                characterTypes.add(2);
+            }
+            else if (c == 0x26) // &
+            {
+                illegalCharacters.add(i);
+                characterTypes.add(3);
+            }
+        }
+        if (illegalCharacters.isEmpty())
+        {
+            return input;
+        }
+        StringBuilder sb = new StringBuilder(len);
+            int lastIndex = 0;
+            len = illegalCharacters.size();
+            int j, type;
+            for (i = 0; i < len; i++)
+            {
+                j = illegalCharacters.get(i);
+                type = characterTypes.get(i);
+                sb.append(input.substring(lastIndex, j));
+                if (type == 0)
+                {
+                    sb.append(' '); // Whitespace as fall back on illegal character
+                }
+                else if (type == 1) // replace <
+                {
+                    sb.append("&lt;");
+                }
+                else if (type == 2) // replace >
+                {
+                    sb.append("&gt;");
+                }
+                else if (type == 3) // replace &
+                {
+                    sb.append("&amp;");
+                }
+                lastIndex = j + 1;
+            }
+            sb.append(input.substring(lastIndex));
+            return sb.toString();
     }
     
     /**
@@ -1158,6 +1217,7 @@ public class LowLevel {
      */
     public static String escapeXMLAttributeChars(String input)
     {
+        input = escapeXMLChars(input); // Sanitize string from illegal characters beside quotes
         input = input.replace("\"", "&quot;");
         return input;
     }    

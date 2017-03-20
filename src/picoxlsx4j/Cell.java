@@ -31,7 +31,7 @@ public class Cell implements Comparable<Cell>{
          */
         STRING,
          /**
-         * Type for all numeric types (integers and floats, respectively doubles)
+         * Type for all numeric types (long, integer and float and double)
          */
         NUMBER,
         /**
