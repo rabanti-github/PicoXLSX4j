@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2016
+ * Copyright Raphael Stoeckli © 2017
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -440,9 +440,9 @@ public class Cell implements Comparable<Cell>{
      */
     public static String resolveCellAddress(int column, int row)
     {
-            if (row >= 1048576 || row < 0)
+            if (row > Worksheet.MAX_ROW_ADDRESS || row < Worksheet.MIN_ROW_ADDRESS)
             {
-                throw new UnknownRangeException("The row number (" + Integer.toString(row) + ") is out of range. Range is from 0 to 1048575 (1048576 rows).");
+                throw new UnknownRangeException("The row number (" + Integer.toString(row) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_ROW_ADDRESS) + " to " + Integer.toString(Worksheet.MAX_ROW_ADDRESS) + " (" + (Integer.toString(Worksheet.MIN_ROW_ADDRESS) + 1) + " rows).");
             }
             return resolveColumnAddress(column) + Integer.toString(row + 1);    
     }
@@ -473,13 +473,13 @@ public class Cell implements Comparable<Cell>{
         column = resolveColumn(mx.group(1));
         row = digits - 1;
         
-        if (row >= 1048576 || row < 0)
+        if (row > Worksheet.MAX_ROW_ADDRESS || row < Worksheet.MIN_ROW_ADDRESS)
         {
-            throw new UnknownRangeException("The row number (" + Integer.toString(row) + ") is out of range. Range is from 0 to 1048575 (1048576 rows).");
+            throw new UnknownRangeException("The row number (" + Integer.toString(row) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_ROW_ADDRESS) + " to " + Integer.toString(Worksheet.MAX_ROW_ADDRESS) + " (" + Integer.toString((Worksheet.MAX_ROW_ADDRESS + 1)) + " rows).");
         }     
-        if (column >= 16384 || column < 0)
+        if (column > Worksheet.MAX_COLUMN_ADDRESS || column < Worksheet.MIN_COLUMN_ADDRESS)
         {
-            throw new UnknownRangeException("The column number (" + Integer.toString(column) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+            throw new UnknownRangeException("The column number (" + Integer.toString(column) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_ADDRESS) + " to " + Integer.toString(Worksheet.MAX_COLUMN_ADDRESS) + " (" + Integer.toString((Worksheet.MAX_COLUMN_ADDRESS + 1)) + " columns).");
         }
         
         Address output = new Address(column, row);
@@ -505,9 +505,9 @@ public class Cell implements Comparable<Cell>{
             result = result + (temp * multiplicator);
             multiplicator = multiplicator * 26;
         }
-        if (result - 1 >= 16384 || result - 1 < 0)
+        if (result - 1 > Worksheet.MAX_COLUMN_ADDRESS || result - 1 < Worksheet.MIN_COLUMN_ADDRESS)
         {
-            throw new UnknownRangeException("The column number (" + Integer.toString(result - 1) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+            throw new UnknownRangeException("The column number (" + Integer.toString(result - 1) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_ADDRESS) + " to " + Integer.toString(Worksheet.MAX_COLUMN_ADDRESS) + " (" + Integer.toString((Worksheet.MAX_COLUMN_ADDRESS + 1)) + " columns).");
         }        
         return result - 1;
     }
@@ -520,9 +520,9 @@ public class Cell implements Comparable<Cell>{
      */
     public static String resolveColumnAddress(int columnNumber)
     {
-        if (columnNumber >= 16384 || columnNumber < 0)
+        if (columnNumber > Worksheet.MAX_COLUMN_ADDRESS || columnNumber < Worksheet.MIN_COLUMN_ADDRESS)
         {
-            throw new UnknownRangeException("The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+            throw new UnknownRangeException("The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_ADDRESS) + " to " + Integer.toString(Worksheet.MAX_COLUMN_ADDRESS) + " (" + Integer.toString((Worksheet.MAX_COLUMN_ADDRESS + 1)) + " columns).");
         }
         // A - XFD
         int j = 0;

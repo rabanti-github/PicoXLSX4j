@@ -1,3 +1,10 @@
+v1.5.5	03.04.2017
+******************
+- Fixed a potential bug induced by non-Gregorian calendars (e.g Minguo, Heisei period, Hebrew) on the host system
+- Code cleanup
+- Minor bug fixes
+- Fixed typos
+
 v1.5.4	20.03.2017
 ******************
 - Extended the sanitizing of allowed XML characters according the XML specifications to avoid errors with illegal characters in passed strings

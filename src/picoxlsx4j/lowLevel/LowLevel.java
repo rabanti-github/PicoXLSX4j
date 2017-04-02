@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2016
+ * Copyright Raphael Stoeckli © 2017
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -14,10 +14,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -160,6 +162,7 @@ public class LowLevel {
         for(int i = 0; i < celldata.size(); i++)
         {
             line = createRowString(celldata.get(i), worksheet);
+           // testing.Performance.LogValue(line.length()); // LOG
             sb.append(line + "");
         }
         sb.append("</sheetData>");
@@ -173,6 +176,7 @@ public class LowLevel {
         sb.append("</worksheet>");
         
         Document doc = createXMLDocument(sb.toString());
+        //testing.Performance.SaveLoggedValues("LineLength.xlsx");
         return doc;
     }
     
@@ -822,9 +826,11 @@ public class LowLevel {
             {
                 hidden = " hidden=\"1\"";
             }
-        }        
-        StringBuilder sb = new StringBuilder();
-        if (columnFields.size() > 0)
+        }
+        int colNum = columnFields.size();
+        StringBuilder sb = new StringBuilder(43 * colNum); // A row string size is according to statistics (random value) 43 times the column number
+        //StringBuilder sb = new StringBuilder();
+        if (colNum > 0)
         {
             sb.append("<row r=\"");
             sb.append((rowNumber + 1));
@@ -843,7 +849,7 @@ public class LowLevel {
         Date dVal;
         int col = 0;
         Cell item;
-        for (int i = 0; i < columnFields.size(); i++)
+        for (int i = 0; i < colNum; i++)
         {
             item = columnFields.get(i);
             tValue = " ";
@@ -1085,11 +1091,12 @@ public class LowLevel {
         appendXMLtag(sb, md.getKeywords(), "keywords", "cp");
         appendXMLtag(sb, md.getDescription(), "description", "dc");
         
+        Calendar cal = new GregorianCalendar();
         DateFormat  df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
-        Date now = Calendar.getInstance().getTime();
+        df.setCalendar(cal);
+        Date now = cal.getTime();
         String time = df.format(now);
         
-        //string time = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ssZ");
         sb.append("<dcterms:created xsi:type=\"dcterms:W3CDTF\">" + time + "</dcterms:created>");
         sb.append("<dcterms:modified xsi:type=\"dcterms:W3CDTF\">" + time + "</dcterms:modified>");
 

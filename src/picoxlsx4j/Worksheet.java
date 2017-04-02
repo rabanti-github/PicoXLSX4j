@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2016
+ * Copyright Raphael Stoeckli © 2017
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -27,6 +27,23 @@ import picoxlsx4j.style.Style;
 public class Worksheet {
     
     /**
+     * Minimum row address (zero-based)
+     */
+    public static final int MIN_ROW_ADDRESS = 0;
+    /**
+     * Maximum row address (zero-based)
+     */
+    public static final int MAX_ROW_ADDRESS = 1048575;
+    /**
+     * Minimum column address (zero-based)
+     */
+    public static final int MIN_COLUMN_ADDRESS = 0;
+    /**
+     * Maximum column address (zero-based)
+     */
+    public static final int MAX_COLUMN_ADDRESS = 16383;    
+    
+    /**
     * Default column width as constant
     */
     public static final float DEFAULT_COLUMN_WIDTH = 10f;
@@ -35,6 +52,24 @@ public class Worksheet {
     * Default row height as constant
     */
     public static final float DEFAULT_ROW_HEIGHT = 15f;
+    
+    /**
+    * Minimum column width as constant
+    */
+    public static final float MIN_COLUMN_WIDTH = 0f;
+    /**
+    * Maximum column width as constant
+    */
+    public static final float MAX_COLUMN_WIDTH = 255f;
+    /**
+    * Minimum row height as constant
+    */
+    public static final float MIN_ROW_HEIGHT = 0f;
+    /**
+    * Maximum row height as constant
+    */
+    public static final float MAX_ROW_HEIGHT = 409.5f;    
+    
     
     /**
     * Enum to define the direction when using AddNextCell method
@@ -214,8 +249,13 @@ public class Worksheet {
     /**
      * Sets the default Row height
      * @param defaultRowHeight Default Row height
+     * @exception OutOfRangeException Throws a OutOfRangeException exception if the passed height is out of range (set)
      */
     public void setDefaultRowHeight(float defaultRowHeight) {
+        if (defaultRowHeight < MIN_ROW_HEIGHT || defaultRowHeight > MAX_ROW_HEIGHT)
+        {
+            throw new OutOfRangeException("The passed default row height is out of range (" + Float.toString(MIN_ROW_HEIGHT) + " to " + Float.toString(MAX_ROW_HEIGHT) + ")");
+        }
         this.defaultRowHeight = defaultRowHeight;
     }
 
@@ -230,8 +270,13 @@ public class Worksheet {
     /**
      * Sets the default column width
      * @param defaultColumnWidth Default column width
+     * @exception OutOfRangeException Throws a OutOfRangeException exception if the passed width is out of range (set)
      */
     public void setDefaultColumnWidth(float defaultColumnWidth) {
+        if (defaultRowHeight < MIN_COLUMN_WIDTH || defaultRowHeight > MAX_COLUMN_WIDTH)
+        {
+            throw new OutOfRangeException("The passed default row height is out of range (" + Float.toString(MIN_COLUMN_WIDTH) + " to " + Float.toString(MAX_COLUMN_WIDTH) + ")");
+        }
         this.defaultColumnWidth = defaultColumnWidth;
     }
 /*
@@ -632,9 +677,9 @@ public class Worksheet {
      */
     public void setCurrentRowAddress(int rowAddress)
     {
-        if (rowAddress >= 1048576 || rowAddress < 0)
+        if (rowAddress > MAX_ROW_ADDRESS || rowAddress < MIN_ROW_ADDRESS)
         {
-            throw new UnknownRangeException("The row number (" + Integer.toString(rowAddress) + ") is out of range. Range is from 0 to 1048575 (1048576 rows).");
+            throw new UnknownRangeException("The row number (" + Integer.toString(rowAddress) + ") is out of range. Range is from "+ Integer.toString(MIN_ROW_ADDRESS) +" to "+ Integer.toString(MAX_ROW_ADDRESS) +" ("+ Integer.toString(MAX_ROW_ADDRESS + 1)+" rows).");
         }
         this.currentRowNumber = rowAddress;
     }
@@ -646,9 +691,9 @@ public class Worksheet {
      */
     public void setCurrentColumnAddress(int columnAddress)
     {
-        if (columnAddress >= 16383 || columnAddress < 0)
+        if (columnAddress > MAX_COLUMN_ADDRESS || columnAddress < MIN_COLUMN_ADDRESS)
         {
-            throw new UnknownRangeException("The column number (" + Integer.toString(columnAddress) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+            throw new UnknownRangeException("The column number (" + Integer.toString(columnAddress) + ") is out of range. Range is from "+ Integer.toString(MIN_COLUMN_ADDRESS)+ " to "+ Integer.toString(MAX_COLUMN_ADDRESS) +" ("+ Integer.toString(MAX_COLUMN_ADDRESS + 1) +" columns).");
         }
         this.currentColumnNumber = columnAddress;
     }   
@@ -697,13 +742,13 @@ public class Worksheet {
      */
     public void setColumnWidth(int columnNumber, float width)
     {
-        if (columnNumber >= 16384 || columnNumber < 0)
+        if (columnNumber > MAX_COLUMN_ADDRESS || columnNumber < MIN_COLUMN_ADDRESS)
         {
-            throw new UnknownRangeException("The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+            throw new UnknownRangeException("The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from "+ Integer.toString(MIN_COLUMN_ADDRESS)+ " to "+ Integer.toString(MAX_COLUMN_ADDRESS) +" ("+ Integer.toString(MAX_COLUMN_ADDRESS + 1) +" columns).");
         }
-        if (width < 0 || width > 255)
+        if (width < MIN_COLUMN_WIDTH || width > MAX_COLUMN_WIDTH)
         {
-            throw new UnknownRangeException("The column width (" + Float.toString(width) + ") is out of range. Range is from 0 to 255 (chars).");
+            throw new UnknownRangeException("The column width (" + Float.toString(width) + ") is out of range. Range is from "+ Float.toString(MIN_COLUMN_WIDTH)+ " to "+ Float.toString(MAX_COLUMN_WIDTH)+ " (chars).");
         }
         if (this.columns.containsKey(columnNumber))
         {
@@ -725,9 +770,9 @@ public class Worksheet {
      */
     public void setRowHeight(int rowNumber, float height)
    {
-       if (rowNumber >= 1048576 || rowNumber < 0)
+       if (rowNumber > MAX_ROW_ADDRESS || rowNumber < MIN_ROW_ADDRESS)
        {
-           throw new UnknownRangeException("The row number (" + Integer.toString(rowNumber) + ") is out of range. Range is from 0 to 1048575 (1048576 rows).");
+           throw new UnknownRangeException("The row number (" + Integer.toString(rowNumber) + ") is out of range. Range is from "+ Integer.toString(MIN_ROW_ADDRESS) +" to "+ Integer.toString(MAX_ROW_ADDRESS) +" ("+ Integer.toString(MAX_ROW_ADDRESS + 1)+" rows).");
        }
        if (height < 0 || height > 409.5)
        {
@@ -892,9 +937,9 @@ public class Worksheet {
      */
     private void setRowHiddenState(int rowNumber, boolean state)
     {
-        if (rowNumber >= 1048576 || rowNumber < 0)
+        if (rowNumber > MAX_ROW_ADDRESS || rowNumber < MIN_ROW_ADDRESS)
         {
-            throw new OutOfRangeException("The row number (" + Integer.toString(rowNumber) + ") is out of range. Range is from 0 to 1048575 (1048576 rows).");
+            throw new OutOfRangeException("The row number (" + Integer.toString(rowNumber) + ") is out of range. Range is from "+ Integer.toString(MIN_ROW_ADDRESS) +" to "+ Integer.toString(MAX_ROW_ADDRESS) +" ("+ Integer.toString(MAX_ROW_ADDRESS + 1)+" rows).");
         }
         if (this.hiddenRows.containsKey(rowNumber))
         {
@@ -963,9 +1008,9 @@ public class Worksheet {
      */
     private void setColumnHiddenState(int columnNumber, boolean state)
     {
-        if (columnNumber >= 16384 || columnNumber < 0)
+        if (columnNumber > MAX_COLUMN_ADDRESS || columnNumber < 0)
         {
-            throw new OutOfRangeException("The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+            throw new OutOfRangeException("The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from 0 to "+ Integer.toString(MAX_COLUMN_ADDRESS) +" ("+ Integer.toString(MAX_COLUMN_ADDRESS + 1) +" columns).");
         }
         if (this.columns.containsKey(columnNumber) && state == true)
         {
@@ -987,13 +1032,13 @@ public class Worksheet {
      */
     public void setAutoFilter(int startColumn, int endColumn)
     {
-        if (startColumn >= 16384 || startColumn < 0)
+        if (startColumn > MAX_COLUMN_ADDRESS || startColumn < MIN_COLUMN_ADDRESS)
         {
-            throw new OutOfRangeException("The start column number (" + Integer.toString(startColumn) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+            throw new OutOfRangeException("The start column number (" + Integer.toString(startColumn) + ") is out of range. Range is from "+ Integer.toString(MIN_COLUMN_ADDRESS)+ " to "+ Integer.toString(MAX_COLUMN_ADDRESS) +" ("+ Integer.toString(MAX_COLUMN_ADDRESS + 1) +" columns).");
         }
-        if (endColumn >= 16384 || endColumn < 0)
+        if (endColumn > MAX_COLUMN_ADDRESS || endColumn < MIN_COLUMN_ADDRESS)
         {
-            throw new OutOfRangeException("The end column number (" + Integer.toString(endColumn) + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+            throw new OutOfRangeException("The end column number (" + Integer.toString(endColumn) + ") is out of range. Range is from "+ Integer.toString(MIN_COLUMN_ADDRESS)+ " to "+ Integer.toString(MAX_COLUMN_ADDRESS) +" ("+ Integer.toString(MAX_COLUMN_ADDRESS + 1) +" columns).");
         }
         String start = Cell.resolveCellAddress(startColumn, 0);
         String end = Cell.resolveCellAddress(endColumn, 0);
