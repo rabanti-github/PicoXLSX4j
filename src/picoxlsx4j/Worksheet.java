@@ -375,6 +375,23 @@ public class Worksheet {
     public Map<Integer, Boolean> getHiddenRows() {
         return hiddenRows;
     }
+    
+    /**
+     * Gets the Reference to the parent Workbook
+     * @return Workbook reference
+     */
+    public Workbook getWorkbookReference() {
+        return workbookReference;
+    }
+
+    /**
+     * Sets the Reference to the parent Workbook
+     * @param workbookReference Workbook reference
+     */
+    public void setWorkbookReference(Workbook workbookReference) {
+        this.workbookReference = workbookReference;
+    }    
+    
 
     /**
      * Default constructor
@@ -388,13 +405,15 @@ public class Worksheet {
      * Constructor with name and sheet ID
      * @param name Name of the worksheet
      * @param id ID of the worksheet (for internal use)
+     * @param reference Reference to the parent Workbook
      * @throws FormatException Thrown if the name contains illegal characters or is to long
      */
-    public Worksheet(String name, int id)
+    public Worksheet(String name, int id, Workbook reference)
     {
         init();
         setSheetName(name);
         this.sheetID = id;
+        this.workbookReference = reference;
     }    
 
     /**
@@ -427,7 +446,7 @@ public class Worksheet {
      */
     public void addNextCell(Object value)
     {
-        Cell c = new Cell(value, Cell.CellType.DEFAULT, this.currentColumnNumber, this.currentRowNumber);
+        Cell c = new Cell(value, Cell.CellType.DEFAULT, this.currentColumnNumber, this.currentRowNumber, this);
         addNextCell(c, true);
     } 
     
@@ -439,7 +458,7 @@ public class Worksheet {
      */    
     public void addNextCellFormula(String formula)
     {
-        Cell c = new Cell(formula, Cell.CellType.FORMULA, this.currentColumnNumber, this.currentRowNumber);
+        Cell c = new Cell(formula, Cell.CellType.FORMULA, this.currentColumnNumber, this.currentRowNumber, this);
         addNextCell(c, true);
     }
     
@@ -454,9 +473,9 @@ public class Worksheet {
     {
         if (this.activeStyle != null)
         {
-            cell.setStyle(this.activeStyle, this.workbookReference);
+            cell.setStyle(this.activeStyle);
         }
-        String address = cell.getCellAddressString();
+        String address = cell.getCellAddress();
         this.cells.put(address, cell);
         if (incremental == true)
         {
@@ -496,7 +515,7 @@ public class Worksheet {
      */
     public void addCell(Object value, int columnAddress, int rowAddress)
     {
-        Cell c = new Cell(value, Cell.CellType.DEFAULT, columnAddress, rowAddress);
+        Cell c = new Cell(value, Cell.CellType.DEFAULT, columnAddress, rowAddress, this);
         addNextCell(c, false);
     }
     
@@ -540,7 +559,7 @@ public class Worksheet {
     public void addCellFormula(String formula, String address)
     {
         Cell.Address adr = Cell.resolveCellCoordinate(address);
-        Cell c = new Cell(formula, Cell.CellType.FORMULA, adr.Column, adr.Row);
+        Cell c = new Cell(formula, Cell.CellType.FORMULA, adr.Column, adr.Row, this);
         addNextCell(c, false);
     }
     
@@ -554,7 +573,7 @@ public class Worksheet {
      */
     public void addCellFormula(String formula, int columnAddress, int rowAddress)
     {
-        Cell c = new Cell(formula, Cell.CellType.FORMULA, columnAddress, rowAddress);
+        Cell c = new Cell(formula, Cell.CellType.FORMULA, columnAddress, rowAddress, this);
         addNextCell(c, false);
     }    
     
@@ -611,6 +630,7 @@ public class Worksheet {
         {
             list.get(i).setRowAddress(addresses.get(i).Row);
             list.get(i).setColumnAddress(addresses.get(i).Column);
+            list.get(i).setWorksheetReference(this);
             addNextCell(list.get(i), false);
         }
     }

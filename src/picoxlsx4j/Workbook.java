@@ -208,8 +208,9 @@ public class Workbook {
             }
         }
         int number = this.worksheets.size() + 1;
-        this.currentWorksheet = new Worksheet(name, number);
-        this.worksheets.add(this.currentWorksheet);
+        Worksheet newWs = new Worksheet(name, number, this);
+        this.currentWorksheet = newWs;
+        this.worksheets.add(newWs);
     }    
 
     /**
@@ -630,7 +631,7 @@ public class Workbook {
                     {
                         combiation = cell.getValue().getCellStyle().copy(dateStyle.getCurrentNumberFormat());
                     }
-                    this.worksheets.get(j).getCells().get(cell.getKey()).setStyle(combiation, this);
+                    this.worksheets.get(j).getCells().get(cell.getKey()).setStyle(combiation);
                 }
             }
         }
@@ -694,7 +695,7 @@ public class Workbook {
                     {
                         cell.setFieldType(Cell.CellType.EMPTY);
                     }
-                    cell.setStyle(mergStyle, this);
+                    cell.setStyle(mergStyle);
                     pos++;
                 }
             }

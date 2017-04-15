@@ -1,3 +1,12 @@
+v1.6.0 15.04.2017
+******************
+Note: Using this version of the library with old code can cause compatibility issues due to the simplification of some methods (see below).
+- Simplified all style assignment methods. Referencing of the workbook is not necessary anymore (can cause compatibility issues with existing code; just remove the workbook references)
+- Removed getCellAddressString and setCellAddressString  Method. Replaced by getCellAddress and setCellAddress (String object)
+- getCellAddress and setCellAddress (Address object) are replaced by getCellAddress2 and setCellAddress2 
+- Additional checks in the assignment methods for columns and rows
+- Minor changes (code and documentation)
+
 v1.5.5	03.04.2017
 ******************
 - Fixed a potential bug induced by non-Gregorian calendars (e.g Minguo, Heisei period, Hebrew) on the host system

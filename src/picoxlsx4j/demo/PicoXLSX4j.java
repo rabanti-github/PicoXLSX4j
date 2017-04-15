@@ -160,9 +160,9 @@ public class PicoXLSX4j {
             values.add("Header2");
             values.add("Header3");
             workbook.getCurrentWorksheet().addCellRange(values, new Cell.Address(0,0), new Cell.Address(2,0));         // Add a cell range to A4 - C4
-            workbook.getCurrentWorksheet().getCells().get("A1").setStyle(BasicStyles.Bold(), workbook);                // Assign predefined basic style to cell
-            workbook.getCurrentWorksheet().getCells().get("B1").setStyle(BasicStyles.Bold(), workbook);                // Assign predefined basic style to cell
-            workbook.getCurrentWorksheet().getCells().get("C1").setStyle(BasicStyles.Bold(), workbook);                // Assign predefined basic style to cell
+            workbook.getCurrentWorksheet().getCells().get("A1").setStyle(BasicStyles.Bold());                          // Assign predefined basic style to cell
+            workbook.getCurrentWorksheet().getCells().get("B1").setStyle(BasicStyles.Bold());                          // Assign predefined basic style to cell
+            workbook.getCurrentWorksheet().getCells().get("C1").setStyle(BasicStyles.Bold());                          // Assign predefined basic style to cell
             workbook.getCurrentWorksheet().goToNextRow();                       // Go to Row 2
             workbook.getCurrentWorksheet().addNextCell(new Date(115, 9 ,1));    // Add cell A2
             workbook.getCurrentWorksheet().addNextCell(2);                      // Add cell B2
@@ -177,18 +177,18 @@ public class PicoXLSX4j {
             s.getCurrentFont().setDoubleUnderline(true);                        // Set double underline
             s.getCurrentCellXf().setHorizontalAlign(CellXf.HorizontalAlignValue.center);  // Set alignment
 
-            workbook.getCurrentWorksheet().getCells().get("B2").setStyle(s, workbook);    // Assign style to cell
+            workbook.getCurrentWorksheet().getCells().get("B2").setStyle(s);    // Assign style to cell
             workbook.getCurrentWorksheet().goToNextRow();                       // Go to Row 3
             workbook.getCurrentWorksheet().addNextCell(new Date(115, 9 ,3));    // Add cell B1
             workbook.getCurrentWorksheet().addNextCell(true);                   // Add cell B2
             workbook.getCurrentWorksheet().addNextCell(false);                  // Add cell B3 
-            workbook.getCurrentWorksheet().getCells().get("C2").setStyle(BasicStyles.BorderFrame(), workbook);        // Assign predefined basic style to cell
+            workbook.getCurrentWorksheet().getCells().get("C2").setStyle(BasicStyles.BorderFrame());        // Assign predefined basic style to cell
 
             Style s2 = new Style();                                             // Create new style
             s2.getCurrentCellXf().setTextRotation(45);                          // Set text rotation
             s2.getCurrentCellXf().setVerticalAlign(CellXf.VerticallAlignValue.center);  // Set alignment
 
-            workbook.getCurrentWorksheet().getCells().get("B4").setStyle(s2, workbook); // Assign style to cell
+            workbook.getCurrentWorksheet().getCells().get("B4").setStyle(s2);   // Assign style to cell
 
             workbook.getCurrentWorksheet().setColumnWidth(0, 20f);              // Set column width
             workbook.getCurrentWorksheet().setColumnWidth(1, 15f);              // Set column width
@@ -272,7 +272,7 @@ public class PicoXLSX4j {
             workbook.getCurrentWorksheet().addAllowedActionOnSheetProtection(Worksheet.SheetProtectionValue.selectLockedCells);  // Allow to select cells (locked cells caused automatically to select unlocked cells)
             workbook.getCurrentWorksheet().addNextCell("Cell A1");                                           // Add cell A1
             workbook.getCurrentWorksheet().addNextCell("Cell B1");                                           // Add cell B1
-            workbook.getCurrentWorksheet().getCells().get("A1").setCellLockedState(false, true, workbook);   // Set the locking state of cell A1 (not locked but value is hidden when cell selected)
+            workbook.getCurrentWorksheet().getCells().get("A1").setCellLockedState(false, true);             // Set the locking state of cell A1 (not locked but value is hidden when cell selected)
             workbook.addWorksheet("PWD-Protected");                                                          // Add a new worksheet
             workbook.getCurrentWorksheet().addCell("This worksheet is password protected. The password is:",0,0);  // Add cell A1
             workbook.getCurrentWorksheet().addCell("test123", 0, 1);                                         // Add cell A2

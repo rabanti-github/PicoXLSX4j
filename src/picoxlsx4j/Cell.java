@@ -14,6 +14,7 @@ import picoxlsx4j.exception.FormatException;
 import picoxlsx4j.exception.UnknownRangeException;
 import picoxlsx4j.exception.UndefinedStyleException;
 import java.util.regex.*;
+import picoxlsx4j.exception.OutOfRangeException;
 
 /**
  * Class representing a cell of a worksheet
@@ -35,7 +36,7 @@ public class Cell implements Comparable<Cell>{
          */
         NUMBER,
         /**
-         * Type for dates and times
+         * Type for dates and times (Note: Dates before 1900-01-01 are not allowed)
          */
         DATE,
         /**
@@ -61,6 +62,7 @@ public class Cell implements Comparable<Cell>{
     private int columnAddress;
     private Object value;
     private CellType fieldType;
+    private Worksheet worksheetReference;
 
     /**
      * Gets the assigned style of the cell
@@ -83,6 +85,10 @@ public class Cell implements Comparable<Cell>{
      * @param rowAddress Row number (zero-based)
      */
     public void setRowAddress(int rowAddress) {
+        if (rowAddress < Worksheet.MIN_ROW_ADDRESS || rowAddress > Worksheet.MAX_ROW_ADDRESS)
+        {
+            throw new OutOfRangeException("The passed number (" + Integer.toString(rowAddress) + ")is out of range. Range is from " + Integer.toString(Worksheet.MIN_ROW_ADDRESS) + " to " + Integer.toString(Worksheet.MAX_ROW_ADDRESS) + " (" + (Integer.toString(Worksheet.MAX_ROW_ADDRESS + 1)) + " rows).");
+        }
         this.rowAddress = rowAddress;
     }
 
@@ -99,6 +105,10 @@ public class Cell implements Comparable<Cell>{
      * @param columnAddress Column number (zero-based)
      */
     public void setColumnAddress(int columnAddress) {
+        if (columnAddress < Worksheet.MIN_COLUMN_ADDRESS || columnAddress > Worksheet.MAX_COLUMN_ADDRESS)
+        {
+            throw new OutOfRangeException("The passed number (" + Integer.toString(columnAddress) + ")is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_ADDRESS) + " to " + Integer.toString(Worksheet.MAX_COLUMN_ADDRESS) + " (" + (Integer.toString(Worksheet.MAX_COLUMN_ADDRESS + 1)) + " rows).");
+        }        
         this.columnAddress = columnAddress;
     }
 
@@ -135,12 +145,61 @@ public class Cell implements Comparable<Cell>{
     }
     
     /**
-     * Gets the combined cell address as class (read-only)
+     * Gets the combined cell address as class
      * @return Cell address
      */
-    public Address getCellAddress()
+    public Address getCellAddress2()
     {
         return new Address(this.columnAddress, this.rowAddress);
+    }
+    
+    /**
+     * Sets the combined cell address as class
+     * @param address Cell address
+     */
+    public void setCellAddress2(Address address)
+    {
+        this.setColumnAddress(address.Column);
+        this.setRowAddress(address.Row);
+    }
+    
+    /**
+     * Gets the combined cell Address as string in the format A1 - XFD1048576
+     * @return Cell address
+     */
+    public String getCellAddress()
+    {
+        return Cell.resolveCellAddress(this.columnAddress, this.rowAddress);
+    }
+    
+    /**
+     * Sets the combined cell Address as string in the format A1 - XFD1048576
+     * @param address Cell address
+     * @throws UnknownRangeException Thrown in case of a illegal address
+     */
+    public void setCellAddress(String address)
+    {
+       Address temp = Cell.resolveCellCoordinate(address);
+       this.columnAddress = temp.Column;
+       this.rowAddress = temp.Row;
+    } 
+    
+    /**
+     * Gets or sets the parent worksheet reference
+     * @return Worksheet reference
+     */
+    public Worksheet getWorksheetReference()
+    {
+        return this.worksheetReference;
+    }
+    
+    /**
+     * Sets the parent worksheet reference
+     * @param reference Worksheet reference
+     */
+    public void setWorksheetReference(Worksheet reference)
+    {
+        this.worksheetReference = reference;
     }
     
     /**
@@ -148,7 +207,7 @@ public class Cell implements Comparable<Cell>{
      */
     public Cell()
     {
-        
+        this.worksheetReference = null;
     }
     
     /**
@@ -169,13 +228,15 @@ public class Cell implements Comparable<Cell>{
      * @param type Type of the cell
      * @param column Column address of the cell (zero-based)
      * @param row Row address of the cell (zero-based)
+     * @param reference Worksheet reference
      */
-    public Cell(Object value, CellType type, int column, int row)
+    public Cell(Object value, CellType type, int column, int row, Worksheet reference)
     {
         this.fieldType = type;
         this.value = value;
         this.columnAddress = column;
         this.rowAddress = row;
+        this.worksheetReference = reference;
         if (type == CellType.DEFAULT)
         {
             resolveCellType();
@@ -203,51 +264,47 @@ public class Cell implements Comparable<Cell>{
     }
     
     /**
-     * Gets the cell Address as string in the format A1 - XFD1048576
-     * @return Cell address
-     * @throws UnknownRangeException Thrown in case of a illegal address
-     */
-    public String getCellAddressString()
-    {
-        return Cell.resolveCellAddress(this.columnAddress, this.rowAddress);
-    }
-    
-    /**
      * Sets the style of the cell
      * @param style style to assign
-     * @param workbookReference Workbook reference. All styles will be managed in this workbook
      * @return If the passed style already exists in the workbook, the existing one will be returned, otherwise the passed one
      * @throws UndefinedStyleException Thrown if the style is not referenced in the workbook
      */
-    public Style setStyle(Style style, Workbook workbookReference)
+    public Style setStyle(Style style)
     {
-        if (workbookReference == null)
+       if (this.worksheetReference == null)
        {
-           throw new UndefinedStyleException("No workbook reference was defined while trying to set a style to a cell");
+           throw new UndefinedStyleException("No worksheet reference was defined while trying to set a style to a cell");
+       }
+       if (this.worksheetReference.getWorkbookReference() == null)
+       {
+           throw new UndefinedStyleException("No workbook reference was defined on the worksheet while trying to set a style to a cell");
        }
        if (style == null)
        {
            throw new UndefinedStyleException("No style to assign was defined");
        }
-       Style s = workbookReference.addStyle(style, true);
+       Style s = this.worksheetReference.getWorkbookReference().addStyle(style, true);
        this.cellStyle = s;
        return s;
     }
     
     /**
      * Removes the assigned style from the cell
-     * @param workbookReference Workbook reference. All styles will be managed in this workbook
      * @throws UndefinedStyleException Thrown if the workbook to remove was not found in the style sheet collection
      */
-    public void removeStyle(Workbook workbookReference)
+    public void removeStyle()
     {
-        if (workbookReference == null)
+       if (this.worksheetReference == null)
        {
-           throw new UndefinedStyleException("No workbook reference was defined while trying to remove a style from a cell");
+           throw new UndefinedStyleException("No worksheet reference was defined while trying to remove a style from a cell");
+       }
+       if (this.worksheetReference.getWorkbookReference() == null)
+       {
+           throw new UndefinedStyleException("No workbook reference was defined on the worksheet while trying to remove a style from a cell");
        }
             String styleName = this.cellStyle.getName();
             this.cellStyle = null;
-            workbookReference.removeStyle(styleName, true);       
+            this.worksheetReference.getWorkbookReference().removeStyle(styleName, true);       
     }
     
     /**
@@ -553,9 +610,8 @@ public class Cell implements Comparable<Cell>{
      * Sets the lock state of the cell
      * @param isLocked If true, the cell will be locked if the worksheet is protected
      * @param isHidden If true, the value of the cell will be invisible if the worksheet is protected
-     * @param workbookReference Workbook reference. Locking of cells uses styles which are managed in the workbook
      */
-    public void setCellLockedState(boolean isLocked, boolean isHidden, Workbook workbookReference)
+    public void setCellLockedState(boolean isLocked, boolean isHidden)
     {
         Style lockStyle;
         if (this.cellStyle == null)
@@ -570,7 +626,7 @@ public class Cell implements Comparable<Cell>{
         lockStyle.getCurrentCellXf().setHidden(isHidden);
         try
         {
-        this.setStyle(lockStyle, workbookReference);
+        this.setStyle(lockStyle);
         }
         catch(Exception e)
         {
