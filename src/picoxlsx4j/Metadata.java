@@ -14,101 +14,23 @@ import picoxlsx4j.exception.FormatException;
  */
 public class Metadata {
     
-    private String applicationVersion;
-    private boolean useColorMRU;
-    private String title;
-    private String subject;
-    private String creator;
-    private String keywords;
+// ### P R I V A T E  F I E L D S ###    
     private String application;
-    private String description;
+    private String applicationVersion;
     private String category;
-    private String contentStatus;
-    private String manager;
     private String company;
+    private String contentStatus;
+    private String creator;
+    private String description;
     private String hyperlinkBase;
-
-    /**
-     * If true, custom defined colors (in styles) will be added as recent colors (MRU)
-     * @return True if color MRU is used
-     */
-    public boolean isUseColorMRU() {
-        return useColorMRU;
-    }
-
-    /**
-     * If true, custom defined colors (in styles) will be added as recent colors (MRU)
-     * @param useColorMRU True if color MRU is used otherwise false
-     */
-    public void setUseColorMRU(boolean useColorMRU) {
-        this.useColorMRU = useColorMRU;
-    }
-
-    /**
-     * Gets the title of the workbook
-     * @return Title of the workbook
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * Sets the title of the workbook
-     * @param title Title of the workbook
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    /**
-     * Gets the subject of the workbook
-     * @return Subject of the workbook
-     */
-    public String getSubject() {
-        return subject;
-    }
-
-    /**
-     * Sets the subject of the workbook
-     * @param subject Subject of the workbook
-     */
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    /**
-     * Gets the creator of the workbook. Add more than one creator by using the semicolon (;) between the authors
-     * @return Creator of the workbook
-     */
-    public String getCreator() {
-        return creator;
-    }
-
-    /**
-     * Sets the creator of the workbook. Add more than one creator by using the semicolon (;) between the authors
-     * @param creator Creator of the workbook
-     */
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
-    /**
-     * Gets the keyword for the workbook. Separate the keywords with semicolons (;)
-     * @return Keywords for the workbook
-     */
-    public String getKeywords() {
-        return keywords;
-    }
-
-    /**
-     * Sets the keywords for the workbook. Separate the keywords with semicolons (;)
-     * @param keywords Keywords for the workbook
-     */
-    public void setKeywords(String keywords) {
-        this.keywords = keywords;
-    }
-
-    /**
+    private String keywords;
+    private String manager;
+    private String subject;
+    private String title;
+    private boolean useColorMRU;
+    
+// ### G E T T E R S  &  S E T T E R S ###
+/**
      * Gets the application which created the workbook. Default is PicoXLSX4j
      * @return Application which created the workbook
      */
@@ -123,21 +45,21 @@ public class Metadata {
     public void setApplication(String application) {
         this.application = application;
     }
-
     /**
-     * Gets the description of the document or comment about it
-     * @return Description of the document
+     * Gets the version of the creation application. Default is the library version of PicoXLSjX. Use the format xxxxx.yyyyy (e.g. 1.0 or 55.9875) in case of a custom value.
+     * @return Version of the creation application
      */
-    public String getDescription() {
-        return description;
+    public String getApplicationVersion() {
+        return applicationVersion;
     }
-
     /**
-     * Sets the description of the document or comment about it
-     * @param description Description of the document
+     * Sets the version of the creation application. Default is the library version of PicoXLSX4j. Use the format xxxxx.yyyyy (e.g. 1.0 or 55.9875) in case of a custom value.
+     * @param applicationVersion Version of the creation application
+     * @throws FormatException Thrown if the passed version results in a higher major or minor number of 99999
      */
-    public void setDescription(String description) {
-        this.description = description;
+    public void setApplicationVersion(String applicationVersion) {
+        this.applicationVersion = applicationVersion;
+        checkVersion();
     }
 
     /**
@@ -155,6 +77,20 @@ public class Metadata {
     public void setCategory(String category) {
         this.category = category;
     }
+    /**
+     * Gets the company owning the document. This value is for organizational purpose. Add more than one manager by using the semicolon (;) between the words
+     * @return Company owning the document
+     */
+    public String getCompany() {
+        return company;
+    }
+    /**
+     * Sets the company owning the document. This value is for organizational purpose. Add more than one manager by using the semicolon (;) between the words
+     * @param company Company owning the document
+     */
+    public void setCompany(String company) {
+        this.company = company;
+    }
 
     /**
      * Gets the status of the document. There are no predefined values or restrictions about the content of this field
@@ -171,37 +107,33 @@ public class Metadata {
     public void setContentStatus(String contentStatus) {
         this.contentStatus = contentStatus;
     }
-
     /**
-     * Gets the responsible manager of the document. This value is for organizational purpose.
-     * @return Responsible manager of the document
+     * Gets the creator of the workbook. Add more than one creator by using the semicolon (;) between the authors
+     * @return Creator of the workbook
      */
-    public String getManager() {
-        return manager;
+    public String getCreator() {
+        return creator;
     }
-
     /**
-     * Sets the responsible manager of the document. This value is for organizational purpose.
-     * @param manager Responsible manager of the document
+     * Sets the creator of the workbook. Add more than one creator by using the semicolon (;) between the authors
+     * @param creator Creator of the workbook
      */
-    public void setManager(String manager) {
-        this.manager = manager;
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
-
     /**
-     * Gets the company owning the document. This value is for organizational purpose. Add more than one manager by using the semicolon (;) between the words
-     * @return Company owning the document
+     * Gets the description of the document or comment about it
+     * @return Description of the document
      */
-    public String getCompany() {
-        return company;
+    public String getDescription() {
+        return description;
     }
-
     /**
-     * Sets the company owning the document. This value is for organizational purpose. Add more than one manager by using the semicolon (;) between the words
-     * @param company Company owning the document
+     * Sets the description of the document or comment about it
+     * @param description Description of the document
      */
-    public void setCompany(String company) {
-        this.company = company;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -219,25 +151,78 @@ public class Metadata {
     public void setHyperlinkBase(String hyperlinkBase) {
         this.hyperlinkBase = hyperlinkBase;
     }
-    
     /**
-     * Gets the version of the creation application. Default is the library version of PicoXLSjX. Use the format xxxxx.yyyyy (e.g. 1.0 or 55.9875) in case of a custom value.
-     * @return Version of the creation application
+     * Gets the keyword for the workbook. Separate the keywords with semicolons (;)
+     * @return Keywords for the workbook
      */
-    public String getApplicationVersion() {
-        return applicationVersion;
+    public String getKeywords() {
+        return keywords;
     }
-
     /**
-     * Sets the version of the creation application. Default is the library version of PicoXLSX4j. Use the format xxxxx.yyyyy (e.g. 1.0 or 55.9875) in case of a custom value.
-     * @param applicationVersion Version of the creation application
-     * @throws FormatException Thrown if the passed version results in a higher major or minor number of 99999
+     * Sets the keywords for the workbook. Separate the keywords with semicolons (;)
+     * @param keywords Keywords for the workbook
      */
-    public void setApplicationVersion(String applicationVersion) {
-        this.applicationVersion = applicationVersion;
-        checkVersion();
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+    /**
+     * Gets the responsible manager of the document. This value is for organizational purpose.
+     * @return Responsible manager of the document
+     */
+    public String getManager() {
+        return manager;
+    }
+    /**
+     * Sets the responsible manager of the document. This value is for organizational purpose.
+     * @param manager Responsible manager of the document
+     */
+    public void setManager(String manager) {
+        this.manager = manager;
+    }
+    /**
+     * Gets the subject of the workbook
+     * @return Subject of the workbook
+     */
+    public String getSubject() {
+        return subject;
+    }
+    /**
+     * Sets the subject of the workbook
+     * @param subject Subject of the workbook
+     */
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+    /**
+     * Gets the title of the workbook
+     * @return Title of the workbook
+     */
+    public String getTitle() {
+        return title;
+    }
+    /**
+     * Sets the title of the workbook
+     * @param title Title of the workbook
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    /**
+     * If true, custom defined colors (in styles) will be added as recent colors (MRU)
+     * @return True if color MRU is used
+     */
+    public boolean isUseColorMRU() {
+        return useColorMRU;
+    }
+    /**
+     * If true, custom defined colors (in styles) will be added as recent colors (MRU)
+     * @param useColorMRU True if color MRU is used otherwise false
+     */
+    public void setUseColorMRU(boolean useColorMRU) {
+        this.useColorMRU = useColorMRU;
     }    
     
+// ### C O N S T R U C T O R S ###
     /**
      * Default constructor
      */
@@ -249,6 +234,29 @@ public class Metadata {
         
     }
     
+// ### M E T H O D S ###    
+    /**
+     * Checks the format of the passed version string
+     * @throws FormatException Thrown if the version string is malformed
+     */
+    private void checkVersion()
+    {
+        if (Helper.isNullOrEmpty(this.applicationVersion)) { return; }
+        String[] split = this.applicationVersion.split(".");
+        boolean state = true;
+        if (split.length != 2) { state = false; }
+        else
+        {
+            if (split[1].length() < 1 || split[1].length() > 5) { state = false; }
+            if (split[0].length() < 1 || split[0].length() > 5) { state = false; }
+        }
+        if (state == false)
+        {
+            throw new FormatException("The format of the version in the meta data is wrong (" + this.applicationVersion + "). Should be in the format and a range from '0.0' to '99999.99999'");
+        }
+    }
+
+// ### S T A T I C   M E T H O D S ###    
     /**
      * Method to parse a common version (major.minor.revision.build) into the compatible format (major.minor). The minimum value is 0.0 and the maximum value is 99999.99999<br>
      * The minor, revision and build number are joined if possible. If the number is to long, the additional characters will be removed from the right side down to five characters (e.g. 785563 will be 78556)
@@ -283,25 +291,5 @@ public class Metadata {
         return leftPart + "." + rightPart;        
     }
     
-    /**
-     * Checks the format of the passed version string
-     * @throws FormatException Thrown if the version string is malformed
-     */
-    private void checkVersion()
-    {
-        if (Helper.isNullOrEmpty(this.applicationVersion)) { return; }
-        String[] split = this.applicationVersion.split(".");
-        boolean state = true;
-        if (split.length != 2) { state = false; }
-        else
-        {
-            if (split[1].length() < 1 || split[1].length() > 5) { state = false; }
-            if (split[0].length() < 1 || split[0].length() > 5) { state = false; }
-        }
-        if (state == false)
-        {
-            throw new FormatException("The format of the version in the meta data is wrong (" + this.applicationVersion + "). Should be in the format and a range from '0.0' to '99999.99999'");
-        }
-    }
     
 }

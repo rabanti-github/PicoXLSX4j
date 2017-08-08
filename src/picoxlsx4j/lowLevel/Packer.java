@@ -20,17 +20,21 @@ import org.w3c.dom.Document;
  */
 public class Packer {
     
+// ### C O N S T A N T S ###
+
     /**
      * Path of the main content type file (MSXML)
      */
     static final String CONTENTTYPE_DOCUMENT = "[Content_Types].xml";
     
-    private List<byte[]> dataList;
-    private List<String> pathList;
+// ### P R I V A T E  F I E L D S ###    
     private List<String> contentTypeList;
-    private List<Relationship> relationships;
+    private List<byte[]> dataList;
     private List<Boolean> includeContentType;
+    private List<String> pathList;
+    private List<Relationship> relationships;
     
+// ### C O N S T R U C T O R S ###
     /**
      * Default constructor
      */
@@ -43,47 +47,7 @@ public class Packer {
         includeContentType = new ArrayList<>();
     }
     
-    /**
-     * Method to pack the file into a XLSX file. This is the actual compiling and saving method
-     * @param fileName Filename of the XLSX file
-     * @throws picoxlsx4j.exception.IOException Thrown in case of a error while saving
-     */
-    public void pack(String fileName) throws picoxlsx4j.exception.IOException
-    {
-        try
-        {
-        byte[] contentTypes = createContenTypeDocument();
-        FileOutputStream dest = new FileOutputStream(fileName);
-        ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest), Charset.forName("UTF-8"));
-        out.setMethod(ZipOutputStream.DEFLATED);
-        ZipEntry entry = new ZipEntry(CONTENTTYPE_DOCUMENT);
-        out.putNextEntry(entry);
-        out.write(contentTypes, 0, contentTypes.length);
-        byte[] data;
-        Document doc;
-        for (int i = 0; i < this.relationships.size(); i++)
-        {
-            data = createRelationshipDocument(this.relationships.get(i));
-            entry = new ZipEntry(this.relationships.get(i).getRootFolder());
-            out.putNextEntry(entry);
-            out.write(data, 0, data.length);
-        }
-        for (int i = 0; i < this.dataList.size(); i++)
-        {
-            data = this.dataList.get(i);
-            entry = new ZipEntry(this.pathList.get(i));
-            out.putNextEntry(entry);
-            out.write(data, 0, data.length);
-        }
-        out.flush();
-        out.close();
-        }
-        catch(Exception e)
-        {
-            throw new picoxlsx4j.exception.IOException("There was an error while packing the file. Please see the inner exception.", e);
-        }
-    }    
-    
+// ### M E T H O D S ###    
     /**
      * Adds a Part to the file
      * @param name Filename with relative path
@@ -115,17 +79,6 @@ public class Packer {
         includeContentType.add(includeInContentType);
     }    
     
-    /**
-     * Creates a relationship. This will be used to generate a .rels file in the compilation (MSXML)
-     * @param path relative path and filename to rels file (e.g. _rels/.rels)
-     * @return Returns the object reference to add relationship entries
-     */
-    public Relationship createRelationship(String path)
-    {
-        Relationship r = new Relationship(path);
-        this.relationships.add(r);
-        return r;
-    }
     
     /**
      * Creates the main content type file (MSXML)
@@ -152,6 +105,17 @@ public class Packer {
         Document d = LowLevel.createXMLDocument(sb.toString());
         return LowLevel.createBytesFromDocument(d);
     }
+    /**
+     * Creates a relationship. This will be used to generate a .rels file in the compilation (MSXML)
+     * @param path relative path and filename to rels file (e.g. _rels/.rels)
+     * @return Returns the object reference to add relationship entries
+     */
+    public Relationship createRelationship(String path)
+    {
+        Relationship r = new Relationship(path);
+        this.relationships.add(r);
+        return r;
+    }
     
     /**
      * Creates a relationship file (MSXML)
@@ -177,7 +141,48 @@ public class Packer {
         Document d = LowLevel.createXMLDocument(sb.toString());
         return LowLevel.createBytesFromDocument(d);
     }    
+    /**
+     * Method to pack the file into a XLSX file. This is the actual compiling and saving method
+     * @param fileName Filename of the XLSX file
+     * @throws picoxlsx4j.exception.IOException Thrown in case of a error while saving
+     */
+    public void pack(String fileName) throws picoxlsx4j.exception.IOException
+    {
+        try
+        {
+            byte[] contentTypes = createContenTypeDocument();
+            FileOutputStream dest = new FileOutputStream(fileName);
+            ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest), Charset.forName("UTF-8"));
+            out.setMethod(ZipOutputStream.DEFLATED);
+            ZipEntry entry = new ZipEntry(CONTENTTYPE_DOCUMENT);
+            out.putNextEntry(entry);
+            out.write(contentTypes, 0, contentTypes.length);
+            byte[] data;
+            Document doc;
+            for (int i = 0; i < this.relationships.size(); i++)
+            {
+                data = createRelationshipDocument(this.relationships.get(i));
+                entry = new ZipEntry(this.relationships.get(i).getRootFolder());
+                out.putNextEntry(entry);
+                out.write(data, 0, data.length);
+            }
+            for (int i = 0; i < this.dataList.size(); i++)
+            {
+                data = this.dataList.get(i);
+                entry = new ZipEntry(this.pathList.get(i));
+                out.putNextEntry(entry);
+                out.write(data, 0, data.length);
+            }
+            out.flush();
+            out.close();
+        }
+        catch(Exception e)
+        {
+            throw new picoxlsx4j.exception.IOException("There was an error while packing the file. Please see the inner exception.", e);
+        }
+    }
     
+// ### S U B  C L A S S E S ###    
     /**
      * Nested class representing a relationship (MSXML)
      */

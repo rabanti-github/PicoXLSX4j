@@ -14,6 +14,11 @@ import picoxlsx4j.exception.FormatException;
 import picoxlsx4j.exception.UnknownRangeException;
 import picoxlsx4j.exception.UndefinedStyleException;
 import java.util.regex.*;
+/*
+import picoxlsx4j.Address;
+import picoxlsx4j.Helper;
+import picoxlsx4j.Worksheet;
+*/
 import picoxlsx4j.exception.OutOfRangeException;
 
 /**
@@ -22,6 +27,7 @@ import picoxlsx4j.exception.OutOfRangeException;
  */
 public class Cell implements Comparable<Cell>{
     
+// ### E N U M S ###
     /**
      * Enum defines the basic data types of a cell
      */
@@ -31,7 +37,7 @@ public class Cell implements Comparable<Cell>{
          * Type for single characters and strings
          */
         STRING,
-         /**
+        /**
          * Type for all numeric types (long, integer and float and double)
          */
         NUMBER,
@@ -55,14 +61,55 @@ public class Cell implements Comparable<Cell>{
          * Default Type, not specified
          */
         DEFAULT
-    };
+    }    
+    
+// ### P R I V A T E  F I E L D S ###
     
     private Style cellStyle;
-    private int rowAddress;
     private int columnAddress;
-    private Object value;
     private CellType fieldType;
+    private int rowAddress;
+    private Object value;
     private Worksheet worksheetReference;
+    
+// ### G E T T E R S  &  S E T T E R S ###
+
+ /**
+     * Gets the combined cell Address as string in the format A1 - XFD1048576
+     * @return Cell address
+     */
+    public String getCellAddress()
+    {
+        return Cell.resolveCellAddress(this.columnAddress, this.rowAddress);
+    }
+    /**
+     * Sets the combined cell Address as string in the format A1 - XFD1048576
+     * @param address Cell address
+     * @throws UnknownRangeException Thrown in case of a illegal address
+     */
+    public void setCellAddress(String address)
+    {
+        Address temp = Cell.resolveCellCoordinate(address);
+        this.columnAddress = temp.Column;
+        this.rowAddress = temp.Row;
+    }
+    /**
+     * Gets the combined cell address as class
+     * @return Cell address
+     */
+    public Address getCellAddress2()
+    {
+        return new Address(this.columnAddress, this.rowAddress);
+    }
+    /**
+     * Sets the combined cell address as class
+     * @param address Cell address
+     */
+    public void setCellAddress2(Address address)
+    {
+        this.setColumnAddress(address.Column);
+        this.setRowAddress(address.Row);
+    }
 
     /**
      * Gets the assigned style of the cell
@@ -72,25 +119,6 @@ public class Cell implements Comparable<Cell>{
         return cellStyle;
     }
 
-    /**
-     * Gets the number of the row (zero-based)
-     * @return Row number (zero-based)
-     */
-    public int getRowAddress() {
-        return rowAddress;
-    }
-
-    /**
-     * Sets the number of the row (zero-based)
-     * @param rowAddress Row number (zero-based)
-     */
-    public void setRowAddress(int rowAddress) {
-        if (rowAddress < Worksheet.MIN_ROW_ADDRESS || rowAddress > Worksheet.MAX_ROW_ADDRESS)
-        {
-            throw new OutOfRangeException("The passed number (" + Integer.toString(rowAddress) + ")is out of range. Range is from " + Integer.toString(Worksheet.MIN_ROW_ADDRESS) + " to " + Integer.toString(Worksheet.MAX_ROW_ADDRESS) + " (" + (Integer.toString(Worksheet.MAX_ROW_ADDRESS + 1)) + " rows).");
-        }
-        this.rowAddress = rowAddress;
-    }
 
     /**
      * Gets the number of the column (zero-based)
@@ -113,22 +141,6 @@ public class Cell implements Comparable<Cell>{
     }
 
     /**
-     * Gets the value of the cell (generic object type)
-     * @return Value of the cell
-     */
-    public Object getValue() {
-        return value;
-    }
-
-    /**
-     * Sets the value of the cell (generic object type)
-     * @param value Value of the cell
-     */
-    public void setValue(Object value) {
-        this.value = value;
-    }
-
-    /**
      * Gets the type of the cell
      * @return Type of the cell
      */
@@ -143,45 +155,37 @@ public class Cell implements Comparable<Cell>{
     public void setFieldType(CellType fieldType) {
         this.fieldType = fieldType;
     }
-    
     /**
-     * Gets the combined cell address as class
-     * @return Cell address
+     * Gets the number of the row (zero-based)
+     * @return Row number (zero-based)
      */
-    public Address getCellAddress2()
-    {
-        return new Address(this.columnAddress, this.rowAddress);
+    public int getRowAddress() {
+        return rowAddress;
     }
-    
     /**
-     * Sets the combined cell address as class
-     * @param address Cell address
+     * Sets the number of the row (zero-based)
+     * @param rowAddress Row number (zero-based)
      */
-    public void setCellAddress2(Address address)
-    {
-        this.setColumnAddress(address.Column);
-        this.setRowAddress(address.Row);
+    public void setRowAddress(int rowAddress) {
+        if (rowAddress < Worksheet.MIN_ROW_ADDRESS || rowAddress > Worksheet.MAX_ROW_ADDRESS)
+        {
+            throw new OutOfRangeException("The passed number (" + Integer.toString(rowAddress) + ")is out of range. Range is from " + Integer.toString(Worksheet.MIN_ROW_ADDRESS) + " to " + Integer.toString(Worksheet.MAX_ROW_ADDRESS) + " (" + (Integer.toString(Worksheet.MAX_ROW_ADDRESS + 1)) + " rows).");
+        }
+        this.rowAddress = rowAddress;
     }
-    
     /**
-     * Gets the combined cell Address as string in the format A1 - XFD1048576
-     * @return Cell address
+     * Gets the value of the cell (generic object type)
+     * @return Value of the cell
      */
-    public String getCellAddress()
-    {
-        return Cell.resolveCellAddress(this.columnAddress, this.rowAddress);
+    public Object getValue() {
+        return value;
     }
-    
     /**
-     * Sets the combined cell Address as string in the format A1 - XFD1048576
-     * @param address Cell address
-     * @throws UnknownRangeException Thrown in case of a illegal address
+     * Sets the value of the cell (generic object type)
+     * @param value Value of the cell
      */
-    public void setCellAddress(String address)
-    {
-       Address temp = Cell.resolveCellCoordinate(address);
-       this.columnAddress = temp.Column;
-       this.rowAddress = temp.Row;
+    public void setValue(Object value) {
+        this.value = value;
     } 
     
     /**
@@ -202,6 +206,9 @@ public class Cell implements Comparable<Cell>{
         this.worksheetReference = reference;
     }
     
+    
+// ### C O N S T R U C T O R S ###
+    
     /**
      * Default constructor
      */
@@ -209,7 +216,6 @@ public class Cell implements Comparable<Cell>{
     {
         this.worksheetReference = null;
     }
-    
     /**
      * Constructor with value and cell type
      * @param value Value of the cell
@@ -221,7 +227,6 @@ public class Cell implements Comparable<Cell>{
         this.value = value;
         resolveCellType();
     }
-        
     /**
      * Constructor with value, cell type, row address and column address
      * @param value Value of the cell
@@ -242,6 +247,45 @@ public class Cell implements Comparable<Cell>{
             resolveCellType();
         }
     }
+    
+// ### M E T H O D S ###
+    
+    /**
+     * Implemented compareTo method
+     * @param o Object to compare
+     * @return 0 if values are the same, -1 if this object is smaller, 1 if it is bigger
+     */
+    @Override
+    public int compareTo(Cell o) {
+        if (this.rowAddress == o.rowAddress)
+        {
+            return Integer.compare(this.columnAddress, o.getColumnAddress());
+        }
+        else
+        {
+            return Integer.compare(this.rowAddress, o.getRowAddress());
+        }
+    }
+   
+    /**
+     * Removes the assigned style from the cell
+     * @throws UndefinedStyleException Thrown if the workbook to remove was not found in the style sheet collection
+     */
+    public void removeStyle()
+    {
+        if (this.worksheetReference == null)
+        {
+            throw new UndefinedStyleException("No worksheet reference was defined while trying to remove a style from a cell");
+        }
+        if (this.worksheetReference.getWorkbookReference() == null)
+        {
+            throw new UndefinedStyleException("No workbook reference was defined on the worksheet while trying to remove a style from a cell");
+        }
+        String styleName = this.cellStyle.getName();
+        this.cellStyle = null;
+        this.worksheetReference.getWorkbookReference().removeStyle(styleName, true);
+    }
+    
      /**
       * Method resets the Cell type an tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT. CellTypes FORMULA and EMPTY will skip this method
       */
@@ -261,6 +305,33 @@ public class Cell implements Comparable<Cell>{
         else if (value instanceof Boolean) { this.fieldType = CellType.BOOL; }
         else if (value instanceof Date) { this.fieldType = CellType.DATE; }
         else { this.fieldType = CellType.STRING; } // Default
+    }
+    /**
+     * Sets the lock state of the cell
+     * @param isLocked If true, the cell will be locked if the worksheet is protected
+     * @param isHidden If true, the value of the cell will be invisible if the worksheet is protected
+     */
+    public void setCellLockedState(boolean isLocked, boolean isHidden)
+    {
+        Style lockStyle;
+        if (this.cellStyle == null)
+        {
+            lockStyle = new Style();
+        }
+        else
+        {
+            lockStyle = this.cellStyle.copy();
+        }
+        lockStyle.getCurrentCellXf().setLocked(isLocked);
+        lockStyle.getCurrentCellXf().setHidden(isHidden);
+        try
+        {
+            this.setStyle(lockStyle);
+        }
+        catch(Exception e)
+        {
+            // Should never happen
+        }
     }
     
     /**
@@ -288,41 +359,22 @@ public class Cell implements Comparable<Cell>{
        return s;
     }
     
-    /**
-     * Removes the assigned style from the cell
-     * @throws UndefinedStyleException Thrown if the workbook to remove was not found in the style sheet collection
-     */
-    public void removeStyle()
-    {
-       if (this.worksheetReference == null)
-       {
-           throw new UndefinedStyleException("No worksheet reference was defined while trying to remove a style from a cell");
-       }
-       if (this.worksheetReference.getWorkbookReference() == null)
-       {
-           throw new UndefinedStyleException("No workbook reference was defined on the worksheet while trying to remove a style from a cell");
-       }
-            String styleName = this.cellStyle.getName();
-            this.cellStyle = null;
-            this.worksheetReference.getWorkbookReference().removeStyle(styleName, true);       
-    }
+// ### S T A T I C   M E T H O D S ###
     
     /**
-     * Implemented compareTo method
-     * @param o Object to compare
-     * @return 0 if values are the same, -1 if this object is smaller, 1 if it is bigger
+     * Get a list of cell addresses from a cell range
+     * @param startColumn Start column (zero based)
+     * @param startRow Start row (zero based)
+     * @param endColumn End column (zero based)
+     * @param endRow End row (zero based)
+     * @return List of cell addresses
      */
-    @Override
-    public int compareTo(Cell o) {
-        if (this.rowAddress == o.rowAddress)
-        {
-            return Integer.compare(this.columnAddress, o.getColumnAddress());
-        }
-        else
-        {
-            return Integer.compare(this.rowAddress, o.getRowAddress());
-        }
-    }    
+    public static List<Address> GetCellRange(int startColumn, int startRow, int endColumn, int endRow)
+    {
+        Address start = new Address(startColumn, startRow);
+        Address end = new Address(endColumn, endRow);
+        return getCellRange(start, end);       
+    }
     
     /**
      * Converts a List of supported objects into a list of cells
@@ -405,21 +457,6 @@ public class Cell implements Comparable<Cell>{
     
     /**
      * Get a list of cell addresses from a cell range
-     * @param startColumn Start column (zero based)
-     * @param startRow Start row (zero based)
-     * @param endColumn End column (zero based)
-     * @param endRow End row (zero based)
-     * @return List of cell addresses
-     */
-    public static List<Address> GetCellRange(int startColumn, int startRow, int endColumn, int endRow)
-    {
-        Address start = new Address(startColumn, startRow);
-        Address end = new Address(endColumn, endRow);
-        return getCellRange(start, end);
-    }    
-
-    /**
-     * Get a list of cell addresses from a cell range
      * @param startAddress Start address
      * @param endAddress End address
      * @return List of cell addresses
@@ -456,36 +493,6 @@ public class Cell implements Comparable<Cell>{
                 }
             }
             return output;
-    }
-    
-    /**
-     * Resolves a cell range from the format like  A1:B3 or AAD556:AAD1000
-     * @param range Range to process
-     * @return Range object of the passed string range
-     * @throws FormatException Thrown if the passed range is malformed
-     */
-    public static Range resolveCellRange(String range)
-    {
-        if (Helper.isNullOrEmpty(range))
-        {
-          throw new FormatException("The cell range is null or empty and could not be resolved");  
-        }
-        String[] split = range.split(":");
-        if (split.length != 2)
-        {
-            throw new FormatException("The cell range (" + range + ") is malformed and could not be resolved");
-        }
-        try
-        {
-        Address start = resolveCellCoordinate(split[0]);
-        Address end = resolveCellCoordinate(split[1]);
-        Range output = new Range(start, end);
-        return output;        
-        }
-        catch(Exception e)
-        {
-            throw new FormatException("The start address or end address could not be resolved. See inner exception", e);
-        }
     }
     
     /**
@@ -542,6 +549,35 @@ public class Cell implements Comparable<Cell>{
         Address output = new Address(column, row);
         return output;
     } 
+    /**
+     * Resolves a cell range from the format like  A1:B3 or AAD556:AAD1000
+     * @param range Range to process
+     * @return Range object of the passed string range
+     * @throws FormatException Thrown if the passed range is malformed
+     */
+    public static Range resolveCellRange(String range)
+    {
+        if (Helper.isNullOrEmpty(range))
+        {
+            throw new FormatException("The cell range is null or empty and could not be resolved");
+        }
+        String[] split = range.split(":");
+        if (split.length != 2)
+        {
+            throw new FormatException("The cell range (" + range + ") is malformed and could not be resolved");
+        }
+        try
+        {
+            Address start = resolveCellCoordinate(split[0]);
+            Address end = resolveCellCoordinate(split[1]);
+            Range output = new Range(start, end);
+            return output;
+        }
+        catch(Exception e)
+        {
+            throw new FormatException("The start address or end address could not be resolved. See inner exception", e);
+        }
+    }
    
     /**
      * Gets the column number from the column address (A - XFD)
@@ -605,124 +641,4 @@ public class Cell implements Comparable<Cell>{
         sb.append((char)(j + 64));
         return sb.toString();
     }
-
-    /**
-     * Sets the lock state of the cell
-     * @param isLocked If true, the cell will be locked if the worksheet is protected
-     * @param isHidden If true, the value of the cell will be invisible if the worksheet is protected
-     */
-    public void setCellLockedState(boolean isLocked, boolean isHidden)
-    {
-        Style lockStyle;
-        if (this.cellStyle == null)
-        {
-            lockStyle = new Style();
-        }
-        else
-        {
-            lockStyle = this.cellStyle.copy();
-        }
-        lockStyle.getCurrentCellXf().setLocked(isLocked);
-        lockStyle.getCurrentCellXf().setHidden(isHidden);
-        try
-        {
-        this.setStyle(lockStyle);
-        }
-        catch(Exception e)
-        {
-            // Should never happen
-        }
-    }    
-    
-    /**
-     * Nested class representing a cell range (used like a simple struct)
-     */
-    public static class Range
-    {
-        /**
-         * Start address of the range
-         */
-        public final Address StartAddress;
-        /**
-         * End address of the range
-         */
-        public final Address EndAddress;
-        
-        /**
-         * Constructor with parameters
-         * @param start Start address of the range
-         * @param end End address of the range
-         */
-        public Range(Address start, Address end)
-        {
-            this.StartAddress = start;
-            this.EndAddress = end;
-        }
-        
-        /**
-         * Overwritten toString method
-         * @return Returns the range (e.g. 'A1:B12')
-         */
-        @Override
-        public String toString()
-        {
-            return StartAddress.toString() + ":" + EndAddress.toString();
-        }
-        
-    }
-    
-    /**
-     * Nested class representing a cell address (column and row; used like a simple struct)
-     */
-    public static class Address
-    {
-        /**
-         * Row of the address (zero-based)
-         */
-        public final int Row;
-        /**
-         * Column of the address (zero-based)
-         */        
-        public final int Column;
-        
-        /**
-         * Constructor with parameters
-         * @param column Column of the address (zero-based)
-         * @param row Row of the address (zero-based)
-         */
-        public Address(int column, int row)
-        {
-            this.Column = column;
-            this.Row = row;
-        }
-        
-        /**
-         * Gets the address as string
-         * @return Address as string
-         * @throws UnknownRangeException Thrown if the column or row is out of range
-         */
-        public String getAddress()
-        {
-            return resolveCellAddress(this.Column, this.Row);
-        }
-        
-        /**
-         * Returns the address as string or "Illegal Address" in case of an exception
-         * @return Address or notification in case of an error
-         */
-        @Override
-        public String toString()
-        {
-            try
-            {
-            return getAddress();
-            }
-            catch(Exception e)
-            {
-                return "Illegal Address";
-            }
-        }
-    }
-    
-    
 }

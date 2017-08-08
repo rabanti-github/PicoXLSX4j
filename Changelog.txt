@@ -1,3 +1,13 @@
+
+v1.6.1 08.08.2017
+******************
+Note: Due to a (now fixed) typo in a public parameter name, it is possible that some function calls on existing code must be fixed too (just renaming).
+- Fixed typos (parameters and text)
+- Minor optimization
+- Moved Sub-Classes Range and Address to separate files
+- Complete reformatting of code (alphabetical order)
+- HTML documentation moved to folder 'docs' to provide an automatic API documentation on the hosting platform
+
 v1.6.0 15.04.2017
 ******************
 Note: Using this version of the library with old code can cause compatibility issues due to the simplification of some methods (see below).

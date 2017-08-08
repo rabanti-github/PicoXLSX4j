@@ -28,4 +28,5 @@ Place all .java files from the PicoXLSX4j source folder into your project. The f
 ```
 
 ## Further References
+See the full <b>API-Documentation</b> at: [https://rabanti-github.github.io/PicoXLSX4j/](https://rabanti-github.github.io/PicoXLSX4j/).<br>
 The [Demo class](https://github.com/rabanti-github/PicoXLSX4j/blob/master/src/picoxlsx4j/demo/PicoXLSX4j.java) contains nine simple use cases. You can find also the full documentation in the [Javadoc-Folder](https://github.com/rabanti-github/PicoXLSX4j/tree/master/dist/javadoc) or as Javadoc annotations in the .java files.<br>

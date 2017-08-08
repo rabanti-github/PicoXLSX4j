@@ -14,40 +14,15 @@ import java.util.HashMap;
  * @author Raphael Stoeckli
  */
 public class SortedMap {
-    
+
+// ### P R I V A T E  F I E L D S ###    
     private int count;
+    private HashMap<String, Integer> index;
     private ArrayList<String> keyEntries;
     private ArrayList<String> valueEntries;
-    private HashMap<String, Integer> index;
     
-    /**
-     * Gets the sze of the map
-     * @return Number of entries in the map
-     */
-    public int size()
-    {
-        return this.count;
-    }
-    
-    /**
-     * Gets the keys of the map as list
-     * @return ArrayList of Keys
-     */
-    public ArrayList<String> getKeys()
-    {
-        return this.keyEntries;
-    }
-    
-    /**
-     * Gets the values of the map as list
-     * @return ArrayList of Values
-     */
-    public ArrayList<String> getValues()
-    {
-        return this.valueEntries;
-    }
-    
-    
+   
+// ### C O N S T R U C T O R S ###
     /**
      * Default constructor
      */
@@ -59,20 +34,7 @@ public class SortedMap {
         this.count = 0;
     }
     
-    /**
-     * Gets the value of the specified key
-     * @param key Key of the entry
-     * @return The value of the entry. If the key was not found, null is returned
-     */
-    public String get(String key)
-    {
-        if (index.containsKey(key))
-        {
-            return valueEntries.get(index.get(key));
-        }
-        return null;
-    }    
-    
+// ### M E T H O D S ###    
     /**
      * Method to add a key value pair
      * @param key key as string
@@ -103,6 +65,43 @@ public class SortedMap {
     public boolean containsKey(String key)
     {
         return index.containsKey(key);
+    }
+    /**
+     * Gets the value of the specified key
+     * @param key Key of the entry
+     * @return The value of the entry. If the key was not found, null is returned
+     */
+    public String get(String key)
+    {
+        if (index.containsKey(key))
+        {
+            return valueEntries.get(index.get(key));
+        }
+        return null;
+    }
+    /**
+     * Gets the keys of the map as list
+     * @return ArrayList of Keys
+     */
+    public ArrayList<String> getKeys()
+    {
+        return this.keyEntries;
+    }
+    /**
+     * Gets the values of the map as list
+     * @return ArrayList of Values
+     */
+    public ArrayList<String> getValues()
+    {
+        return this.valueEntries;
+    }
+    /**
+     * Gets the size of the map
+     * @return Number of entries in the map
+     */
+    public int size()
+    {
+        return this.count;
     }
     
 }

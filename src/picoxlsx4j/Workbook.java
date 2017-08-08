@@ -34,25 +34,19 @@ import picoxlsx4j.style.StyleCollection;
  */
 public class Workbook {
     
-    private String filename;
-    private List<Worksheet> worksheets;
+// ### P R I V A T E  F I E L D S ###    
     private Worksheet currentWorksheet;
+    private String filename;
+    private boolean lockStructureIfProtected;
+    private boolean lockWindowsIfProtected;
+    private int selectedWorksheet;
     private List<Style> styles;
+    private boolean useWorkbookProtection;
     private Metadata workbookMetadata;
     private String workbookProtectionPassword;
-    private boolean lockWindowsIfProtected;
-    private boolean lockStructureIfProtected;
-    private boolean useWorkbookProtection;
-    private int selectedWorksheet;
-
-    /**
-     * Gets the selected worksheet. The selected worksheet is not the current worksheet while design time but the selected sheet in the output file
-     * @return Zero-based worksheet index
-     */
-    public int getSelectedWorksheet() {
-        return selectedWorksheet;
-    }
-
+    private List<Worksheet> worksheets;
+    
+// ### G E T T E R S  &  S E T T E R S ###    
     /**
      * Gets the current worksheet
      * @return Current worksheet reference
@@ -61,13 +55,6 @@ public class Workbook {
         return currentWorksheet;
     }
     
-    /**
-     * Gets the list of worksheets in the workbook
-     * @return List of worksheet objects
-     */
-    public List<Worksheet> getWorksheets() {
-        return worksheets;
-    } 
     
     /**
      * Gets the filename of the workbook
@@ -84,6 +71,48 @@ public class Workbook {
     public void setFilename(String filename) {
         this.filename = filename;
     }
+    /**
+     * Gets the selected worksheet. The selected worksheet is not the current worksheet while design time but the selected sheet in the output file
+     * @return Zero-based worksheet index
+     */
+    public int getSelectedWorksheet() {
+        return selectedWorksheet;
+    }
+    /**
+     * Sets the selected worksheet in the output workbook<br>Note: This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this
+     * @param worksheet Worksheet object (must be in the collection of worksheets)
+     * @throws UnknownWorksheetException Throws a UnknownWorksheetException if the worksheet was not found in the worksheet collection
+     */
+    public void setSelectedWorksheet(Worksheet worksheet)
+    {
+        boolean check = false;
+        for (int i = 0; i < this.worksheets.size(); i++)
+        {
+            if (this.worksheets.get(i).equals(worksheet))
+            {
+                this.selectedWorksheet = i;
+                check = true;
+                break;
+            }
+        }
+        if (check == false)
+        {
+            throw new UnknownWorksheetException("The passed worksheet object is not in the worksheet collection.");
+        }        
+    }
+    /**
+     * Sets the selected worksheet in the output workbook<br>Note: This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this
+     * @param worksheetIndex Zero-based worksheet index
+     * @throws OutOfRangeException Throws a OutOfRangeException if the index of the worksheet is out of range
+     */
+    public void setSelectedWorksheet(int worksheetIndex)
+    {
+        if (worksheetIndex < 0 || worksheetIndex > this.worksheets.size() - 1)
+        {
+            throw new OutOfRangeException("The worksheet index " + Integer.toString(worksheetIndex) + " is out of range");
+        }
+        this.selectedWorksheet = worksheetIndex;
+    }
 
     /**
      * Gets the list of Styles of the workbook
@@ -98,7 +127,7 @@ public class Workbook {
      * @return Meta data object
      */
     public Metadata getWorkbookMetadata() {
-        return workbookMetadata;
+        return workbookMetadata;        
     }
 
     /**
@@ -108,14 +137,6 @@ public class Workbook {
     public void setWorkbookMetadata(Metadata workbookMetadata) {
         this.workbookMetadata = workbookMetadata;
     }    
-
-    /**
-     * Gets whether the workbook is protected
-     * @return If true, the workbook is protected otherwise not
-     */
-    public boolean isWorkbookProtectionUsed() {
-        return useWorkbookProtection;
-    }
 
     /**
      * Sets whether the workbook is protected
@@ -132,13 +153,12 @@ public class Workbook {
     public String getWorkbookProtectionPassword() {
         return workbookProtectionPassword;
     }
-    
     /**
-     * Gets whether the windows are locked if workbook is protected
-     * @return True if the windows are locked when the workbook is protected
+     * Gets the list of worksheets in the workbook
+     * @return List of worksheet objects
      */
-    public boolean isWindowsLockedIfProtected() {
-        return lockWindowsIfProtected;
+    public List<Worksheet> getWorksheets() {
+        return worksheets;
     }
 
     /**
@@ -148,7 +168,22 @@ public class Workbook {
     public boolean isStructureLockedIfProtected() {
         return lockStructureIfProtected;
     }
+    /**
+     * Gets whether the windows are locked if workbook is protected
+     * @return True if the windows are locked when the workbook is protected
+     */
+    public boolean isWindowsLockedIfProtected() {
+        return lockWindowsIfProtected;
+    }    
+    /**
+     * Gets whether the workbook is protected
+     * @return If true, the workbook is protected otherwise not
+     */
+    public boolean isWorkbookProtectionUsed() {
+        return useWorkbookProtection;
+    }    
     
+// ### C O N S T R U C T O R S ###
     /**
      * Default Constructor with additional parameter to create a default worksheet
      * @param createWorksheet If true, a default worksheet will be created and set as default worksheet
@@ -172,8 +207,7 @@ public class Workbook {
             // Do nothing -> Default should never throw an exception
         }
         
-    }    
-    
+    }
     /**
      * Constructor with filename ant the name of the first worksheet
      * @param filename Filename of the workbook
@@ -190,14 +224,58 @@ public class Workbook {
         this.workbookMetadata = new Metadata();        
         this.filename = filename;
         addWorksheet(sheetName);
-    }    
+    }
     
+// ### M E T H O D S ###    
     /**
-    * Adding a new Worksheet
-    * @param name Name of the new worksheet
-    * @throws WorksheetNameAlreadxExistsException Thrown if the name of the worksheet already exists
-    * @throws FormatException Thrown if the worksheet name contains illegal characters or is out of range (length between 1 an 31
-    */
+     * Adds a style to the style sheet of the workbook
+     * @param style Style to add
+     * @param distinct If true, the passed style will be replaced by an identical style if existing. Otherwise an exception will be thrown in case of a duplicate
+     * @return Returns the added style. In case of an existing style, the distinct style will be returned
+     * @throws UndefinedStyleException Thrown if the style could not be added to the style sheet
+     */
+    public Style addStyle(Style style, boolean distinct)
+    {
+        boolean styleExits = false;
+        boolean identicalStyle = false;
+        Style s;
+        for (int i = 0; i < this.styles.size(); i++)
+        {
+            if (this.styles.get(i).getName().equals(style.getName()))
+            {
+                if (this.styles.get(i).equals(style) && distinct == true)
+                {
+                    identicalStyle = true;
+                    s = this.styles.get(i);
+                }
+                styleExits = true;
+                break;
+            }
+        }
+        if (styleExits == true)
+        {
+            if (distinct == false && identicalStyle == false)
+            {
+                throw new UndefinedStyleException("The style with the name '" + style.getName() + "' already exits");
+            }
+            else
+            {
+                s = style;
+            }
+        }
+        else
+        {
+            s = style;
+            this.styles.add(style);
+        }
+        return s;
+    }
+    /**
+     * Adding a new Worksheet
+     * @param name Name of the new worksheet
+     * @throws WorksheetNameAlreadxExistsException Thrown if the name of the worksheet already exists
+     * @throws FormatException Thrown if the worksheet name contains illegal characters or is out of range (length between 1 an 31
+     */
     public void addWorksheet(String name)
     {
         for (int i = 0; i < this.worksheets.size(); i++)
@@ -211,184 +289,6 @@ public class Workbook {
         Worksheet newWs = new Worksheet(name, number, this);
         this.currentWorksheet = newWs;
         this.worksheets.add(newWs);
-    }    
-
-    /**
-    * Sets the current worksheet
-    * @param name Name of the worksheet
-    * @return Returns the current worksheet
-    * @throws UnknownWorksheetException Thrown if the name of the worksheet is unknown
-    */   
-    public Worksheet setCurrentWorksheet(String name)
-    {
-        boolean exists = false;
-        for(int i = 0; i < this.worksheets.size(); i++)
-        {
-            if (this.worksheets.get(i).getSheetName().equals(name))
-            {
-                this.currentWorksheet = this.worksheets.get(i);
-                exists = true;
-                break;
-            }
-        }
-        if (exists == false)
-        {
-            throw new UnknownWorksheetException("The worksheet with the name '" + name + "' does not exist.");
-        }
-        return this.currentWorksheet;
-    }
-    
-    /**
-    * Removes the defined worksheet
-    * @param name Name of the worksheet
-    * @throws UnknownWorksheetException Thrown if the name of the worksheet is unknown
-    */
-    public void removeWorksheet(String name)
-    {
-        boolean exists = false;
-        boolean resetCurrent = false;
-        int index = 0;
-        for (int i = 0; i < this.worksheets.size(); i++)
-        {
-            if (this.worksheets.get(index).getSheetName().equals(name))
-            {
-                index = i;
-                exists = true;
-                break;
-            }
-        }
-        if (exists == false)
-        {
-            throw new UnknownWorksheetException("The worksheet with the name '" + name + "' does not exist.");
-        }
-        if (this.worksheets.get(index).getSheetName().equals(this.currentWorksheet.getSheetName()) )
-        {
-            resetCurrent = true;
-        }
-        this.worksheets.remove(index);
-        if (this.worksheets.size() > 0)
-        {
-            for (int i = 0; i < this.worksheets.size(); i++)
-            {
-                this.worksheets.get(index).setSheetID(i + 1);
-                if (resetCurrent == true && i == 0)
-                {
-                    this.currentWorksheet = this.worksheets.get(i);
-                }
-            }
-        }
-        else
-        {
-            this.currentWorksheet = null;
-        }
-        if (this.selectedWorksheet > this.worksheets.size() - 1)
-        {
-            this.selectedWorksheet = this.worksheets.size() - 1;
-        }
-    }
-    
-    /**
-     * Sets the selected worksheet in the output workbook<br>Note: This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this
-     * @param worksheetIndex Zero-based worksheet index
-     * @throws OutOfRangeException Throws a OutOfRangeException if the index of the worksheet is out of range
-     */
-    public void setSelectedWorksheet(int worksheetIndex)
-    {
-        if (worksheetIndex < 0 || worksheetIndex > this.worksheets.size() - 1)
-        {
-            throw new OutOfRangeException("The worksheet index " + Integer.toString(worksheetIndex) + " is out of range");
-        }
-        this.selectedWorksheet = worksheetIndex;
-    }
-    
-    /**
-     * Sets the selected worksheet in the output workbook<br>Note: This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this
-     * @param worksheet Worksheet object (must be in the collection of worksheets)
-     * @throws UnknownWorksheetException Throws a UnknownWorksheetException if the worksheet was not found in the worksheet collection
-     */
-    public void setSelectedWorksheet(Worksheet worksheet)
-    {
-        boolean check = false;
-        for (int i = 0; i < this.worksheets.size(); i++)
-        {
-            if (this.worksheets.get(i).equals(worksheet))
-            {
-                this.selectedWorksheet = i;
-                check = true;
-                break;
-            }
-        }
-        if (check == false)
-        {
-            throw new UnknownWorksheetException("The passed worksheet object is not in the worksheet collection.");
-        }        
-    }
-    
-    
-    /**
-     * Sets or removes the workbook protection. If protectWindows and protectStructure are both false, the workbook will not be protected
-     * @param state If true, the workbook will be protected, otherwise not
-     * @param protectWindows If true, the windows will be locked if the workbook is protected
-     * @param protectStructure If true, the structure will be locked if the workbook is protected
-     * @param password Optional password. If null or empty, no password will be set in case of protection
-     */
-    public void setWorkbookProtection(boolean state, boolean protectWindows, boolean protectStructure, String password)
-    {
-        this.lockWindowsIfProtected = protectWindows;
-        this.lockStructureIfProtected = protectStructure;
-        this.workbookProtectionPassword = password;
-        if (protectWindows == false && protectStructure == false)
-        {
-            this.useWorkbookProtection = false;
-        }
-        else
-        {
-            this.useWorkbookProtection = state;
-        }
-    }    
-    
-    /**
-    * Adds a style to the style sheet of the workbook
-    * @param style Style to add
-    * @param distinct If true, the passed style will be replaced by an identical style if existing. Otherwise an exception will be thrown in case of a duplicate
-    * @return Returns the added style. In case of an existing style, the distinct style will be returned
-    * @throws UndefinedStyleException Thrown if the style could not be added to the style sheet
-    */
-    public Style addStyle(Style style, boolean distinct)
-    {
-            boolean styleExits = false;
-            boolean identicalStyle = false;
-            Style s;
-            for (int i = 0; i < this.styles.size(); i++)
-            {
-                if (this.styles.get(i).getName().equals(style.getName()))
-                {
-                    if (this.styles.get(i).equals(style) && distinct == true)
-                    {
-                        identicalStyle = true;
-                        s = this.styles.get(i);
-                    }
-                    styleExits = true;
-                    break;
-                }
-            }
-            if (styleExits == true)
-            {
-                if (distinct == false && identicalStyle == false)
-                {
-                    throw new UndefinedStyleException("The style with the name '" + style.getName() + "' already exits");
-                }
-                else
-                {
-                    s = style;
-                }
-            }
-            else
-            {
-                s = style;
-                this.styles.add(style);
-            }
-            return s;        
     }
     
     /**
@@ -489,6 +389,54 @@ public class Workbook {
                 this.styles.remove(index);
             }
         }        
+    }
+    /**
+     * Removes the defined worksheet
+     * @param name Name of the worksheet
+     * @throws UnknownWorksheetException Thrown if the name of the worksheet is unknown
+     */
+    public void removeWorksheet(String name)
+    {
+        boolean exists = false;
+        boolean resetCurrent = false;
+        int index = 0;
+        for (int i = 0; i < this.worksheets.size(); i++)
+        {
+            if (this.worksheets.get(index).getSheetName().equals(name))
+            {
+                index = i;
+                exists = true;
+                break;
+            }
+        }
+        if (exists == false)
+        {
+            throw new UnknownWorksheetException("The worksheet with the name '" + name + "' does not exist.");
+        }
+        if (this.worksheets.get(index).getSheetName().equals(this.currentWorksheet.getSheetName()) )
+        {
+            resetCurrent = true;
+        }
+        this.worksheets.remove(index);
+        if (this.worksheets.size() > 0)
+        {
+            for (int i = 0; i < this.worksheets.size(); i++)
+            {
+                this.worksheets.get(index).setSheetID(i + 1);
+                if (resetCurrent == true && i == 0)
+                {
+                    this.currentWorksheet = this.worksheets.get(i);
+                }
+            }
+        }
+        else
+        {
+            this.currentWorksheet = null;
+        }
+        if (this.selectedWorksheet > this.worksheets.size() - 1)
+        {
+            this.selectedWorksheet = this.worksheets.size() - 1;
+        }
     }
     
     /**
@@ -659,21 +607,21 @@ public class Workbook {
      */
     public void resolveMergedCells()
     {
-        Style mergStyle = BasicStyles.MergeCellStyle();
+        Style mergeStyle = BasicStyles.MergeCellStyle();
         int pos;
-        List<Cell.Address> addresses;
+        List<Address> addresses;
         Cell cell;
         Worksheet sheet;
-        Cell.Address address;
+        Address address;
         Iterator itr;
-        Map.Entry<String, Cell.Range> range;
+        Map.Entry<String, Range> range;
         for (int i = 0; i < this.worksheets.size(); i++)
         {
             sheet = this.worksheets.get(i);
             itr = sheet.getMergedCells().entrySet().iterator();
             while (itr.hasNext())
             {
-                range = (Map.Entry<String, Cell.Range>)itr.next();
+                range = (Map.Entry<String, Range>)itr.next();
                 pos = 0;
                 addresses = Cell.getCellRange(range.getValue().StartAddress, range.getValue().EndAddress);
                 for (int j = 0; j < addresses.size(); j++)
@@ -695,7 +643,7 @@ public class Workbook {
                     {
                         cell.setFieldType(Cell.CellType.EMPTY);
                     }
-                    cell.setStyle(mergStyle);
+                    cell.setStyle(mergeStyle);
                     pos++;
                 }
             }
@@ -724,7 +672,53 @@ public class Workbook {
         LowLevel l = new LowLevel(this);
         l.save();
         this.filename = backup;
-    }    
+    }
+    
+    /**
+     * Sets the current worksheet
+     * @param name Name of the worksheet
+     * @return Returns the current worksheet
+     * @throws UnknownWorksheetException Thrown if the name of the worksheet is unknown
+     */
+    public Worksheet setCurrentWorksheet(String name)
+    {
+        boolean exists = false;
+        for(int i = 0; i < this.worksheets.size(); i++)
+        {
+            if (this.worksheets.get(i).getSheetName().equals(name))
+            {
+                this.currentWorksheet = this.worksheets.get(i);
+                exists = true;
+                break;
+            }
+        }
+        if (exists == false)
+        {
+            throw new UnknownWorksheetException("The worksheet with the name '" + name + "' does not exist.");
+        }
+        return this.currentWorksheet;
+    }
+    /**
+     * Sets or removes the workbook protection. If protectWindows and protectStructure are both false, the workbook will not be protected
+     * @param state If true, the workbook will be protected, otherwise not
+     * @param protectWindows If true, the windows will be locked if the workbook is protected
+     * @param protectStructure If true, the structure will be locked if the workbook is protected
+     * @param password Optional password. If null or empty, no password will be set in case of protection
+     */
+    public void setWorkbookProtection(boolean state, boolean protectWindows, boolean protectStructure, String password)
+    {
+        this.lockWindowsIfProtected = protectWindows;
+        this.lockStructureIfProtected = protectStructure;
+        this.workbookProtectionPassword = password;
+        if (protectWindows == false && protectStructure == false)
+        {
+            this.useWorkbookProtection = false;
+        }
+        else
+        {
+            this.useWorkbookProtection = state;
+        }
+    }
     
         
 }

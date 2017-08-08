@@ -9,7 +9,8 @@ package picoxlsx4j.demo;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import picoxlsx4j.Cell;
+import picoxlsx4j.Address;
+import picoxlsx4j.Range;
 import picoxlsx4j.Workbook;
 import picoxlsx4j.Worksheet;
 import picoxlsx4j.style.BasicStyles;
@@ -159,7 +160,7 @@ public class PicoXLSX4j {
             values.add("Header1");
             values.add("Header2");
             values.add("Header3");
-            workbook.getCurrentWorksheet().addCellRange(values, new Cell.Address(0,0), new Cell.Address(2,0));         // Add a cell range to A4 - C4
+            workbook.getCurrentWorksheet().addCellRange(values, new Address(0,0), new Address(2,0));         // Add a cell range to A4 - C4
             workbook.getCurrentWorksheet().getCells().get("A1").setStyle(BasicStyles.Bold());                          // Assign predefined basic style to cell
             workbook.getCurrentWorksheet().getCells().get("B1").setStyle(BasicStyles.Bold());                          // Assign predefined basic style to cell
             workbook.getCurrentWorksheet().getCells().get("C1").setStyle(BasicStyles.Bold());                          // Assign predefined basic style to cell
@@ -336,11 +337,11 @@ public class PicoXLSX4j {
             workbook.getCurrentWorksheet().setSelectedCells("A5:B10");					// Set the selection to the range A5:B10
             workbook.addWorksheet("Sheet2");								// Create new worksheet
             workbook.getCurrentWorksheet().addNextCell("Test2");              				// Add cell A1
-            Cell.Range range = new Cell.Range(new Cell.Address(1,1), new Cell.Address(3,3));		// Create a cell range for the selection B2:D4
+            Range range = new Range(new Address(1,1), new Address(3,3));		// Create a cell range for the selection B2:D4
             workbook.getCurrentWorksheet().setSelectedCells(range);					// Set the selection to the range
             workbook.addWorksheet("Sheet3");								// Create new worksheet
             workbook.getCurrentWorksheet().addNextCell("Test3");              				// Add cell A1
-            workbook.getCurrentWorksheet().setSelectedCells(new Cell.Address(2,2), new Cell.Address(4,4));	// Set the selection to the range C3:E5
+            workbook.getCurrentWorksheet().setSelectedCells(new Address(2,2), new Address(4,4));	// Set the selection to the range C3:E5
             workbook.setSelectedWorksheet(1);								// Set the second Tab as selected (zero-based: 1)
             try
             {  

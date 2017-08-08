@@ -16,6 +16,7 @@ import picoxlsx4j.exception.FormatException;
  */
 public class Helper {
         
+// ### C O N S T A N T S ###    
     //private static Calendar root = Calendar.getInstance();
     //static { root.set(1899, 11, 29); }
     private static long rootTicks;
@@ -26,18 +27,7 @@ public class Helper {
         rootTicks = rootCalendar.getTimeInMillis();
     }
     
-    /**
-     * Method of a string to check whether its reference is null or the content is empty
-     * @param value value / reference to check
-     * @return True if the passed parameter is null or empty, otherwise false
-     */
-    public static boolean isNullOrEmpty(String value)
-    {
-        if (value == null) { return true; }
-        if (value.isEmpty() == true ){ return true; }
-        else { return false; }
-    } 
-    
+// ### S T A T I C   M E T H O D S ###    
     /**
      * Method to calculate the OA date (OLE automation) of the passed date.<br>
      * OA Date format starts at January 1st 1900 (actually 00.01.1900). Dates beyond this date cannot be handled by Excel under normal circumstances and will throw a FormatException
@@ -68,6 +58,17 @@ public class Helper {
         }
         return d;
     }    
+    /**
+     * Method of a string to check whether its reference is null or the content is empty
+     * @param value value / reference to check
+     * @return True if the passed parameter is null or empty, otherwise false
+     */
+    public static boolean isNullOrEmpty(String value)
+    {
+        if (value == null) { return true; }
+        if (value.isEmpty() == true ){ return true; }
+        else { return false; }
+    }
    
     
 }

@@ -12,14 +12,14 @@ package picoxlsx4j;
  */
 public final class Version {
     
-    /**
-     * Version of the library
-     */
-    public static final String VERSION = "1.60000"; // 1.6.0
-    
+// ### C O N S T A N T S ###    
     /**
      * Application name of the library
      */
     public static final String APPLICATIONNAME = "PicoXLSX4j";
+    /**
+     * Version of the library
+     */
+    public static final String VERSION = "1.61000"; // 1.6.0
     
 }

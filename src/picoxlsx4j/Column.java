@@ -11,28 +11,21 @@ package picoxlsx4j;
  * @author Raphael Stoeckli
  */
 public class Column {
-    
-    private int number;
-    private String columnAddress;
-    private float width;
-    private boolean hidden;
+
+// ### P R I V A T E  F I E L D S ###    
     private boolean autoFilter;
-
-    /**
-     * Gets the column number
-     * @return Column number (0 to 16383)
+    private String columnAddress;
+    private boolean hidden;
+    private int number;
+    private float width;
+    
+// ### G E T T E R S  &  S E T T E R S ###    
+/**
+     * Sets whether auto filter is enabled on the column
+     * @param hasAutoFilter If true, the column has auto filter applied, otherwise not
      */
-    public int getNumber() {
-        return number;
-    }
-
-    /**
-     * Sets the column number
-     * @param number Column number (0 to 16383)
-     */
-    public void setNumber(int number) {
-        this.columnAddress = Cell.resolveColumnAddress(number);
-        this.number = number;
+    public void setAutoFilter(boolean hasAutoFilter) {
+        this.autoFilter = hasAutoFilter;
     }
 
     /**
@@ -51,6 +44,21 @@ public class Column {
         this.number = Cell.resolveColumn(columnAddress);
         this.columnAddress = columnAddress;
     }
+    /**
+     * Gets the column number
+     * @return Column number (0 to 16383)
+     */
+    public int getNumber() {
+        return number;
+    }
+    /**
+     * Sets the column number
+     * @param number Column number (0 to 16383)
+     */
+    public void setNumber(int number) {
+        this.columnAddress = Cell.resolveColumnAddress(number);
+        this.number = number;
+    }
 
     /**
      * Gets the width of the column
@@ -67,6 +75,13 @@ public class Column {
     public void setWidth(float width) {
         this.width = width;
     }
+    /**
+     * Gets whether auto filter is enabled on the column
+     * @return If true, the column has auto filter applied, otherwise not
+     */
+    public boolean hasAutoFilter() {
+        return autoFilter;
+    }
 
     /**
      * Gets whether the column is hidden or visible
@@ -82,32 +97,15 @@ public class Column {
      */
     public void setHidden(boolean isHidden) {
         this.hidden = isHidden;
-    }
-
-    /**
-     * Gets whether auto filter is enabled on the column
-     * @return If true, the column has auto filter applied, otherwise not
-     */
-    public boolean hasAutoFilter() {
-        return autoFilter;
-    }
-
-    /**
-     * Sets whether auto filter is enabled on the column
-     * @param hasAutoFilter If true, the column has auto filter applied, otherwise not
-     */
-    public void setAutoFilter(boolean hasAutoFilter) {
-        this.autoFilter = hasAutoFilter;
-    }
-
+    }    
+    
+// ### C O N S T R U C T O R S ###    
     /**
      * Default constructor
      */
     public Column() {
         this.width = Worksheet.DEFAULT_COLUMN_WIDTH;
     }
-
-    
     /**
      * Constructor with column address
      * @param columnAddress Column address (A to XFD)
@@ -116,7 +114,6 @@ public class Column {
         this.setColumnAddress(columnAddress);
         this.width = Worksheet.DEFAULT_COLUMN_WIDTH;
     }
-
     /**
      * Constructor with column number
      * @param number Column number (zero-based, 0 to 16383)
@@ -125,5 +122,7 @@ public class Column {
         this.setNumber(number);
         this.width = Worksheet.DEFAULT_COLUMN_WIDTH;
     }
+    
+
     
 }
