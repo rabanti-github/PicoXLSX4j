@@ -9,7 +9,7 @@ package picoxlsx4j.style;
 import picoxlsx4j.exception.UnknownRangeException;
 
 /**
- * Class representing an XF entry. The XF entry is used to make reference to other style instances like Border oder Fill and for the positioning of the cell content
+ * Class representing an XF entry. The XF entry is used to make reference to other style instances like Border or Fill and for the positioning of the cell content
  * @author Raphael Stoeckli
  */
 public class CellXf implements Comparable<CellXf>

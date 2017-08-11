@@ -195,13 +195,13 @@ public class Fill implements Comparable<Fill> {
     
     /**
      * Constructor with foreground and background color
-     * @param forground Foreground color of the fill
+     * @param foreground Foreground color of the fill
      * @param background Background color of the fill
      */
-    public Fill(String forground, String background)
+    public Fill(String foreground, String background)
     {
         this.backgroundColor = background;
-        this.foregroundColor = forground;
+        this.foregroundColor = foreground;
         this.indexedColor = 64;
         this.patternFill = PatternValue.solid;
     }
@@ -228,7 +228,7 @@ public class Fill implements Comparable<Fill> {
     }
     
     /**
-     * Seth the color an the depending fill type
+     * Set the color and the depending fill type
      * @param value Color value
      * @param filltype Fill type (fill or pattern)
      */

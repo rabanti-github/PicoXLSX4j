@@ -259,13 +259,13 @@ public class Metadata {
 // ### S T A T I C   M E T H O D S ###    
     /**
      * Method to parse a common version (major.minor.revision.build) into the compatible format (major.minor). The minimum value is 0.0 and the maximum value is 99999.99999<br>
-     * The minor, revision and build number are joined if possible. If the number is to long, the additional characters will be removed from the right side down to five characters (e.g. 785563 will be 78556)
+     * The minor, revision and build number are joined if possible. If the number is too long, the additional characters will be removed from the right side down to five characters (e.g. 785563 will be 78556)
      * @param major Major number from 0 to 99999
      * @param minor Minor number
      * @param build Build number
      * @param revision Revision number
      * @return Formated version number (e.g. 1.0 or 55.987)
-     * @throws FormatException Thrown if the major number is to long or one of the numbers is negative
+     * @throws FormatException Thrown if the major number is too long or one of the numbers is negative
      */
     public static String parseVersion(int major, int minor, int build, int revision)
     {

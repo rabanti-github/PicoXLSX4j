@@ -436,7 +436,7 @@ public class Worksheet {
      * @param name Name of the worksheet
      * @param id ID of the worksheet (for internal use)
      * @param reference Reference to the parent Workbook
-     * @throws FormatException Thrown if the name contains illegal characters or is to long
+     * @throws FormatException Thrown if the name contains illegal characters or is too long
      */
     public Worksheet(String name, int id, Workbook reference)
     {
@@ -466,7 +466,7 @@ public class Worksheet {
     }  
     
     /**
-     * Adds a object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String.<br>
+     * Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String.<br>
      * Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @param columnAddress Column number (zero based)
@@ -481,7 +481,7 @@ public class Worksheet {
     }
     
     /**
-     * Adds a object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String.<br>
+     * Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String.<br>
      * Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @param address Cell address in the format A1 - XFD1048576
@@ -621,7 +621,7 @@ public class Worksheet {
     }    
   
     /**
-     * Adds a object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String.<br>
+     * Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String.<br>
      * Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @throws UndefinedStyleException Thrown if the default style was malformed
@@ -955,9 +955,9 @@ public class Worksheet {
             //foreach(Address address in addresses)
             for(int i = 0; i < addresses.size(); i++)
             {
-                if (this.cells.containsKey(addresses.toString()))
+                if (this.cells.containsKey(addresses.get(i).toString()))
                 {
-                    cell = this.cells.get(this.cells.get(i).toString());
+                    cell = this.cells.get(addresses.get(i).toString());
                     cell.setFieldType(Cell.CellType.DEFAULT); // resets the type
                     if (cell.getValue() == null)
                     {
@@ -988,8 +988,8 @@ public class Worksheet {
     
     /**
      * Sets the column auto filter within the defined column range
-     * @param startColumn Column number with the first appearance of a auto filter drop down
-     * @param endColumn Column number with the last appearance of a auto filter drop down
+     * @param startColumn Column number with the first appearance of an auto filter drop down
+     * @param endColumn Column number with the last appearance of an auto filter drop down
      * @exception OutOfRangeException Thrown if one of the passed column numbers are out of range
      */
     public void setAutoFilter(int startColumn, int endColumn)

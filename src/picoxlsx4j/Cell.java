@@ -287,7 +287,7 @@ public class Cell implements Comparable<Cell>{
     }
     
      /**
-      * Method resets the Cell type an tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT. CellTypes FORMULA and EMPTY will skip this method
+      * Method resets the Cell type and tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT. CellTypes FORMULA and EMPTY will skip this method
       */
     public void resolveCellType()
     {
@@ -550,7 +550,7 @@ public class Cell implements Comparable<Cell>{
         return output;
     } 
     /**
-     * Resolves a cell range from the format like  A1:B3 or AAD556:AAD1000
+     * Resolves a cell range from the format like A1:B3 or AAD556:AAD1000
      * @param range Range to process
      * @return Range object of the passed string range
      * @throws FormatException Thrown if the passed range is malformed
