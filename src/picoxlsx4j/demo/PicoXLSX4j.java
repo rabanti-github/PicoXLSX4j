@@ -187,7 +187,7 @@ public class PicoXLSX4j {
 
             Style s2 = new Style();                                             // Create new style
             s2.getCurrentCellXf().setTextRotation(45);                          // Set text rotation
-            s2.getCurrentCellXf().setVerticalAlign(CellXf.VerticallAlignValue.center);  // Set alignment
+            s2.getCurrentCellXf().setVerticalAlign(CellXf.VerticalAlignValue.center);  // Set alignment
 
             workbook.getCurrentWorksheet().getCells().get("B4").setStyle(s2);   // Assign style to cell
 

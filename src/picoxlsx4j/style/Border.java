@@ -405,11 +405,11 @@ public class Border implements Comparable<Border> {
     public boolean isEmpty()
     {
         boolean state = true;
-        if (this.bottomColor.length() == 0) {state = false;}
-        if (this.topColor.length() == 0) {state = false;}
-        if (this.leftColor.length() == 0) {state = false;}
-        if (this.rightColor.length() == 0) {state = false;}
-        if (this.diagonalColor.length() == 0) {state = false;}
+        if (this.bottomColor.length() != 0) {state = false;}
+        if (this.topColor.length() != 0) {state = false;}
+        if (this.leftColor.length() != 0) {state = false;}
+        if (this.rightColor.length() != 0) {state = false;}
+        if (this.diagonalColor.length() != 0) {state = false;}
         if (this.leftStyle != StyleValue.none) {state = false;}
         if (this.rightStyle != StyleValue.none) {state = false;}
         if (this.topStyle != StyleValue.none) {state = false;}

@@ -368,6 +368,7 @@ public class Workbook {
                     while (itr.hasNext())
                     {
                         cell = (Map.Entry<String, Cell>)itr.next();
+                        if (cell.getValue().getCellStyle() == null) { continue; }
                         if (cell.getValue().getCellStyle().getName().equals(styleName))
                         {
                             styleInUse = true;

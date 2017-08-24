@@ -15,7 +15,7 @@ import java.util.zip.*;
 import org.w3c.dom.Document;
 
 /**
- * Class representing packer to compile XLSX
+ * Class representing packer to compile XLSX files
  * @author Raphael Stoeckli
  */
 public class Packer {
@@ -142,8 +142,8 @@ public class Packer {
         return LowLevel.createBytesFromDocument(d);
     }    
     /**
-     * Method to pack the file into a XLSX file. This is the actual compiling and saving method
-     * @param fileName Filename of the XLSX file
+     * Method to pack the data into a XLSX file. This is the actual compiling and saving method
+     * @param fileName Path and filename of the XLSX file
      * @throws picoxlsx4j.exception.IOException Thrown in case of a error while saving
      */
     public void pack(String fileName) throws picoxlsx4j.exception.IOException
@@ -204,7 +204,7 @@ public class Packer {
 
         /**
          * Gets the list of targets
-         * @return ArrayList of targets as string
+         * @return ArrayList of targets as strings
          */
         public List<String> getTargetList() {
             return targetList;
@@ -212,7 +212,7 @@ public class Packer {
 
         /**
          * Gets the list of types
-         * @return ArrayList of types as string
+         * @return ArrayList of types as strings
          */
         public List<String> getTypeList() {
             return typeList;
@@ -220,7 +220,7 @@ public class Packer {
 
         /**
          * Gets the list of IDs (rId...)
-         * @return ArrayList of IDs as string
+         * @return ArrayList of IDs as strings
          */
         public List<String> getIdList() {
             return idList;

@@ -994,14 +994,6 @@ public class Worksheet {
      */
     public void setAutoFilter(int startColumn, int endColumn)
     {
-        if (startColumn > MAX_COLUMN_ADDRESS || startColumn < MIN_COLUMN_ADDRESS)
-        {
-            throw new OutOfRangeException("The start column number (" + Integer.toString(startColumn) + ") is out of range. Range is from "+ Integer.toString(MIN_COLUMN_ADDRESS)+ " to "+ Integer.toString(MAX_COLUMN_ADDRESS) +" ("+ Integer.toString(MAX_COLUMN_ADDRESS + 1) +" columns).");
-        }
-        if (endColumn > MAX_COLUMN_ADDRESS || endColumn < MIN_COLUMN_ADDRESS)
-        {
-            throw new OutOfRangeException("The end column number (" + Integer.toString(endColumn) + ") is out of range. Range is from "+ Integer.toString(MIN_COLUMN_ADDRESS)+ " to "+ Integer.toString(MAX_COLUMN_ADDRESS) +" ("+ Integer.toString(MAX_COLUMN_ADDRESS + 1) +" columns).");
-        }
         String start = Cell.resolveCellAddress(startColumn, 0);
         String end = Cell.resolveCellAddress(endColumn, 0);
         if (endColumn < startColumn)

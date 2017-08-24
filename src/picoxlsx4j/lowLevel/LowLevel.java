@@ -317,13 +317,13 @@ public class LowLevel {
     private String createRowString(List<Cell> columnFields, Worksheet worksheet)
     {
         int rowNumber = columnFields.get(0).getRowAddress();
-        String heigth = "";
+        String height = "";
         String hidden = "";
         if (worksheet.getRowHeights().containsKey(rowNumber))
         {
             if (worksheet.getRowHeights().get(rowNumber) != worksheet.getDefaultRowHeight())
             {
-                heigth = " x14ac:dyDescent=\"0.25\" customHeight=\"1\" ht=\"" + Float.toString(worksheet.getRowHeights().get(rowNumber)) + "\"";
+                height = " x14ac:dyDescent=\"0.25\" customHeight=\"1\" ht=\"" + Float.toString(worksheet.getRowHeights().get(rowNumber)) + "\"";
             }
         }
         if (worksheet.getHiddenRows().containsKey(rowNumber))
@@ -340,11 +340,11 @@ public class LowLevel {
         {
             sb.append("<row r=\"");
             sb.append((rowNumber + 1));
-            sb.append("\"" + heigth + hidden + ">");
+            sb.append("\"" + height + hidden + ">");
         }
         else
         {
-            sb.append("<row" + heigth + ">");
+            sb.append("<row" + height + ">");
         }
         String typeAttribute;
         String sValue = "";
@@ -825,7 +825,7 @@ public class LowLevel {
             textRotation = item.getCurrentCellXf().calculateInternalRotation();
             alignmentString = "";
             protectionString = "";
-            if (item.getCurrentCellXf().getHorizontalAlign() != CellXf.HorizontalAlignValue.none || item.getCurrentCellXf().getVerticalAlign() != CellXf.VerticallAlignValue.none || item.getCurrentCellXf().getAlignment() != CellXf.TextBreakValue.none || textRotation != 0)
+            if (item.getCurrentCellXf().getHorizontalAlign() != CellXf.HorizontalAlignValue.none || item.getCurrentCellXf().getVerticalAlign() != CellXf.VerticalAlignValue.none || item.getCurrentCellXf().getAlignment() != CellXf.TextBreakValue.none || textRotation != 0)
             {
                 sb2 = new StringBuilder();
                 sb2.append("<alignment");
@@ -842,13 +842,13 @@ public class LowLevel {
                     else { sb2.append("left"); }
                     sb2.append("\"");
                 }
-                if (item.getCurrentCellXf().getVerticalAlign() != CellXf.VerticallAlignValue.none)
+                if (item.getCurrentCellXf().getVerticalAlign() != CellXf.VerticalAlignValue.none)
                 {
                     sb2.append(" vertical=\"");
-                    if (item.getCurrentCellXf().getVerticalAlign() == CellXf.VerticallAlignValue.center) { sb2.append("center"); }
-                    else if (item.getCurrentCellXf().getVerticalAlign() == CellXf.VerticallAlignValue.distributed) { sb2.append("distributed"); }
-                    else if (item.getCurrentCellXf().getVerticalAlign() == CellXf.VerticallAlignValue.justify) { sb2.append("justify"); }
-                    else if (item.getCurrentCellXf().getVerticalAlign() == CellXf.VerticallAlignValue.top) { sb2.append("top"); }
+                    if (item.getCurrentCellXf().getVerticalAlign() == CellXf.VerticalAlignValue.center) { sb2.append("center"); }
+                    else if (item.getCurrentCellXf().getVerticalAlign() == CellXf.VerticalAlignValue.distributed) { sb2.append("distributed"); }
+                    else if (item.getCurrentCellXf().getVerticalAlign() == CellXf.VerticalAlignValue.justify) { sb2.append("justify"); }
+                    else if (item.getCurrentCellXf().getVerticalAlign() == CellXf.VerticalAlignValue.top) { sb2.append("top"); }
                     else { sb2.append("bottom"); }
                     sb2.append("\"");
                 }
@@ -1310,10 +1310,10 @@ public class LowLevel {
     public static String generatePasswordHash(String password)
     {
         if (Helper.isNullOrEmpty(password)) { return ""; }
-        int PasswordLength = password.length();
+        int passwordLength = password.length();
         int passwordHash = 0;
         char character;
-        for(int i = PasswordLength; i > 0; i--)
+        for(int i = passwordLength; i > 0; i--)
         {
             character = password.charAt(i - 1);
             passwordHash = ((passwordHash >> 14) & 0x01) | ((passwordHash << 1) & 0x7fff);
@@ -1321,7 +1321,7 @@ public class LowLevel {
         }
         passwordHash = ((passwordHash >> 14) & 0x01) | ((passwordHash << 1) & 0x7fff);
         passwordHash ^= (0x8000 | ('N' << 8) | 'K');
-        passwordHash ^= PasswordLength;
+        passwordHash ^= passwordLength;
         return Integer.toHexString(passwordHash).toUpperCase();
     }    
     

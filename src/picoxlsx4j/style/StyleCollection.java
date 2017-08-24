@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Class representing a collection of Sub-Styles 
  * @author Raphael Stoeckli
- */
+ */ 
 public class StyleCollection
    {
        private List<Border> borders;
@@ -30,7 +30,7 @@ public class StyleCollection
 
         /**
          * Sets the list of border
-         * @param borders List of border
+         * @param borders List of border 
          */
         public void setBorders(List<Border> borders) {
             this.borders = borders;

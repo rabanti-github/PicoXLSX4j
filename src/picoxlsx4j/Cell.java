@@ -281,9 +281,12 @@ public class Cell implements Comparable<Cell>{
         {
             throw new UndefinedStyleException("No workbook reference was defined on the worksheet while trying to remove a style from a cell");
         }
-        String styleName = this.cellStyle.getName();
-        this.cellStyle = null;
-        this.worksheetReference.getWorkbookReference().removeStyle(styleName, true);
+        if (this.cellStyle != null)
+        {
+            String styleName = this.cellStyle.getName();
+            this.cellStyle = null;
+            this.worksheetReference.getWorkbookReference().removeStyle(styleName, true);
+        }
     }
     
      /**

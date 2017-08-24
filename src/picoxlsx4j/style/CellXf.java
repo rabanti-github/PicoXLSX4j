@@ -61,7 +61,7 @@ public class CellXf implements Comparable<CellXf>
      /**
       * Enum for the vertical alignment of a cell 
       */
-     public enum VerticallAlignValue
+     public enum VerticalAlignValue
      {
          /**
          * Content will be aligned on the bottom (default)
@@ -126,7 +126,7 @@ public class CellXf implements Comparable<CellXf>
      private int textRotation;
      private TextDirectionValue textDirection;           
      private HorizontalAlignValue horizontalAlign;
-     private VerticallAlignValue verticalAlign;
+     private VerticalAlignValue verticalAlign;
      private TextBreakValue alignment;
      private boolean locked;
      private boolean hidden;
@@ -190,7 +190,7 @@ public class CellXf implements Comparable<CellXf>
       * Gets the vertical alignment of the style
       * @return Vertical alignment of the style
       */
-     public VerticallAlignValue getVerticalAlign() {
+     public VerticalAlignValue getVerticalAlign() {
          return verticalAlign;
      }
 
@@ -198,7 +198,7 @@ public class CellXf implements Comparable<CellXf>
       * Sets the vertical alignment of the style
       * @param verticalAlign Vertical alignment of the style
       */
-     public void setVerticalAlign(VerticallAlignValue verticalAlign) {
+     public void setVerticalAlign(VerticalAlignValue verticalAlign) {
          this.verticalAlign = verticalAlign;
      }
 
@@ -292,7 +292,7 @@ public class CellXf implements Comparable<CellXf>
          this.horizontalAlign = HorizontalAlignValue.none;
          this.alignment = TextBreakValue.none;
          this.textDirection = TextDirectionValue.horizontal;
-         this.verticalAlign = VerticallAlignValue.none;
+         this.verticalAlign = VerticalAlignValue.none;
          this.textRotation = 0;            
      }
 

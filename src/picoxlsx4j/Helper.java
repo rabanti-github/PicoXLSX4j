@@ -37,20 +37,9 @@ public class Helper {
      */
     public static double getOADate(Date date)
     {
-       // Calendar root = Calendar.getInstance();
         Calendar dateCal = Calendar.getInstance();
         dateCal.setTime(date);
-        //long t1 = root.getTimeInMillis();
-        //long t2 = dateCal.getTimeInMillis();
         long currentTicks = dateCal.getTimeInMillis();
-        /*
-        double span = t2 - t1;
-        double days = Math.floor(span / (86400000)); // 1000 * 24 * 60 * 60
-        double h = dateCal.get(Calendar.HOUR_OF_DAY);
-        double m = dateCal.get(Calendar.MINUTE);
-        double s = dateCal.get(Calendar.SECOND);
-        return ((s + (m * 60) + (h * 3600)) / 86400) + days;
-        */
         double d = ((dateCal.get(Calendar.SECOND) + (dateCal.get(Calendar.MINUTE) * 60) + (dateCal.get(Calendar.HOUR_OF_DAY) * 3600)) / 86400) + Math.floor((currentTicks - rootTicks) / (86400000));
         if (d < 0)
         {
