@@ -1,5 +1,5 @@
-picoxlsx4j
-picoxlsx4j.demo
-picoxlsx4j.exception
-picoxlsx4j.lowLevel
-picoxlsx4j.style
+ch.rabanti.picoxlsx4j
+ch.rabanti.picoxlsx4j.demo
+ch.rabanti.picoxlsx4j.exception
+ch.rabanti.picoxlsx4j.lowLevel
+ch.rabanti.picoxlsx4j.style

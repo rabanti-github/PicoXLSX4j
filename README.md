@@ -6,6 +6,15 @@ PicoXLSX4j is a small Java library to create XLSX files (Microsoft Excel 2007 or
 * No need for 3rd party libraries
 * Pure usage of standard JRE
 
+# What's new in version 2.x
+* Changed package structure to ch.rabanti.picoxlsx4j
+* Complete replacement of the old style handling
+* Added more options to assign styles to cells
+* Added an option for sanitizing of worksheet names
+* Replaced specific exception classes with general exceptions (e.g. StyleException, FormatException or WorksheetException)
+* Added functions to retrieve stored data and the current cell address
+* Many internal optimizations and additional documentation
+
 # Requirements
 PicoXLSX4j was created with Java 8 and is fully compatible with Java 7<br>
 The only requirement for developments are a current JDK to develop and JRE to run.
@@ -29,4 +38,4 @@ Place all .java files from the PicoXLSX4j source folder into your project. The f
 
 ## Further References
 See the full <b>API-Documentation</b> at: [https://rabanti-github.github.io/PicoXLSX4j/](https://rabanti-github.github.io/PicoXLSX4j/).<br>
-The [Demo class](https://github.com/rabanti-github/PicoXLSX4j/blob/master/src/picoxlsx4j/demo/PicoXLSX4j.java) contains nine simple use cases. You can find also the full documentation in the [Javadoc-Folder](https://github.com/rabanti-github/PicoXLSX4j/tree/master/dist/javadoc) or as Javadoc annotations in the .java files.<br>
+The [Demo class](https://github.com/rabanti-github/PicoXLSX4j/blob/master/src/ch/rabanti/picoxlsx4j/demo/PicoXLSX4j.java) contains nine simple use cases. You can find also the full documentation in the [Javadoc-Folder](https://github.com/rabanti-github/PicoXLSX4j/tree/master/dist/javadoc) or as Javadoc annotations in the .java files.<br>
