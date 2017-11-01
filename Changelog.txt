@@ -8,7 +8,7 @@ v2.0.1 01.11.2017
 
 v2.0.0 29.10.2017
 *****************
-Note: This major version is not compatible with code of v1.x. However, proting is feasible with moderate effort
+Note: This major version is not compatible with code of v1.x. However, porting is feasible with moderate effort
 - Changed package structure to ch.rabanti.picoxlsx4j
 - Complete replacement of style handling
 - Added an option to add styles with the cell values in one step
