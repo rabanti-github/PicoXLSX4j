@@ -80,7 +80,7 @@ public abstract class AbstractStyle implements Comparable<AbstractStyle>
     /**
      * Method to cast values of the components to string values for the hash calculation
      * @param o Value to cast
-     * @param sb StrinBuilder reference to put the casted object in
+     * @param sb StringBuilder reference to put the casted object in
      * @param delimiter Delimiter character to append after the casted value
      */
     static void castValue(Object o, StringBuilder sb, Character delimiter)

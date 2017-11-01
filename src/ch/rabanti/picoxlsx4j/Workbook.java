@@ -174,7 +174,7 @@ public class Workbook {
     }    
 
     /**
-     * gets the style manager of this workbook
+     * Gets the style manager of this workbook
      * @return Style manager object
      */
     public StyleManager getStyleManager() {

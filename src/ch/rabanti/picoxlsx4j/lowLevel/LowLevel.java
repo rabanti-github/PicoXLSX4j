@@ -771,7 +771,6 @@ public class LowLevel {
      */
     private Document createStyleSheetDocument() throws IOException
     {
-       // StyleCollection styles = this.workbook.reorganizeStyles();
         String bordersString = createStyleBorderString();
         String fillsString = createStyleFillString();
         String fontsString = createStyleFontString();

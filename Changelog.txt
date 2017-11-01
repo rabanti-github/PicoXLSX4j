@@ -1,3 +1,11 @@
+v2.0.1 01.11.2017
+*****************
+- Changed function name getCurrentColumnNumber to getCurrentColumnAddress (alignment to setter)
+- Changed function name getCurrentRowNumber to getCurrentRowAddress (alignment to setter)
+- Fixed errors in teh demo documentation (comments)
+- Fixed typos
+
+
 v2.0.0 29.10.2017
 *****************
 Note: This major version is not compatible with code of v1.x. However, proting is feasible with moderate effort

@@ -123,7 +123,7 @@ public class PicoXLSX4j {
         }
         
         /**
-         * This demo shows the usage of flipped direction when using AddnextCell
+         * This demo shows the usage of flipped direction when using AddnextCell, reading of the current cell address, and retrieving of cell values
          */
         private static void demo3()
         {
@@ -133,9 +133,9 @@ public class PicoXLSX4j {
             workbook.getCurrentWorksheet().addNextCell(2);                      // Add cell A2
             workbook.getCurrentWorksheet().addNextCell(3);                      // Add cell A3
             workbook.getCurrentWorksheet().addNextCell(4);                      // Add cell A4
-            int row = workbook.getCurrentWorksheet().getCurrentRowNumber();     // Get the row number (will be 4 = row row 5)
-            int col = workbook.getCurrentWorksheet().getCurrentColumnNumber();  // Get the columnnuber (will be 0 = column A)
-            workbook.getCurrentWorksheet().addNextCell("This cell has the row number " + (row+1) + " and coloum number " + (col+1));
+            int row = workbook.getCurrentWorksheet().getCurrentRowAddress();    // Get the row number (will be 4 = row row 5)
+            int col = workbook.getCurrentWorksheet().getCurrentColumnAddress(); // Get the columnnuber (will be 0 = column A)
+            workbook.getCurrentWorksheet().addNextCell("This cell has the row number " + (row+1) + " and column number " + (col+1));
             workbook.getCurrentWorksheet().goToNextColumn();                    // Go to Column B
             workbook.getCurrentWorksheet().addNextCell("A");                    // Add cell B1
             workbook.getCurrentWorksheet().addNextCell("B");                    // Add cell B2
@@ -167,24 +167,24 @@ public class PicoXLSX4j {
             values.add("Header2");
             values.add("Header3");
             workbook.getCurrentWorksheet().addCellRange(values, new Address(0,0), new Address(2,0));         // Add a cell range to A4 - C4
-            workbook.getCurrentWorksheet().getCells().get("A1").setStyle(BasicStyles.Bold());                          // Assign predefined basic style to cell
-            workbook.getCurrentWorksheet().getCells().get("B1").setStyle(BasicStyles.Bold());                          // Assign predefined basic style to cell
-            workbook.getCurrentWorksheet().getCells().get("C1").setStyle(BasicStyles.Bold());                          // Assign predefined basic style to cell
+            workbook.getCurrentWorksheet().getCells().get("A1").setStyle(BasicStyles.Bold());                // Assign predefined basic style to cell
+            workbook.getCurrentWorksheet().getCells().get("B1").setStyle(BasicStyles.Bold());                // Assign predefined basic style to cell
+            workbook.getCurrentWorksheet().getCells().get("C1").setStyle(BasicStyles.Bold());                // Assign predefined basic style to cell
             workbook.getCurrentWorksheet().goToNextRow();                       // Go to Row 2
-            workbook.getCurrentWorksheet().addNextCell(new Date(115, 9 ,1));    // Add cell A2
+            workbook.getCurrentWorksheet().addNextCell( new Date());            // Add cell A2
             workbook.getCurrentWorksheet().addNextCell(2);                      // Add cell B2
-            workbook.getCurrentWorksheet().addNextCell(3);                      // Add cell B2
+            workbook.getCurrentWorksheet().addNextCell(3);                      // Add cell C2
             workbook.getCurrentWorksheet().goToNextRow();                       // Go to Row 3
-            workbook.getCurrentWorksheet().addNextCell(new Date(115, 9 ,2));    // Add cell B1
-            workbook.getCurrentWorksheet().addNextCell("B");                    // Add cell B2
-            workbook.getCurrentWorksheet().addNextCell("C");                    // Add cell B3
+            workbook.getCurrentWorksheet().addNextCell(new Date());             // Add cell A3
+            workbook.getCurrentWorksheet().addNextCell("B");                    // Add cell B3
+            workbook.getCurrentWorksheet().addNextCell("C");                    // Add cell C3
 
             Style s = new Style();                                              // Create new style
             s.getFill().SetColor("FF22FF11", Fill.FillType.fillColor);          // Set fill color
             s.getFont().setDoubleUnderline(true);                               // Set double underline
             s.getCellXf().setHorizontalAlign(CellXf.HorizontalAlignValue.center);  // Set alignment
             
-            Style s2 = s.copyStyle();                                           // Copy the previously style
+            Style s2 = s.copyStyle();                                           // Copy the previously defined style
             s2.getFont().setItalic(true);                                       // Change an attribute of the copied style
 
             workbook.getCurrentWorksheet().getCells().get("B2").setStyle(s);    // Assign style to cell
@@ -194,7 +194,7 @@ public class PicoXLSX4j {
             workbook.getCurrentWorksheet().addNextCell(false, s2);              // Add cell B3 with style in the same step 
             workbook.getCurrentWorksheet().getCells().get("C2").setStyle(BasicStyles.BorderFrame());        // Assign predefined basic style to cell
 
-            Style s3 = BasicStyles.Strike();                                    // Create a style from a predefined sytle
+            Style s3 = BasicStyles.Strike();                                    // Create a style from a predefined style
             s3.getCellXf().setTextRotation(45);                                 // Set text rotation
             s3.getCellXf().setVerticalAlign(CellXf.VerticalAlignValue.center);  // Set alignment
 
@@ -303,7 +303,7 @@ public class PicoXLSX4j {
          */
         private static void demo7()
         { 
-            Workbook workbook = new Workbook(false);                                                    // Create new workbook withoput worksheet
+            Workbook workbook = new Workbook(false);                                                    // Create new workbook without worksheet
             String invalidSheetName = "Sheet?1";                                                        // ? is not allowed in the names of worksheets
             String sanitizedSheetName = Worksheet.sanitizeWorksheetName(invalidSheetName, workbook);    // Method to sanitize a worksheet name (replaces ? with _)
             workbook.addWorksheet(sanitizedSheetName);                                                  // Add new worksheet
@@ -313,19 +313,19 @@ public class PicoXLSX4j {
             values.add("Cell B1");                                                                      // set a value
             values.add("Cell C1");                                                                      // set a value
             values.add("Cell D1");                                                                      // set a value
-            ws.addCellRange(values, "A1:D1");                                                     // Insert cell range
+            ws.addCellRange(values, "A1:D1");                                                           // Insert cell range
             values = new ArrayList<>();                                                                 // Create a List of values
             values.add("Cell A2");                                                                      // set a value
             values.add("Cell B2");                                                                      // set a value
             values.add("Cell C2");                                                                      // set a value
             values.add("Cell D2");                                                                      // set a value            
-            ws.addCellRange(values, "A2:D2");                                                     // Insert cell range
-            values = new ArrayList<>();                 // Create a List of values
+            ws.addCellRange(values, "A2:D2");                                                           // Insert cell range
+            values = new ArrayList<>();                                                                 // Create a List of values
             values.add("Cell A3");                                                                      // set a value
             values.add("Cell B3");                                                                      // set a value
             values.add("Cell C3");                                                                      // set a value
             values.add("Cell D3");                                                                      // set a value            
-            ws.addCellRange(values, "A3:D3");                                                     // Insert cell range
+            ws.addCellRange(values, "A3:D3");                                                           // Insert cell range
             ws.addHiddenColumn("C");                                                                    // Hide column C
             ws.addHiddenRow(1);                                                                         // Hider row 2 (zero-based: 1)
             ws.setAutoFilter(1, 3);                                                                     // Set auto-filter for column B to D
@@ -349,9 +349,9 @@ public class PicoXLSX4j {
             workbook.getCurrentWorksheet().setSelectedCells("A5:B10");					// Set the selection to the range A5:B10
             workbook.addWorksheet("Sheet2");								// Create new worksheet
             workbook.getCurrentWorksheet().addNextCell("Test2");              				// Add cell A1
-            Range range = new Range(new Address(1,1), new Address(3,3));		// Create a cell range for the selection B2:D4
+            Range range = new Range(new Address(1,1), new Address(3,3));                                // Create a cell range for the selection B2:D4
             workbook.getCurrentWorksheet().setSelectedCells(range);					// Set the selection to the range
-            workbook.addWorksheet("Sheet2", true);							// Create new worksheet with already existing name; The name will be changed to Sheet21 due to auto-sanitazion (appending of 1) 
+            workbook.addWorksheet("Sheet2", true);							// Create new worksheet with already existing name; The name will be changed to Sheet21 due to auto-sanitizing (appending of 1) 
             workbook.getCurrentWorksheet().addNextCell("Test3");              				// Add cell A1
             workbook.getCurrentWorksheet().setSelectedCells(new Address(2,2), new Address(4,4));	// Set the selection to the range C3:E5
             workbook.setSelectedWorksheet(1);								// Set the second Tab as selected (zero-based: 1)

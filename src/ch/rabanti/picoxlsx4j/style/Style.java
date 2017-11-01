@@ -122,7 +122,7 @@ public class Style extends AbstractStyle
     }
 
     /**
-     * Gets the name of the style
+     * Gets the name of the style.
      * @return Name
      */
     public String getName() {
@@ -130,7 +130,7 @@ public class Style extends AbstractStyle
     }
 
     /**
-     * Sets the name of the style
+     * Sets the name of the style. If not defined, the hash will be used as name
      * @param name Name 
      */
     public void setName(String name) {

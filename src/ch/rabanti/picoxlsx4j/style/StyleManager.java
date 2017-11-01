@@ -389,7 +389,7 @@ public class StyleManager
     /**
      * Removes a style and all its components from the style manager
      * @param styleName Name of the style to remove
-     * @throws StyleException Thrown if style name was not found
+     * @throws StyleException Throws a StyleException if the style was not found in the style manager
      */
     public void removeStyle(String styleName)
     {
