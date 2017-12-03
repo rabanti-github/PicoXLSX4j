@@ -46,6 +46,9 @@ import ch.rabanti.picoxlsx4j.style.Fill;
 import ch.rabanti.picoxlsx4j.style.Font;
 import ch.rabanti.picoxlsx4j.style.NumberFormat;
 import ch.rabanti.picoxlsx4j.style.Style;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.stream.Stream;
 
 
 /**
@@ -1155,6 +1158,7 @@ public class LowLevel {
          return output;
      }
 
+    
     /**
      * Method to save the workbook
      * @throws IOException Thrown in case of an error
@@ -1162,6 +1166,19 @@ public class LowLevel {
     public void save() throws IOException
     {
         try
+        {
+            FileOutputStream dest = new FileOutputStream(this.workbook.getFilename());
+            saveAsStream(dest);
+        }
+        catch (Exception e)
+        {
+            throw new IOException("SaveException","There was an error while creating the workbook document during saving to a file. Please see the inner exception:" + e.getMessage(), e);
+        }   
+    }
+    
+    public void saveAsStream(OutputStream stream) throws IOException
+    {
+          try
         {
             this.workbook.resolveMergedCells();
             Document doc;
@@ -1192,15 +1209,15 @@ public class LowLevel {
             p.addPart("xl/sharedStrings.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", createSharedStringsDocument());
             p.addPart("xl/workbook.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", book, false);
             p.addPart("xl/styles.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", styles);
-            p.pack(this.workbook.getFilename());
+            p.pack(stream);
         }
         catch (Exception e)
         {
-            throw new IOException("SaveException","There was an error while creating the workbook document during saving. Please see the inner exception.", e);
-        }
-
+            throw new IOException("SaveException","There was an error while creating the workbook document during writing to a stream. Please see the inner exception:" + e.getMessage(), e);
+        }      
+    }    
+    
 // ### S T A T I C   M E T H O D S ###        
-    }
     /**
      * Method to convert an XML document to an byte array
      * @param document Document to process

@@ -25,6 +25,8 @@ import ch.rabanti.picoxlsx4j.style.Font;
 import ch.rabanti.picoxlsx4j.style.NumberFormat;
 import ch.rabanti.picoxlsx4j.style.Style;
 import ch.rabanti.picoxlsx4j.style.StyleManager;
+import java.io.OutputStream;
+import java.util.stream.Stream;
 
 /**
  * Class representing a workbook
@@ -546,6 +548,17 @@ public class Workbook {
         LowLevel l = new LowLevel(this);
         l.save();
         this.filename = backup;
+    }
+    
+    /**
+     * Save the workbook to a output stream
+     * @param stream Output Stream
+     * @throws IOException Thrown in case of an error
+     */
+    public void saveAsStream(OutputStream stream) throws IOException
+    {
+        LowLevel l = new LowLevel(this);
+        l.saveAsStream(stream);
     }
     
     /**

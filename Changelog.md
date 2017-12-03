@@ -1,0 +1,192 @@
+# Change Log
+
+## v2.1.0 
+---
+Release Date: **03.12.2017**
+
+- Added saveToStream method in Workbook class
+- Added demo for the new stream save method
+- Changed log to MD format
+
+
+## v2.0.1 
+---
+Release Date: **01.11.2017**
+
+- Changed function name getCurrentColumnNumber to getCurrentColumnAddress (alignment to setter)
+- Changed function name getCurrentRowNumber to getCurrentRowAddress (alignment to setter)
+- Fixed errors in teh demo documentation (comments)
+- Fixed typos
+
+
+## v2.0.0 
+---
+Release Date: **29.10.2017**
+
+**Note**: This major version is not compatible with code of v1.x. However, porting is feasible with moderate effort
+- Changed package structure to ch.rabanti.picoxlsx4j
+- Complete replacement of style handling
+- Added an option to add styles with the cell values in one step
+- Added a sanitizing function for worksheet names (with auto-sanitizing when adding a worksheet as option)
+- Changed specific exception to gerenal exceptions (e.g. StyleException, FormatException or WorksheetException)
+- Added function to retrieve cell values easier
+- Added functions to get the current column or row number
+- Many internal optimizations
+- Added more documentation
+- Added new functionality to the demos
+
+## v1.6.3 
+---
+Release Date: **24.08.2017**
+
+- fixed a bug in the handling of border styles
+- Added further null checks
+- Minor optimizations
+- Fixed typos
+
+## v1.6.2 
+---
+Release Date: **12.08.2017**
+
+- fixed a bug in the function to remove merged cells (Worksheet class)
+- Fixed typos
+
+## v1.6.1 
+---
+Release Date: **08.08.2017**
+
+**Note**: Due to a (now fixed) typo in a public parameter name, it is possible that some function calls on existing code must be fixed too (just renaming).
+- Fixed typos (parameters and text)
+- Minor optimization
+- Moved Sub-Classes Range and Address to separate files
+- Complete reformatting of code (alphabetical order)
+- HTML documentation moved to folder 'docs' to provide an automatic API documentation on the hosting platform
+
+## v1.6.0 
+---
+Release Date: **15.04.2017**
+
+**Note**: Using this version of the library with old code can cause compatibility issues due to the simplification of some methods (see below).
+- Simplified all style assignment methods. Referencing of the workbook is not necessary anymore (can cause compatibility issues with existing code; just remove the workbook references)
+- Removed getCellAddressString and setCellAddressString  Method. Replaced by getCellAddress and setCellAddress (String object)
+- getCellAddress and setCellAddress (Address object) are replaced by getCellAddress2 and setCellAddress2 
+- Additional checks in the assignment methods for columns and rows
+- Minor changes (code and documentation)
+
+## v1.5.5
+---
+Release Date: **03.04.2017**
+
+- Fixed a potential bug induced by non-Gregorian calendars (e.g Minguo, Heisei period, Hebrew) on the host system
+- Code cleanup
+- Minor bug fixes
+- Fixed typos
+
+## v1.5.4
+---
+Release Date: **20.03.2017**
+
+- Extended the sanitizing of allowed XML characters according the XML specifications to avoid errors with illegal characters in passed strings
+- Fixed typos
+
+## v1.5.3
+---
+Release Date: **02.12.2016**
+
+- Fixed bug in the handling of the cell types
+
+## v1.5.2
+---
+Release Date: **17.11.2016**
+
+- Fixed general bug in the handling of the sharedStrings table. Please update
+- Passed null values to cells are now interpreted as empty values. Caused an exception until now
+
+## v1.5.1
+---
+Release Date: **15.11.2016**
+
+- Fixed bug in sharedStrings table
+
+## v1.5.0
+---
+Release Date: **16.08.2016**
+
+**Note**: Using this version of the library with old code can cause compatibility issues due to the removal of some methods (see below).
+- Removed all overloaded methods with various input values for adding cells. Object is sufficient
+- Added sharedStrings table to manage strings more efficient (Excel standard)
+- Changed demos according to removed overloaded methods (ArrayList<String> is now ArrayList<Object>)
+- Added support for long (64bit) data type
+
+## v1.4.0
+---
+Release Date: **11.08.2016**
+
+- Added support for cell selection
+- Added support for worksheet selection
+- Removed XML namespace 'x' as prefix in OOXML output. No use for this at the moment
+- Removed newlines from OOXML output. No relevance for parser
+- Added further demo for the new features
+
+## v1.3.0  
+---
+Release Date: **18.01.2016**
+
+- Added support for auto filter (columns)
+- Added support for hiding columns and rows
+- Added new Column class (sub-class of Worksheet) to manage column based properties more efficiently
+- Removed unused Exception UnsupportedDataTypeException
+- Fixed some documentation issues
+- Minor bug fixes + typos 
+- Added further demo for the new features
+
+## v1.2.4	
+---
+Release Date: **08.11.2015**
+
+- Fixed a bug in the meta data section
+
+## v1.2.3	
+---
+Release Date: **04.11.2015**
+
+- Changed all Exceptions to RuntimeExceptions, apart from IOException
+- Fixed typos
+
+## v1.2.2	
+---
+Release Date: **02.11.2015**
+
+- Added support for protecting workbooks
+
+## v1.2.1	
+---
+Release Date: **01.11.2015**
+
+- Added support to protect worksheets with a password
+- Minor bug fixes
+- Added more documentation
+
+## v1.2.0	
+---
+Release Date: **31.10.2015**
+
+- Added support for merging cells
+- Added support for Protecting worksheets (no support for passwords yet)
+- Minor bug fixes
+- Fixed typos
+- Added further demo for the new features
+
+## v1.1.3	
+---
+Release Date: **13.10.2015**
+
+- Update to Java 8 (full compatible to Java 7)
+- Fixed Javadoc to meet requirements of Java 8
+
+## v1.1.2	
+---
+Release Date: **12.10.2015**
+
+- Initial release (synced to v1.1.2 of PicoXLSX for C#)
+

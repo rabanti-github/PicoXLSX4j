@@ -8,9 +8,11 @@ package ch.rabanti.picoxlsx4j.lowLevel;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 import java.util.zip.*;
 import org.w3c.dom.Document;
 
@@ -145,17 +147,17 @@ public class Packer {
         return LowLevel.createBytesFromDocument(d);
     }    
     /**
-     * Method to pack the data into a XLSX file. This is the actual compiling and saving method
-     * @param fileName Path and filename of the XLSX file
-     * @throws ch.rabanti.picoxlsx4j.exception.IOException Thrown in case of a error while saving
+     * Method to pack the data into a XLSX file. This is the actual compiling and writing method (to a OutputStream)
+     * @param stream OutputStream to save the data into
+     * @throws ch.rabanti.picoxlsx4j.exception.IOException Thrown in case of a error while packing or writing
      */
-    public void pack(String fileName) throws ch.rabanti.picoxlsx4j.exception.IOException
+    public void pack(OutputStream stream) throws ch.rabanti.picoxlsx4j.exception.IOException
     {
         try
         {
             byte[] contentTypes = createContenTypeDocument();
-            FileOutputStream dest = new FileOutputStream(fileName);
-            ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest), Charset.forName("UTF-8"));
+            
+            ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream((OutputStream)stream), Charset.forName("UTF-8"));
             out.setMethod(ZipOutputStream.DEFLATED);
             ZipEntry entry = new ZipEntry(CONTENTTYPE_DOCUMENT);
             out.putNextEntry(entry);

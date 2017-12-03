@@ -17,6 +17,10 @@ import ch.rabanti.picoxlsx4j.style.BasicStyles;
 import ch.rabanti.picoxlsx4j.style.CellXf;
 import ch.rabanti.picoxlsx4j.style.Fill;
 import ch.rabanti.picoxlsx4j.style.Style;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Demo Program for PicoXLSX4j
@@ -31,6 +35,7 @@ public class PicoXLSX4j {
     public static void main(String[] args)  {
        
         basicDemo();
+        streamDemo();
         demo1();
         demo2();
         demo3();
@@ -58,6 +63,27 @@ public class PicoXLSX4j {
             catch(Exception e)
             {
                 System.out.println(e.getMessage());
+            }
+        }
+        
+        /**
+         * This method shows how to save a workbook as stream 
+         */
+        private static void streamDemo()
+        {
+            Workbook workbook = new Workbook(true);                             // Create new workbook without file name
+            workbook.getCurrentWorksheet().addNextCell("This is an example");   // Add cell A1
+            workbook.getCurrentWorksheet().addNextCellFormula("=A1");           // Add formula in cell B1
+            workbook.getCurrentWorksheet().addNextCell(123456789);              // Add cell C1
+            FileOutputStream fs;                                                // Define a stream
+            try
+            {
+                fs = new FileOutputStream("stream.xlsx");                       // Create a file output stream (could be whatever output stream you want)
+                workbook.saveAsStream(fs);                                      // Save the workbook into the stream    
+            }
+            catch (Exception ex)
+            {
+                System.out.println(ex.getMessage());
             }
         }
  
