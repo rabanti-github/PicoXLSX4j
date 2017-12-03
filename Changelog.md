@@ -115,7 +115,7 @@ Release Date: **16.08.2016**
 **Note**: Using this version of the library with old code can cause compatibility issues due to the removal of some methods (see below).
 - Removed all overloaded methods with various input values for adding cells. Object is sufficient
 - Added sharedStrings table to manage strings more efficient (Excel standard)
-- Changed demos according to removed overloaded methods (ArrayList<String> is now ArrayList<Object>)
+- Changed demos according to removed overloaded methods (ArrayList&lt;String&gt; is now ArrayList&lt;Object&gt;)
 - Added support for long (64bit) data type
 
 ## v1.4.0
