@@ -17,10 +17,7 @@ import ch.rabanti.picoxlsx4j.style.BasicStyles;
 import ch.rabanti.picoxlsx4j.style.CellXf;
 import ch.rabanti.picoxlsx4j.style.Fill;
 import ch.rabanti.picoxlsx4j.style.Style;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Demo Program for PicoXLSX4j
@@ -35,6 +32,7 @@ public class PicoXLSX4j {
     public static void main(String[] args)  {
        
         basicDemo();
+        shortenerDemo();
         streamDemo();
         demo1();
         demo2();
@@ -65,6 +63,32 @@ public class PicoXLSX4j {
                 System.out.println(e.getMessage());
             }
         }
+        
+        /**
+         * This method show the shortened style of writing cells
+         */
+        private static void shortenerDemo()
+        {
+            Workbook wb = new Workbook("shortenerDemo.xlsx", "Sheet1"); // Create a workbook (important: A worksheet must be created as well) 
+            wb.WS.value("Some Text");                                   // Add cell A1
+            wb.WS.value(58.55, BasicStyles.DoubleUnderline());          // Add a formated value to cell B1
+            wb.WS.right(2);                                             // Move to cell E1   
+            wb.WS.value(true);                                          // Add cell E1
+            wb.addWorksheet("Sheet2");                                  // Add a new worksheet
+            wb.getCurrentWorksheet().setCurrentCellDirection(Worksheet.CellDirection.RowToRow); // Change the cell direction
+            wb.WS.value("This is another text");                        // Add cell A1
+            wb.WS.formula("=A1");                                       // Add a formula in Cell A2
+            wb.WS.down();                                               // Go to cell A4
+            wb.WS.value("Formated Text", BasicStyles.Bold());           // Add a formated value to cell A4
+            try
+            {
+                wb.save();                                              // Save the workbook
+            }
+            catch(Exception ex)
+            {
+                System.out.println(ex.getMessage());
+            }
+        }        
         
         /**
          * This method shows how to save a workbook as stream 

@@ -12,3 +12,15 @@
 hs_err_pid*
 
 *.xlsx
+
+nbproject/
+
+build/
+
+*.xml
+
+manifest\.mf
+
+test/
+
+lib/

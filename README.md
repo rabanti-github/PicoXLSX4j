@@ -28,16 +28,30 @@ Simply place the PicoXLSX4j.jar into the lib folder of your project and create a
 Place all .java files from the PicoXLSX4j source folder into your project. The folder structure defines the packages. Please use refactoring if you want to relocate the files.
 
 # Usage
-## Quick Start
+## Quick Start (shortened syntax)
+```
+ Workbook workbook = new Workbook("myWorkbook.xlsx", "Sheet1");         // Create new workbook with a worksheet called Sheet1
+ workbook.WS.value("Some Data");                                        // Add cell A1
+ workbook.WS.formula("=A1");                                            // Add formula to cell B1
+ workbook.WS.down();                                                    // Go to row 2
+ workbook.WS.value(new Date(), BasicStyles.Bold());                     // Add formated value to cell A2
+ try{
+   workbook.save();                                                     // Save the workbook as myWorkbook.xlsx
+ } catch (Exception ex) {}
+```
+
+## Quick Start (regular syntax)
 ```
  Workbook workbook = new Workbook("myWorkbook.xlsx", "Sheet1");       // Create new workbook with a worksheet called Sheet1
  workbook.getCurrentWorksheet().addNextCell("Some Data");             // Add cell A1
  workbook.getCurrentWorksheet().addNextCell(42);                      // Add cell B1
  workbook.getCurrentWorksheet().goToNextRow();                        // Go to row 2
  workbook.getCurrentWorksheet().addNextCell(new Date());              // Add cell A2
- workbook.Save();                                                     // Save the workbook as myWorkbook.xlsx
+ try {
+   workbook.Save();                                                   // Save the workbook as myWorkbook.xlsx
+ } catch (Exception ex) {}
 ```
 
 ## Further References
 See the full <b>API-Documentation</b> at: [https://rabanti-github.github.io/PicoXLSX4j/](https://rabanti-github.github.io/PicoXLSX4j/).<br>
-The [Demo class](https://github.com/rabanti-github/PicoXLSX4j/blob/master/src/ch/rabanti/picoxlsx4j/demo/PicoXLSX4j.java) contains ten simple use cases. You can find also the full documentation in the [Javadoc-Folder](https://github.com/rabanti-github/PicoXLSX4j/tree/master/dist/javadoc) or as Javadoc annotations in the .java files.<br>
+The [Demo class](https://github.com/rabanti-github/PicoXLSX4j/blob/master/src/ch/rabanti/picoxlsx4j/demo/PicoXLSX4j.java) contains eleven simple use cases. You can find also the full documentation in the [Javadoc-Folder](https://github.com/rabanti-github/PicoXLSX4j/tree/master/dist/javadoc) or as Javadoc annotations in the .java files.<br>

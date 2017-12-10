@@ -26,7 +26,6 @@ import ch.rabanti.picoxlsx4j.style.NumberFormat;
 import ch.rabanti.picoxlsx4j.style.Style;
 import ch.rabanti.picoxlsx4j.style.StyleManager;
 import java.io.OutputStream;
-import java.util.stream.Stream;
 
 /**
  * Class representing a workbook
@@ -45,6 +44,11 @@ public class Workbook {
     private Metadata workbookMetadata;
     private String workbookProtectionPassword;
     private List<Worksheet> worksheets;
+    
+    /**
+     * Shortener omits getter and setter to simplify the access (Can throw a WorksheetException if not defined)
+     */
+    public Shortener WS;
     
 // ### G E T T E R S  &  S E T T E R S ###    
     /**
@@ -288,6 +292,7 @@ public class Workbook {
         Worksheet newWs = new Worksheet(name, number, this);
         this.currentWorksheet = newWs;
         this.worksheets.add(newWs);
+        this.WS.setCurrentWorksheet(this.currentWorksheet);
     }
     
     /**
@@ -344,7 +349,8 @@ public class Workbook {
         borderStyle.setBorder(BasicStyles.DottedFill_0_125().getBorder());
         borderStyle.setFill(BasicStyles.DottedFill_0_125().getFill());
         this.styleManager.addStyle(borderStyle);
-        this.workbookMetadata = new Metadata();        
+        this.workbookMetadata = new Metadata();
+        this.WS = new Shortener();
     }
         
     
@@ -583,6 +589,7 @@ public class Workbook {
         {
             throw new WorksheetException("MissingReferenceException","The worksheet with the name '" + name + "' does not exist.");
         }
+        this.WS.setCurrentWorksheet(this.currentWorksheet);
         return this.currentWorksheet;
     }
     /**
@@ -606,6 +613,8 @@ public class Workbook {
             this.useWorkbookProtection = state;
         }
     }
+    
+    
     
         
 }

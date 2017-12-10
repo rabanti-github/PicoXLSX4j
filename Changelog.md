@@ -1,5 +1,13 @@
 # Change Log
 
+## v2.2.0
+---
+Release Date: **10.12.2017**
+
+- Added Shortener class (WS) in workbook for quicker writing of data / formulas
+- Documentation Update
+
+
 ## v2.1.0 
 ---
 Release Date: **03.12.2017**
