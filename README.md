@@ -1,4 +1,7 @@
 # PicoXLSX4j
+![PicoXLSX](https://rabanti-github.github.io/PicoXLSX/icons/PicoXLSX.png)
+
+
 PicoXLSX4j is a small Java library to create XLSX files (Microsoft Excel 2007 or newer) in an easy and native way. It is a direct port of [PicoXLSX for C#](https://github.com/rabanti-github/PicoXLSX)
 
 * No need for an installation of Microsoft Office
@@ -12,6 +15,8 @@ See the **[Change Log](https://github.com/rabanti-github/PicoXLSX4j/blob/master/
 * Changed package structure to ch.rabanti.picoxlsx4j
 * Complete replacement of the old style handling
 * Added more options to assign styles to cells
+* Added Shortner (property WS) to reduce the code overhead
+* Added Save option to save the XLSX file as stream
 * Added an option for sanitizing of worksheet names
 * Replaced specific exception classes with general exceptions (e.g. StyleException, FormatException or WorksheetException)
 * Added functions to retrieve stored data and the current cell address
