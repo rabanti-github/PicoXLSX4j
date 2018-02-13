@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2017
+ * Copyright Raphael Stoeckli © 2018
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import ch.rabanti.picoxlsx4j.Address;
+import ch.rabanti.picoxlsx4j.BasicFormulas;
+import ch.rabanti.picoxlsx4j.Cell;
 import ch.rabanti.picoxlsx4j.Range;
 import ch.rabanti.picoxlsx4j.Workbook;
 import ch.rabanti.picoxlsx4j.Worksheet;
@@ -18,6 +20,7 @@ import ch.rabanti.picoxlsx4j.style.CellXf;
 import ch.rabanti.picoxlsx4j.style.Fill;
 import ch.rabanti.picoxlsx4j.style.Style;
 import java.io.FileOutputStream;
+import java.util.Arrays;
 
 /**
  * Demo Program for PicoXLSX4j
@@ -42,6 +45,7 @@ public class PicoXLSX4j {
         demo6();
         demo7();
         demo8();
+        demo9();
     }
     
         /**
@@ -413,6 +417,77 @@ public class PicoXLSX4j {
             {
                 System.out.println(e.getMessage());
             }                                            				// Save the workbook
+        } 
+        
+        /**
+         * This demo shows the usage of basic Excel formulas
+         */
+        private static void demo9()
+        {
+            Workbook workbook = new Workbook("test9.xlsx", "sheet1");                                   // Create a new workbook 
+            List<Object> numbers = Arrays.asList(1.15d, 2.225d, 13.8d, 15d, 15.1d, 17.22d, 22d, 107.5d, 128d ); // Create a list of numbers
+            List<Object> texts = Arrays.asList( "value 1", "value 2", "value 3", "value 4", "value 5", "value 6", "value 7", "value 8", "value 9" ); // Create a list of strings (for vlookup)
+            workbook.WS.value("Numbers", BasicStyles.Bold());                                           // Add a header with a basic style
+            workbook.WS.value("Values", BasicStyles.Bold());                                            // Add a header with a basic style
+            workbook.WS.value("Formula type", BasicStyles.Bold());                                      // Add a header with a basic style
+            workbook.WS.value("Formula value", BasicStyles.Bold());                                     // Add a header with a basic style
+            workbook.WS.value("(See also worksheet2)");                                                 // Add a note
+            workbook.getCurrentWorksheet().addCellRange(numbers, "A2:A10");                             // Add the numbers as range
+            workbook.getCurrentWorksheet().addCellRange(texts, "B2:B10");                               // Add the values as range
+
+            workbook.getCurrentWorksheet().setCurrentCellAddress("D2");                                 // Set the "cursor" to D2
+            Cell c;                                                                                     // Create an empty cell object (reusable)
+            c = BasicFormulas.Average(new Range("A2:A10"));                                             // Define an average formula
+            workbook.getCurrentWorksheet().addCell("Average", "C2");                                    // Add the description of the formula to the worksheet
+            workbook.getCurrentWorksheet().addCell(c, "D2");                                            // Add the formula to the worksheet
+
+            c = BasicFormulas.Ceil(new Address("A2"), 0);                                               // Define a ceil formula
+            workbook.getCurrentWorksheet().addCell("Ceil", "C3");                                       // Add the description of the formula to the worksheet
+            workbook.getCurrentWorksheet().addCell(c, "D3");                                            // Add the formula to the worksheet
+
+            c = BasicFormulas.Floor(new Address("A2"), 0);                                              // Define a floor formula
+            workbook.getCurrentWorksheet().addCell("Floor", "C4");                                      // Add the description of the formula to the worksheet
+            workbook.getCurrentWorksheet().addCell(c, "D4");                                            // Add the formula to the worksheet
+
+            c = BasicFormulas.Round(new Address("A3"), 1);                                              // Define a round formula with one digit after the comma
+            workbook.getCurrentWorksheet().addCell("Round", "C5");                                      // Add the description of the formula to the worksheet
+            workbook.getCurrentWorksheet().addCell(c, "D5");                                            // Add the formula to the worksheet
+
+            c = BasicFormulas.Max(new Range("A2:A10"));                                                 // Define a max formula
+            workbook.getCurrentWorksheet().addCell("Max", "C6");                                        // Add the description of the formula to the worksheet
+            workbook.getCurrentWorksheet().addCell(c, "D6");                                            // Add the formula to the worksheet
+
+            c = BasicFormulas.Min(new Range("A2:A10"));                                                 // Define a min formula
+            workbook.getCurrentWorksheet().addCell("Min", "C7");                                        // Add the description of the formula to the worksheet
+            workbook.getCurrentWorksheet().addCell(c, "D7");                                            // Add the formula to the worksheet
+
+            c = BasicFormulas.Median(new Range("A2:A10"));                                              // Define a median formula
+            workbook.getCurrentWorksheet().addCell("Median", "C8");                                     // Add the description of the formula to the worksheet
+            workbook.getCurrentWorksheet().addCell(c, "D8");                                            // Add the formula to the worksheet
+
+            c = BasicFormulas.Sum(new Range("A2:A10"));                                                 // Define a sum formula
+            workbook.getCurrentWorksheet().addCell("Sum", "C9");                                        // Add the description of the formula to the worksheet
+            workbook.getCurrentWorksheet().addCell(c, "D9");                                            // Add the formula to the worksheet
+
+            c = BasicFormulas.VLookup(13.8d, new Range("A2:B10"), 2, true);                             // Define a vlookup formula (look for the value of the number 13.8) 
+            workbook.getCurrentWorksheet().addCell("Vlookup", "C10");                                   // Add the description of the formula to the worksheet
+            workbook.getCurrentWorksheet().addCell(c, "D10");                                           // Add the formula to the worksheet
+
+            workbook.addWorksheet("sheet2");                                                            // Create a new worksheet
+            c = BasicFormulas.VLookup(workbook.getWorksheets().get(0), new Address("B4"), workbook.getWorksheets().get(0), new Range("B2:C10"), 2, true); // Define a vlookup formula in worksheet1 (look for the text right of the (value of) cell B4) 
+            workbook.WS.value(c);                                                                       // Add the formula to the worksheet
+
+            c = BasicFormulas.Median(workbook.getWorksheets().get(0), new Range("A2:A10"));             // Define a median formula in worksheet1
+            workbook.WS.value(c);                                                                       // Add the formula to the worksheet
+
+            try
+            {
+              workbook.save();                                                                          // Save the workbook              
+            }
+            catch(Exception e)
+            {
+               System.out.println(e.getMessage()); 
+            }
         }        
     
 }

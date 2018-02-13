@@ -1,13 +1,13 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2017
+ * Copyright Raphael Stoeckli © 2018
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
 package ch.rabanti.picoxlsx4j;
 
 /**
- * Class representing a cell range (used like a simple struct)
+ * Class representing a cell range (no getters and setters to simplify handling)
  * @author Raphael Stoeckli
  */
     public class Range
@@ -24,7 +24,7 @@ package ch.rabanti.picoxlsx4j;
         
 // ### C O N S T R U C T O R S ###        
         /**
-         * Constructor with parameters
+         * Constructor with with addresses as arguments
          * @param start Start address of the range
          * @param end End address of the range
          */
@@ -32,6 +32,17 @@ package ch.rabanti.picoxlsx4j;
         {
             this.StartAddress = start;
             this.EndAddress = end;
+        }
+        
+        /**
+         * Constructor with a range string as argument
+         * @param range Address range (e.g. 'A1:B12')
+         */
+        public Range(String range)
+        {
+            Range r = Cell.resolveCellRange(range);
+            this.StartAddress = r.StartAddress;
+            this.EndAddress = r.EndAddress;
         }
         
 // ### M E T H O D S ###        

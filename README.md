@@ -16,6 +16,7 @@ See the **[Change Log](https://github.com/rabanti-github/PicoXLSX4j/blob/master/
 * Complete replacement of the old style handling
 * Added more options to assign styles to cells
 * Added Shortner (property WS) to reduce the code overhead
+* Added static methods for the most important formulas (round, floor, ceil, min, max, average, median, sum, vlookup)
 * Added Save option to save the XLSX file as stream
 * Added an option for sanitizing of worksheet names
 * Replaced specific exception classes with general exceptions (e.g. StyleException, FormatException or WorksheetException)
@@ -59,4 +60,4 @@ Place all .java files from the PicoXLSX4j source folder into your project. The f
 
 ## Further References
 See the full <b>API-Documentation</b> at: [https://rabanti-github.github.io/PicoXLSX4j/](https://rabanti-github.github.io/PicoXLSX4j/).<br>
-The [Demo class](https://github.com/rabanti-github/PicoXLSX4j/blob/master/src/ch/rabanti/picoxlsx4j/demo/PicoXLSX4j.java) contains eleven simple use cases. You can find also the full documentation in the [Javadoc-Folder](https://github.com/rabanti-github/PicoXLSX4j/tree/master/dist/javadoc) or as Javadoc annotations in the .java files.<br>
+The [Demo class](https://github.com/rabanti-github/PicoXLSX4j/blob/master/src/ch/rabanti/picoxlsx4j/demo/PicoXLSX4j.java) contains twelve simple use cases. You can find also the full documentation in the [Javadoc-Folder](https://github.com/rabanti-github/PicoXLSX4j/tree/master/dist/javadoc) or as Javadoc annotations in the .java files.<br>

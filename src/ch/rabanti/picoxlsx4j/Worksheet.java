@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2017
+ * Copyright Raphael Stoeckli © 2018
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -485,20 +485,19 @@ public class Worksheet {
 // ### M E T H O D S  -  A D D N E X T C E L L ###
     
     /**
-     * Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String.<br>
-     * Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
+     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @throws RangeException Thrown if the next cell is out of range (on row or column)
      */
     public void addNextCell(Object value)
     {
-        Cell c = new Cell(value, Cell.CellType.DEFAULT, this.currentColumnNumber, this.currentRowNumber, this);
-        addNextCell(c, true, null);
+        addNextCell(castValue(value, this.currentColumnNumber, this.currentRowNumber),true,null);
     }
 
      /**
-     * Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String.<br>
-     * Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String.A prepared object of the type Cell will not be casted but adjusted<br>
+     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @param style Style object to apply on this cell
      * @throws StyleException Thrown if the default style was malformed
@@ -506,8 +505,7 @@ public class Worksheet {
      */
     public void addNextCell(Object value, Style style)
     {
-        Cell c = new Cell(value, Cell.CellType.DEFAULT, this.currentColumnNumber, this.currentRowNumber, this);
-        addNextCell(c, true, style);       
+        addNextCell(castValue(value, this.currentColumnNumber, this.currentRowNumber),true,style);
     }
    
     /**
@@ -564,8 +562,8 @@ public class Worksheet {
 // ### M E T H O D S  -  A D D C E L L ###
    
     /**
-     * Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String.<br>
-     * Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
+     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @param columnAddress Column number (zero based)
      * @param rowAddress Row number (zero based)
@@ -574,13 +572,12 @@ public class Worksheet {
      */
     public void addCell(Object value, int columnAddress, int rowAddress)
     {
-        Cell c = new Cell(value, Cell.CellType.DEFAULT, columnAddress, rowAddress, this);
-        addNextCell(c, false, null);
+        addNextCell(castValue(value, columnAddress, rowAddress), false, null);
     }
     
     /**
-     * Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String.<br>
-     * Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
+     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @param columnAddress Column number (zero based)
      * @param rowAddress Row number (zero based)
@@ -590,13 +587,13 @@ public class Worksheet {
      */
     public void addCell(Object value, int columnAddress, int rowAddress, Style style)
     {
-        Cell c = new Cell(value, Cell.CellType.DEFAULT, columnAddress, rowAddress, this);
-        addNextCell(c, false, style);
+        addNextCell(castValue(value, columnAddress, rowAddress), false, style);
+
     }    
     
     /**
-     * Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String.<br>
-     * Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
+     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @param address Cell address in the format A1 - XFD1048576
      * @throws FormatException Thrown if the passed address is malformed
@@ -610,8 +607,8 @@ public class Worksheet {
     }      
     
     /**
-     * Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String.<br>
-     * Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
+     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @param address Cell address in the format A1 - XFD1048576
      * @param style Style to apply on the cell
@@ -623,30 +620,7 @@ public class Worksheet {
     {
         Address adr = Cell.resolveCellCoordinate(address);
         addCell(value, adr.Column, adr.Row, style);
-    }  
-    
-    /**
-     * Adds a cell object. This object must contain a valid row and column address
-     * @param cell Cell object to insert
-     * @throws StyleException Thrown if the default style was malformed
-     * @throws RangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addCell(Cell cell)
-    {
-        addNextCell(cell, false, null);
-    }       
-    
-    /**
-     * Adds a cell object. This object must contain a valid row and column address
-     * @param cell Cell object to insert
-     * @param style Style to apply on the cell
-     * @throws StyleException Thrown if the default style was malformed
-     * @throws RangeException Thrown if the next cell is out of range (on row or column)
-     */
-    public void addCell(Cell cell, Style style)
-    {
-        addNextCell(cell, false, style);
-    }     
+    }      
     
 // ### M E T H O D S  -  A D D C E L L F O R M U L A ###
     
@@ -739,8 +713,8 @@ public class Worksheet {
 // ### M E T H O D S  -  A D D C E L L R A N G E ###
 
     /**
-     * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String.<br>
-     * Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
+     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param values List of unspecified objects to insert
      * @param startAddress Start address
      * @param endAddress End address
@@ -753,8 +727,8 @@ public class Worksheet {
     }  
     
    /**
-     * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String.<br>
-     * Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
+     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param values List of unspecified objects to insert
      * @param startAddress Start address
      * @param endAddress End address
@@ -768,8 +742,8 @@ public class Worksheet {
     }     
 
     /**
-     * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String.<br>
-     * The data types in the passed list can be mixed. Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
+     * The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param values List of unspecified objects to insert
      * @param cellRange Cell range as string in the format like A1:D1 or X10:X22
      * @throws FormatException Thrown if the passed address is malformed
@@ -783,8 +757,8 @@ public class Worksheet {
     }       
     
     /**
-     * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String.<br>
-     * The data types in the passed list can be mixed. Recognized are the following data types: String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
+     * The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
      * @param values List of unspecified objects to insert
      * @param cellRange Cell range as string in the format like A1:D1 or X10:X22
      * @param style Style to apply on the all cells of the range
@@ -910,6 +884,29 @@ public class Worksheet {
     }    
    
     /**
+     * Method to cast a value or align an object of the type Cell to the context of the worksheet
+     * @param value Unspecified value or object of the type Cell
+     * @param column Column index
+     * @param row Row index
+     * @return Cell object
+     */
+    private Cell castValue(Object value, int column, int row)
+    {
+        Cell c;
+        if (value instanceof Cell)
+        {
+            c = (Cell)value;
+            c.setWorksheetReference(this);
+            c.setCellAddress2(new Address(column, row));
+        }
+        else
+        {
+            c = new Cell(value, Cell.CellType.DEFAULT, column, row, this);
+        }
+        return c;
+    }
+    
+    /**
      * Clears the active style of the worksheet. All later added cells will contain no style unless another active style is set
      */
     public void clearActiveStyle()
@@ -937,7 +934,7 @@ public class Worksheet {
      * @param columnAddress Column address of the cell
      * @param rowAddress Row address of the cell
      * @return Cell object
-     * @throws WorksheetException Trows a WorksheetException if the cell was not found on the cell table of this worksheet
+     * @throws WorksheetException Throws a WorksheetException if the cell was not found on the cell table of this worksheet
      */
     public Cell getCell(int columnAddress, int rowAddress)
     {
@@ -950,7 +947,7 @@ public class Worksheet {
      * @param width Row number (zero based)
      * @throws RangeException Thrown if the address is out of the valid range. Range is from 0 to 16383 (16384 columns)
      */
-    public void SetColumnWidth(String columnAddress, float width)
+    public void setColumnWidth(String columnAddress, float width)
     {
         int columnNumber = Cell.resolveColumn(columnAddress);
         setColumnWidth(columnNumber, width);
