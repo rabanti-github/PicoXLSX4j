@@ -45,7 +45,9 @@ Add the following information to your POM file within the <code>&lt;dependencies
 </dependency>
 ``` 
 
-**Important:** The version number may change. Please check the [Change Log](https://github.com/rabanti-github/PicoXLSX4j/blob/master/Changelog.md) for the most recent version. The keywords ```LATEST```  and ```RELEASE``` are only valid in Maven 2, not 3 and newer. 
+**Important:** The version number may change.
+Please see the version number of Maven Central [![Maven Central](https://maven-badges.herokuapp.com/maven-central/ch.rabanti/picoxlsx4j/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser)
+ or check the [Change Log](https://github.com/rabanti-github/PicoXLSX4j/blob/master/Changelog.md) for the most recent version. The keywords ```LATEST```  and ```RELEASE``` are only valid in Maven 2, not 3 and newer. 
 
 
 # Usage
