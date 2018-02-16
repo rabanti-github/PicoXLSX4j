@@ -15,6 +15,7 @@ See the **[Change Log](https://github.com/rabanti-github/PicoXLSX4j/blob/master/
 
 # What's new in version 2.x
 * Changed package structure to ch.rabanti.picoxlsx4j
+* Added maven support (available in maven central under ch.rabanti.picoxlsx4j)
 * Complete replacement of the old style handling
 * Added more options to assign styles to cells
 * Added Shortner (property WS) to reduce the code overhead
@@ -31,13 +32,26 @@ The only requirement for developments are a current JDK to develop and JRE to ru
 
 # Installation
 ## As JAR
-Simply place the PicoXLSX4j.jar into the lib folder of your project and create a library reference to it in your IDE.
+Simply place the PicoXLSX4j jar file (e.g. **picoxlsx4j-2.3.1.jar**) into the lib folder of your project and create a library reference to it in your IDE.
 ## As source files
 Place all .java files from the PicoXLSX4j source folder into your project. The folder structure defines the packages. Please use refactoring if you want to relocate the files.
+## Maven ##
+**Note - February 16, 2018: The library was released to OSSRH but not yet synchronized with Maven Central. This section will be updated as soon as the artifact is publicly available.**
+Add the following information to your POM file:
+```xml
+<dependency>
+    <groupId>ch.rabanti</groupId>
+    <artifactId>picoxlsx4j</artifactId>
+    <version>2.3.1</version>
+</dependency>
+``` 
+
+**Important:** The version number may change. Please check the [Change Log](https://github.com/rabanti-github/PicoXLSX4j/blob/master/Changelog.md) for the most recent version. The keywords ```LATEST```  and ```RELEASE``` are only valid in Maven 2, not 3 and newer. 
+
 
 # Usage
 ## Quick Start (shortened syntax)
-```
+```java
  Workbook workbook = new Workbook("myWorkbook.xlsx", "Sheet1");         // Create new workbook with a worksheet called Sheet1
  workbook.WS.value("Some Data");                                        // Add cell A1
  workbook.WS.formula("=A1");                                            // Add formula to cell B1
@@ -49,7 +63,7 @@ Place all .java files from the PicoXLSX4j source folder into your project. The f
 ```
 
 ## Quick Start (regular syntax)
-```
+```java
  Workbook workbook = new Workbook("myWorkbook.xlsx", "Sheet1");       // Create new workbook with a worksheet called Sheet1
  workbook.getCurrentWorksheet().addNextCell("Some Data");             // Add cell A1
  workbook.getCurrentWorksheet().addNextCell(42);                      // Add cell B1

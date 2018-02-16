@@ -24,3 +24,5 @@ manifest\.mf
 test/
 
 lib/
+/target/
+picoxlsx4j\.iml

@@ -6,48 +6,26 @@
  */
 package ch.rabanti.picoxlsx4j.lowLevel;
 
-import java.io.ByteArrayOutputStream;
-import java.io.StringReader;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import ch.rabanti.picoxlsx4j.Cell;
-import ch.rabanti.picoxlsx4j.Column;
-import ch.rabanti.picoxlsx4j.Helper;
-import ch.rabanti.picoxlsx4j.Metadata;
-import ch.rabanti.picoxlsx4j.Range;
-import ch.rabanti.picoxlsx4j.Workbook;
-import ch.rabanti.picoxlsx4j.Worksheet;
+import ch.rabanti.picoxlsx4j.*;
 import ch.rabanti.picoxlsx4j.exception.IOException;
 import ch.rabanti.picoxlsx4j.exception.RangeException;
 import ch.rabanti.picoxlsx4j.exception.StyleException;
-import ch.rabanti.picoxlsx4j.style.Border;
-import ch.rabanti.picoxlsx4j.style.CellXf;
-import ch.rabanti.picoxlsx4j.style.Fill;
-import ch.rabanti.picoxlsx4j.style.Font;
-import ch.rabanti.picoxlsx4j.style.NumberFormat;
-import ch.rabanti.picoxlsx4j.style.Style;
+import ch.rabanti.picoxlsx4j.style.*;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 /**

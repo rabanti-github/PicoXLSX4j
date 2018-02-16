@@ -7,6 +7,7 @@
 package ch.rabanti.picoxlsx4j.style;
 
 import ch.rabanti.picoxlsx4j.exception.RangeException;
+
 import static ch.rabanti.picoxlsx4j.style.StyleManager.CELLXFPREFIX;
 
 /**

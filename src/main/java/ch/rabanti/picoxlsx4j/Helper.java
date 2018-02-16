@@ -6,9 +6,10 @@
  */
 package ch.rabanti.picoxlsx4j;
 
+import ch.rabanti.picoxlsx4j.exception.FormatException;
+
 import java.util.Calendar;
 import java.util.Date;
-import ch.rabanti.picoxlsx4j.exception.FormatException;
 
 /**
  * Class for shared used (static) methods

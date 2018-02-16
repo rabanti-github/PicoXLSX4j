@@ -6,14 +6,16 @@
  */
 package ch.rabanti.picoxlsx4j;
 
+import ch.rabanti.picoxlsx4j.exception.FormatException;
+import ch.rabanti.picoxlsx4j.exception.RangeException;
+import ch.rabanti.picoxlsx4j.exception.StyleException;
+import ch.rabanti.picoxlsx4j.style.Style;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import ch.rabanti.picoxlsx4j.exception.FormatException;
-import ch.rabanti.picoxlsx4j.exception.StyleException;
-import java.util.regex.*;
-import ch.rabanti.picoxlsx4j.exception.RangeException;
-import ch.rabanti.picoxlsx4j.style.Style;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Class representing a cell of a worksheet

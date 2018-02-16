@@ -7,6 +7,7 @@
 package ch.rabanti.picoxlsx4j.style;
 
 import ch.rabanti.picoxlsx4j.exception.StyleException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 

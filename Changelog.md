@@ -1,10 +1,25 @@
 # Change Log
 
-## v2.3.0
+
+## v2.3.1
  
 ---
  
+Release Date: **16.02.2018**
+
+**Note**: The naming of the released jar has changed due to the new Maven deployment process. The version number is now part of the jar file name. This release has no functional changes to version 2.3.0
+
+- Changed project structure to a maven template (package structure has not changed)
+- Adapted demos to store all demo files in a particular folder (keeps the root folder of the project clean)
+- Changed the naming of the dist files. executable and javadoc (jar files) contains now the version number
+- Removed the javadoc folder in dist in favour of a jar file (the plain files are still available in the docs folder)
+
+
+## v2.3.0
+ 
+---
 Release Date: **13.02.2018**
+
 - Added most important formulas as static method calls in the class BasicFormulas (round, floor, ceil, min, max, average, median, sum, vlookup)
 - Removed overloaded methods to add cells as type Cell. This can be done now with the overloading of the type object (no code changes necessary)
 - Added new constructors for Address and Range

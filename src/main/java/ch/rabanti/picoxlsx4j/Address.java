@@ -6,8 +6,9 @@
  */
 package ch.rabanti.picoxlsx4j;
 
-import static ch.rabanti.picoxlsx4j.Cell.resolveCellAddress;
 import ch.rabanti.picoxlsx4j.exception.RangeException;
+
+import static ch.rabanti.picoxlsx4j.Cell.resolveCellAddress;
 
 /**
  * C class representing a cell address (no getters and setters to simplify handling)

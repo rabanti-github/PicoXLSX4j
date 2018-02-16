@@ -6,13 +6,15 @@
  */
 package ch.rabanti.picoxlsx4j.lowLevel;
 
+import org.w3c.dom.Document;
+
 import java.io.BufferedOutputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.*;
-import org.w3c.dom.Document;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Class representing packer to compile XLSX files

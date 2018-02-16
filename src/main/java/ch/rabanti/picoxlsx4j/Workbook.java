@@ -6,26 +6,15 @@
  */
 package ch.rabanti.picoxlsx4j;
 
+import ch.rabanti.picoxlsx4j.exception.*;
+import ch.rabanti.picoxlsx4j.lowLevel.LowLevel;
+import ch.rabanti.picoxlsx4j.style.*;
+
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import ch.rabanti.picoxlsx4j.exception.FormatException;
-import ch.rabanti.picoxlsx4j.exception.IOException;
-import ch.rabanti.picoxlsx4j.exception.StyleException;
-import ch.rabanti.picoxlsx4j.exception.RangeException;
-import ch.rabanti.picoxlsx4j.exception.WorksheetException;
-import ch.rabanti.picoxlsx4j.lowLevel.LowLevel;
-import ch.rabanti.picoxlsx4j.style.AbstractStyle;
-import ch.rabanti.picoxlsx4j.style.BasicStyles;
-import ch.rabanti.picoxlsx4j.style.Border;
-import ch.rabanti.picoxlsx4j.style.CellXf;
-import ch.rabanti.picoxlsx4j.style.Fill;
-import ch.rabanti.picoxlsx4j.style.Font;
-import ch.rabanti.picoxlsx4j.style.NumberFormat;
-import ch.rabanti.picoxlsx4j.style.Style;
-import ch.rabanti.picoxlsx4j.style.StyleManager;
-import java.io.OutputStream;
 
 /**
  * Class representing a workbook
