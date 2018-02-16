@@ -36,7 +36,6 @@ Simply place the PicoXLSX4j jar file (e.g. **picoxlsx4j-2.3.1.jar**) into the li
 ## As source files
 Place all .java files from the PicoXLSX4j source folder into your project. The folder structure defines the packages. Please use refactoring if you want to relocate the files.
 ## Maven ##
-**Note - February 16, 2018: The library was released to OSSRH but not yet synchronized with Maven Central. This section will be updated as soon as the artifact is publicly available.**
 Add the following information to your POM file:
 ```xml
 <dependency>
