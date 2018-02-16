@@ -15,7 +15,7 @@ See the **[Change Log](https://github.com/rabanti-github/PicoXLSX4j/blob/master/
 
 # What's new in version 2.x
 * Changed package structure to ch.rabanti.picoxlsx4j
-* Added maven support (available in maven central under ch.rabanti.picoxlsx4j)
+* Added Maven support (available in Maven Central under ch.rabanti.picoxlsx4j)
 * Complete replacement of the old style handling
 * Added more options to assign styles to cells
 * Added Shortner (property WS) to reduce the code overhead
@@ -36,7 +36,7 @@ Simply place the PicoXLSX4j jar file (e.g. **picoxlsx4j-2.3.1.jar**) into the li
 ## As source files
 Place all .java files from the PicoXLSX4j source folder into your project. The folder structure defines the packages. Please use refactoring if you want to relocate the files.
 ## Maven ##
-Add the following information to your POM file:
+Add the following information to your POM file within the <code>&lt;dependencies&gt;</code> tag:
 ```xml
 <dependency>
     <groupId>ch.rabanti</groupId>
