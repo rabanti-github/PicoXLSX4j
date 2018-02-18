@@ -26,3 +26,5 @@ test/
 lib/
 /target/
 picoxlsx4j\.iml
+
+dist/README\.TXT
