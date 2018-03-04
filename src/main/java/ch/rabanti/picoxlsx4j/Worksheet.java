@@ -86,7 +86,7 @@ public class Worksheet {
      */
     public enum SheetProtectionValue
     {
-        // sheet, // Is alway on 1 if protected
+        // sheet, // Is always on 1 if protected
         /**
          * If selected, the user can edit objects if the worksheets is protected
          */

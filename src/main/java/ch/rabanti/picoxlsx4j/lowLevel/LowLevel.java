@@ -47,7 +47,7 @@ public class LowLevel {
      * Gets whether XML documents are intercepted during creation
      * @return If true, documents will be intercepted and stored into interceptedDocuments 
      */
-    public boolean getDocumentIntercepion() {
+    public boolean getDocumentInterception() {
         return interceptDocuments;
     }
 
@@ -55,7 +55,7 @@ public class LowLevel {
      * Set whether XML documents are intercepted during creation
      * @param interceptDocuments If true, documents will be intercepted and stored into interceptedDocuments
      */
-    public void setDocumentIntercepion(boolean interceptDocuments)
+    public void setDocumentInterception(boolean interceptDocuments)
     {
         this.interceptDocuments = interceptDocuments;
         if (interceptDocuments == true && this.interceptedDocuments == null)
@@ -72,7 +72,7 @@ public class LowLevel {
      * Gets the intercepted documents if interceptDocuments is set to true
      * @return HashMap with a String as key and a XML document as value  
      */
-    public HashMap<String, Document> getIntercepedDocuments() {
+    public HashMap<String, Document> getInterceptedDocuments() {
         return interceptedDocuments;
     }
     
@@ -126,7 +126,7 @@ public class LowLevel {
     
     /**
      * Method to create the app-properties (part of meta data) as XML document
-     * @return Formated XML document
+     * @return Formatted XML document
      * @throws IOException Thrown in case of an error while creating the XML document
      */
     public Document createAppPropertiesDocument() throws IOException
@@ -140,7 +140,7 @@ public class LowLevel {
     }    
     /**
      * Method to create the XML string for the app-properties document
-     * @return String with formated XML data
+     * @return String with formatted XML data
      */
     private String createAppString()
     {
@@ -163,7 +163,7 @@ public class LowLevel {
     /**
      * Method to create the columns as XML string. This is used to define the width of columns
      * @param worksheet Worksheet to process
-     * @return String with formated XML data
+     * @return String with formatted XML data
      */
     private String createColsString(Worksheet worksheet)
     {
@@ -204,7 +204,7 @@ public class LowLevel {
     
     /**
      * Method to create the core-properties (part of meta data) as XML document
-     * @return Formated XML document
+     * @return Formatted XML document
      * @throws IOException Thrown in case of an error while creating the XML document
      */
     private Document createCorePropertiesDocument() throws IOException
@@ -218,7 +218,7 @@ public class LowLevel {
     }    
     /**
      * Method to create the XML string for the core-properties document
-     * @return String with formated XML data
+     * @return String with formatted XML data
      */
     private String createCorePropertiesString()
     {
@@ -249,7 +249,7 @@ public class LowLevel {
     /**
      * Method to create the merged cells string of the passed worksheet
      * @param sheet Worksheet to process
-     * @return Formated string with merged cell ranges
+     * @return Formatted string with merged cell ranges
      */
     private String createMergedCellsString(Worksheet sheet)
     {
@@ -272,7 +272,7 @@ public class LowLevel {
     }
     /**
      * Method to create the XML string for the color-MRU part of the style sheet document (recent colors)
-     * @return String with formated XML data
+     * @return String with formatted XML data
      */
     private String createMruColorsString()
     {
@@ -320,7 +320,7 @@ public class LowLevel {
      * Method to create a row string
      * @param columnFields List of cells
      * @param worksheet Worksheet to process
-     * @return Formated row string
+     * @return Formatted row string
      */
     private String createRowString(List<Cell> columnFields, Worksheet worksheet)
     {
@@ -471,7 +471,7 @@ public class LowLevel {
     
      /**
      * Method to create shared strings as XML document
-     * @return Formated XML document
+     * @return Formatted XML document
      * @throws IOException Thrown in case of an error while creating the XML document
      */
     private Document createSharedStringsDocument() throws IOException
@@ -498,7 +498,7 @@ public class LowLevel {
     /**
      * Method to create the protection string of the passed worksheet
      * @param sheet Worksheet to process
-     * @return Formated string with protection statement of the worksheet
+     * @return Formatted string with protection statement of the worksheet
      */
     private String createSheetProtectionString(Worksheet sheet)
     {
@@ -568,7 +568,7 @@ public class LowLevel {
     /**
      * Method to create the XML string for the border part of the style sheet document
 
-     * @return String with formated XML data
+     * @return String with formatted XML data
      */
     private String createStyleBorderString()
     {
@@ -641,7 +641,7 @@ public class LowLevel {
     
     /**
      * Method to create the XML string for the fill part of the style sheet document
-     * @return String with formated XML data
+     * @return String with formatted XML data
      */
     private String createStyleFillString()
     {
@@ -679,7 +679,7 @@ public class LowLevel {
     }  
     /**
      * Method to create the XML string for the font part of the style sheet document
-     * @return String with formated XML data
+     * @return String with formatted XML data
      */
     private String createStyleFontString()
     {
@@ -726,7 +726,7 @@ public class LowLevel {
     }    
     /**
      * Method to create the XML string for the number format part of the style sheet document
-     * @return String with formated XML data
+     * @return String with formatted XML data
      */
     private String createStyleNumberFormatString()
     {
@@ -744,7 +744,7 @@ public class LowLevel {
     }
     /**
      * Method to create a style sheet as XML document
-     * @return Formated XML document
+     * @return Formatted XML document
      * @throws StyleException Thrown if a style was not referenced in the style sheet
      * @throws RangeException Thrown if a referenced cell was out of range
      * @throws IOException Thrown in case of an error while creating the XML document
@@ -800,7 +800,7 @@ public class LowLevel {
     
     /**
      * Method to create the XML string for the XF part of the style sheet document
-     * @return String with formated XML data
+     * @return String with formatted XML data
      * @throws RangeException Thrown if a referenced cell was out of range
      */
     private String createStyleXfsString()
@@ -932,7 +932,7 @@ public class LowLevel {
     }    
     /**
      * Method to create a workbook as XML document
-     * @return Formated XML document
+     * @return Formatted XML document
      * @throws RangeException Thrown if a referenced cell was out of range
      * @throws IOException Thrown in case of an error while creating the XML document
      */
@@ -988,7 +988,7 @@ public class LowLevel {
     /**
      * Method to create a worksheet part as XML document
      * @param worksheet worksheet object to process
-     * @return Formated XML document
+     * @return Formatted XML document
      * @throws IOException Thrown in case of an error while creating the XML document
      */
     private Document createWorksheetPart(Worksheet worksheet) throws IOException
@@ -1051,7 +1051,7 @@ public class LowLevel {
      * Creates a XML document from a string
      * @param rawInput String to process
      * @param title Title for interception / debugging purpose
-     * @return Formated XML document
+     * @return Formatted XML document
      * @throws IOException Thrown in case of an error while creating the XML document
      */
     public Document createXMLDocument(String rawInput, String title) throws IOException
@@ -1080,7 +1080,6 @@ public class LowLevel {
     
     /**
      * Gets the number of custom number formats
-     * @param numberFormatStyles List of NumberFormat objects
      * @return Number of custom number formats to apply in the style document
      */
     private int getNumberFormatStringCounter()
