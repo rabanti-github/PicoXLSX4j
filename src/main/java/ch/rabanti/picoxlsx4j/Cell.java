@@ -586,16 +586,16 @@ public class Cell implements Comparable<Cell>{
      */
     public static int resolveColumn(String columnAddress)
     {
-        int chr;
+        int temp;
         int result = 0;
-        int multiplier = 1;
+        int multiplicator = 1;
         
         for (int i = columnAddress.length() - 1; i >= 0; i--)
         {
-            chr = (int)columnAddress.charAt(i);
-            chr = chr - 64;
-            result = result + (chr * multiplier);
-            multiplier = multiplier * 26;
+            temp = (int)columnAddress.charAt(i);
+            temp = temp - 64;
+            result = result + (temp * multiplicator);
+            multiplicator = multiplicator * 26;
         }
         if (result - 1 > Worksheet.MAX_COLUMN_ADDRESS || result - 1 < Worksheet.MIN_COLUMN_ADDRESS)
         {

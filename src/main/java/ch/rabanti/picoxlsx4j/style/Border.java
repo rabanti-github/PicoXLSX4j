@@ -268,7 +268,7 @@ public class Border extends AbstractStyle
     }
 
     /**
-     * Gets the color code of the left border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     * Gets the color code (ARGB) of the left border
      * @return Color code (ARGB)
      */
     public String getLeftColor() {
@@ -276,7 +276,7 @@ public class Border extends AbstractStyle
     }
 
     /**
-     * Sets the color code of the left border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     * Sets the color code (ARGB) of the left border
      * @param leftColor Color code (ARGB)
      */
     public void setLeftColor(String leftColor) {
@@ -284,7 +284,7 @@ public class Border extends AbstractStyle
     }
 
     /**
-     * Gets the color code of the right border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     * Gets the color code (ARGB) of the right border
      * @return Color code (ARGB)
      */
     public String getRightColor() {
@@ -292,7 +292,7 @@ public class Border extends AbstractStyle
     }
 
     /**
-     * Sets the color code of the right border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     * Sets the color code (ARGB) of the right border
      * @param rightColor Color code (ARGB)
      */
     public void setRightColor(String rightColor) {
@@ -300,7 +300,7 @@ public class Border extends AbstractStyle
     }
 
     /**
-     * Gets the color code of the top border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     * Gets the color code (ARGB) of the top border
      * @return Color code (ARGB)
      */
     public String getTopColor() {
@@ -308,7 +308,7 @@ public class Border extends AbstractStyle
     }
 
     /**
-     * Sets the color code of the top border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     * Sets the color code (ARGB) of the top border
      * @param topColor Color code (ARGB)
      */
     public void setTopColor(String topColor) {
@@ -316,7 +316,7 @@ public class Border extends AbstractStyle
     }
 
     /**
-     * Gets the color code of the bottom border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     * Gets the color code (ARGB) of the bottom border
      * @return Color code (ARGB)
      */
     public String getBottomColor() {
@@ -324,7 +324,7 @@ public class Border extends AbstractStyle
     }
 
     /**
-     * Sets the color code of the bottom border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     * Sets the color code (ARGB) of the bottom border
      * @param bottomColor Color code (ARGB)
      */
     public void setBottomColor(String bottomColor) {
@@ -332,7 +332,7 @@ public class Border extends AbstractStyle
     }
 
     /**
-     * Gets the color code of the diagonal lines. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     * Gets the color code (ARGB) of the diagonal lines
      * @return Color code (ARGB)
      */
     public String getDiagonalColor() {
@@ -340,7 +340,7 @@ public class Border extends AbstractStyle
     }
 
     /**
-     * Sets the color code of the diagonal lines. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     * Sets the color code (ARGB) of the diagonal lines
      * @param diagonalColor Color code (ARGB)
      */
     public void setDiagonalColor(String diagonalColor) {

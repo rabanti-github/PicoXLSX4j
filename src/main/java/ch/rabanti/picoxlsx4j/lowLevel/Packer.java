@@ -27,7 +27,7 @@ public class Packer {
     /**
      * Path of the main content type file (MSXML)
      */
-    static final String CONTENT_TYPE_DOCUMENT = "[Content_Types].xml";
+    static final String CONTENTTYPE_DOCUMENT = "[Content_Types].xml";
     
 // ### P R I V A T E  F I E L D S ###    
     private List<String> contentTypeList;
@@ -90,7 +90,7 @@ public class Packer {
      * @return Returns the byte array to add into the compilation
      * @throws ch.rabanti.picoxlsx4j.exception.IOException Thrown if the document could not be converted to a byte array
      */
-    private byte[] createContentTypeDocument() throws ch.rabanti.picoxlsx4j.exception.IOException
+    private byte[] createContenTypeDocument() throws ch.rabanti.picoxlsx4j.exception.IOException
     {
         StringBuilder sb = new StringBuilder();
         sb.append("<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\">\r\n");
@@ -155,11 +155,11 @@ public class Packer {
     {
         try
         {
-            byte[] contentTypes = createContentTypeDocument();
+            byte[] contentTypes = createContenTypeDocument();
             
             ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream((OutputStream)stream), Charset.forName("UTF-8"));
             out.setMethod(ZipOutputStream.DEFLATED);
-            ZipEntry entry = new ZipEntry(CONTENT_TYPE_DOCUMENT);
+            ZipEntry entry = new ZipEntry(CONTENTTYPE_DOCUMENT);
             out.putNextEntry(entry);
             out.write(contentTypes, 0, contentTypes.length);
             byte[] data;

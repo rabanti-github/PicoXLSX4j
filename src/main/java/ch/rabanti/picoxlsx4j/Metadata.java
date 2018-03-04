@@ -264,7 +264,7 @@ public class Metadata {
      * @param minor Minor number
      * @param build Build number
      * @param revision Revision number
-     * @return Formatted version number (e.g. 1.0 or 55.987)
+     * @return Formated version number (e.g. 1.0 or 55.987)
      * @throws FormatException Thrown if the major number is too long or one of the numbers is negative
      */
     public static String parseVersion(int major, int minor, int build, int revision)

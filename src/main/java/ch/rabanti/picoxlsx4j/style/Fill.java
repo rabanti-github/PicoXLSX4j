@@ -154,7 +154,7 @@ public class Fill extends AbstractStyle
     }
 
     /**
-     * Gets the foreground color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     * Gets the foreground color of the fill
      * @return Foreground color of the fill
      */
     public String getForegroundColor() {
@@ -162,7 +162,7 @@ public class Fill extends AbstractStyle
     }
 
     /**
-     * Sets the foreground color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     * Sets the foreground color of the fill
      * @param foregroundColor Foreground color of the fill
      */
     public void setForegroundColor(String foregroundColor) {
@@ -170,7 +170,7 @@ public class Fill extends AbstractStyle
     }
 
     /**
-     * Gets the Background color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     * Gets the Background color of the fill
      * @return Background color of the fill
      */
     public String getBackgroundColor() {
@@ -178,7 +178,7 @@ public class Fill extends AbstractStyle
     }
 
     /**
-     * Sets the background color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     * Sets the background color of the fill
      * @param backgroundColor Background color of the fill
      */
     public void setBackgroundColor(String backgroundColor) {
@@ -213,11 +213,11 @@ public class Fill extends AbstractStyle
     /**
      * Constructor with color value and fill type
      * @param value Color value
-     * @param fillType Fill type (fill or pattern)
+     * @param filltype Fill type (fill or pattern)
      */
-    public Fill(String value, FillType fillType)
+    public Fill(String value, FillType filltype)
     {
-        if (fillType == FillType.fillColor)
+        if (filltype == FillType.fillColor)
         {
             this.backgroundColor = value;
             this.foregroundColor = DEFAULTCOLOR;
@@ -235,11 +235,11 @@ public class Fill extends AbstractStyle
     /**
      * Set the color and the depending fill type
      * @param value Color value
-     * @param fillType Fill type (fill or pattern)
+     * @param filltype Fill type (fill or pattern)
      */
-    public void SetColor(String value, FillType fillType)
+    public void SetColor(String value, FillType filltype)
     {
-        if (fillType == FillType.fillColor)
+        if (filltype == FillType.fillColor)
         {
             this.foregroundColor = value;
             this.backgroundColor = DEFAULTCOLOR;

@@ -355,7 +355,7 @@ public class StyleManager
             Style s = (Style)style;
             if (this.styleNames.contains(s.getName()) == true)
             {
-                throw new StyleException("StyleAlreadyExistsException","The style with the name '" + s.getName() + "' already exists");
+                throw new StyleException("StyleArleadyExistsException","The style with the name '" + s.getName() + "' already exists");
             }
             if (this.getComponentByHash(this.styles, hash) == null)
             {
@@ -394,7 +394,7 @@ public class StyleManager
      */
     public void removeStyle(String styleName)
     {
-//        String hash = null;
+        String hash = null;
         boolean match = false;
         int len = this.styles.size();
         int index = -1;
@@ -403,7 +403,7 @@ public class StyleManager
             if (((Style)this.styles.get(i)).getName().equals(styleName) == true)
             { 
                 match = true;
-//                hash = ((Style)this.styles.get(i)).getHash();
+                hash = ((Style)this.styles.get(i)).getHash();
                 index = i;
                 break; 
             }

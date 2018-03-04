@@ -18,7 +18,7 @@ See the **[Change Log](https://github.com/rabanti-github/PicoXLSX4j/blob/master/
 * Added Maven support (available in Maven Central under ch.rabanti.picoxlsx4j)
 * Complete replacement of the old style handling
 * Added more options to assign styles to cells
-* Added Shortener (property WS) to reduce the code overhead
+* Added Shortner (property WS) to reduce the code overhead
 * Added static methods for the most important formulas (round, floor, ceil, min, max, average, median, sum, vlookup)
 * Added Save option to save the XLSX file as stream
 * Added an option for sanitizing of worksheet names
@@ -57,7 +57,7 @@ Please see the version number of Maven Central [![Maven Central](https://maven-b
  workbook.WS.value("Some Data");                                        // Add cell A1
  workbook.WS.formula("=A1");                                            // Add formula to cell B1
  workbook.WS.down();                                                    // Go to row 2
- workbook.WS.value(new Date(), BasicStyles.Bold());                     // Add formatted value to cell A2
+ workbook.WS.value(new Date(), BasicStyles.Bold());                     // Add formated value to cell A2
  try{
    workbook.save();                                                     // Save the workbook as myWorkbook.xlsx
  } catch (Exception ex) {}

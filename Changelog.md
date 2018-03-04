@@ -65,7 +65,7 @@ Release Date: **29.10.2017**
 - Complete replacement of style handling
 - Added an option to add styles with the cell values in one step
 - Added a sanitizing function for worksheet names (with auto-sanitizing when adding a worksheet as option)
-- Changed specific exceptions to general exceptions (e.g. StyleException, FormatException or WorksheetException)
+- Changed specific exception to gerenal exceptions (e.g. StyleException, FormatException or WorksheetException)
 - Added function to retrieve cell values easier
 - Added functions to get the current column or row number
 - Many internal optimizations

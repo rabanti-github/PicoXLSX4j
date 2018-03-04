@@ -81,16 +81,16 @@ public class PicoXLSX4j {
         private static void shortenerDemo()
         {
             Workbook wb = new Workbook(outputFolder + "shortenerDemo.xlsx", "Sheet1"); // Create a workbook (important: A worksheet must be created as well) 
-            wb.WS.value("Some Text");                                                     // Add cell A1
-            wb.WS.value(58.55, BasicStyles.DoubleUnderline());                      // Add a formatted value to cell B1
-            wb.WS.right(2);                                               // Move to cell E1
-            wb.WS.value(true);                                                            // Add cell E1
-            wb.addWorksheet("Sheet2");                                              // Add a new worksheet
+            wb.WS.value("Some Text");                                           // Add cell A1
+            wb.WS.value(58.55, BasicStyles.DoubleUnderline());                  // Add a formated value to cell B1
+            wb.WS.right(2);                                                     // Move to cell E1   
+            wb.WS.value(true);                                                  // Add cell E1
+            wb.addWorksheet("Sheet2");                                          // Add a new worksheet
             wb.getCurrentWorksheet().setCurrentCellDirection(Worksheet.CellDirection.RowToRow); // Change the cell direction
-            wb.WS.value("This is another text");                                           // Add cell A1
-            wb.WS.formula("=A1");                                                          // Add a formula in Cell A2
-            wb.WS.down();                                                                  // Go to cell A4
-            wb.WS.value("Formatted Text", BasicStyles.Bold());                        // Add a formatted value to cell A4
+            wb.WS.value("This is another text");                                // Add cell A1
+            wb.WS.formula("=A1");                                               // Add a formula in Cell A2
+            wb.WS.down();                                                       // Go to cell A4
+            wb.WS.value("Formated Text", BasicStyles.Bold());                   // Add a formated value to cell A4
             try
             {
                 wb.save();                                                      // Save the workbook
@@ -184,7 +184,7 @@ public class PicoXLSX4j {
         }
         
         /**
-         * This demo shows the usage of flipped direction when using AddNextCell, reading of the current cell address, and retrieving of cell values
+         * This demo shows the usage of flipped direction when using AddnextCell, reading of the current cell address, and retrieving of cell values
          */
         private static void demo3()
         {
@@ -195,7 +195,7 @@ public class PicoXLSX4j {
             workbook.getCurrentWorksheet().addNextCell(3);                      // Add cell A3
             workbook.getCurrentWorksheet().addNextCell(4);                      // Add cell A4
             int row = workbook.getCurrentWorksheet().getCurrentRowAddress();    // Get the row number (will be 4 = row row 5)
-            int col = workbook.getCurrentWorksheet().getCurrentColumnAddress(); // Get the column number (will be 0 = column A)
+            int col = workbook.getCurrentWorksheet().getCurrentColumnAddress(); // Get the columnnuber (will be 0 = column A)
             workbook.getCurrentWorksheet().addNextCell("This cell has the row number " + (row+1) + " and column number " + (col+1));
             workbook.getCurrentWorksheet().goToNextColumn();                    // Go to Column B
             workbook.getCurrentWorksheet().addNextCell("A");                    // Add cell B1
@@ -329,7 +329,7 @@ public class PicoXLSX4j {
         private static void demo6()
         {             
             Workbook workbook = new Workbook(outputFolder + "test6.xlsx", "Sheet1");  // Create new workbook
-            workbook.getCurrentWorksheet().addNextCell("Merged1");             // Add cell A1
+            workbook.getCurrentWorksheet().addNextCell("Mergerd1");             // Add cell A1
             workbook.getCurrentWorksheet().mergeCells("A1:C1");                 // Merge cells from A1 to C1
             workbook.getCurrentWorksheet().goToNextRow();                       // Go to next row
             workbook.getCurrentWorksheet().addNextCell(false);                  // Add cell A2
