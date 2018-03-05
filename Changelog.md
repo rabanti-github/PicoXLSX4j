@@ -1,5 +1,14 @@
 # Change Log
 
+## v2.3.3
+ 
+---
+ 
+Release Date: **04.03.2018**
+
+- Maintenace update
+- Fixed typos
+- Documentation update
 
 ## v2.3.1
  

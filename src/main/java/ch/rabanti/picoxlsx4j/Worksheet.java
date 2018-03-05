@@ -194,14 +194,14 @@ public class Worksheet {
         return autoFilterRange;
     }
     /**
-     * Gets the cells as list of the worksheet
+     * Gets the cells of the worksheet as map with the cell address as key and the cell object as value
      * @return List of Cell objects
      */
     public Map<String, Cell> getCells() {
         return cells;
     }
     /**
-     * Gets the map of all columns with non-standard properties, like auto filter applied or a special width
+     * Gets all columns with non-standard properties, like auto filter applied or a special width as map with the zero-based column index as key and the column object as value
      * @return map of columns
      */
     public Map<Integer, Column> getColumns() {
@@ -306,30 +306,22 @@ public class Worksheet {
         this.defaultRowHeight = defaultRowHeight;
     }
     /**
-     * Gets the Map of hidden rows.  Key is the row number (zero-based), value is a boolean. True indicates hidden, false visible.Entries with the value false are not affecting the worksheet. These entries can be removed<br>
+     * Gets the hidden rows as map with the zero-based row number as key and a boolean as value. True indicates hidden, false visible. Entries with the value false are not affecting the worksheet. These entries can be removed<br>
      * @return Map with hidden rows
      */
     public Map<Integer, Boolean> getHiddenRows() {
         return hiddenRows;
     }
     /**
-     * Gets the map with merged cells (only references)
+     * Gets the merged cells (only references) as map with the cell address as key and the range object as value
      * @return Hashmap with merged cell references
      */
     public Map<String, Range> getMergedCells() {
         return mergedCells;
     }
-    /*
-    / **
-    * Gets the map of column widths. Key is the column number (zero-based), value is a float from 0 to 255.0
-    * @return Map of column widths
-    * /
-    public Map<Integer, Float> getColumnWidths() {
-    return columnWidths;
-    }
-    */
+
     /**
-     * Gets the map of row heights. Key is the row number (zero-based), value is a float from 0 to 409.5
+     * Gets defined row heights as map with the zero-based row number as key and the height (float from 0 to 409.5) as value
      * @return Map of row heights
      */
     public Map<Integer, Float> getRowHeights() {
@@ -421,7 +413,7 @@ public class Worksheet {
         }
     }
     /**
-     * Gets the list of SheetProtectionValue. These values defines the allowed actions if the worksheet is protected
+     * Gets the list of SheetProtectionValues. These values define the allowed actions if the worksheet is protected
      * @return List of SheetProtectionValues
      */
     public List<SheetProtectionValue> getSheetProtectionValues() {

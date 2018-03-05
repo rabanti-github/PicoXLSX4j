@@ -130,7 +130,7 @@ public class Style extends AbstractStyle
     }
 
     /**
-     * Sets the name of the style. If not defined, the hash will be used as name
+     * Sets the name of the style. If not defined, the automatically calculated hash will be used as name
      * @param name Name 
      */
     public void setName(String name) {
@@ -140,7 +140,7 @@ public class Style extends AbstractStyle
 
     /**
      * Gets whether the style is system internal
-     * @return If true, the style is an internal style
+     * @return If true, the style is an internal style. Such styles are not meant to be altered
      */
     public boolean isInternalStyle() {
         return internalStyle;
