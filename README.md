@@ -18,7 +18,7 @@ See the **[Change Log](https://github.com/rabanti-github/PicoXLSX4j/blob/master/
 * Added Maven support (available in Maven Central under ch.rabanti.picoxlsx4j)
 * Complete replacement of the old style handling
 * Added more options to assign styles to cells
-* Added Shortner (property WS) to reduce the code overhead
+* Added Shortener (property WS) to reduce the code overhead
 * Added static methods for the most important formulas (round, floor, ceil, min, max, average, median, sum, vlookup)
 * Added Save option to save the XLSX file as stream
 * Added an option for sanitizing of worksheet names
@@ -32,7 +32,7 @@ The only requirement for developments are a current JDK to develop and JRE to ru
 
 # Installation
 ## As JAR
-Simply place the PicoXLSX4j jar file (e.g. **picoxlsx4j-2.3.1.jar**) into the lib folder of your project and create a library reference to it in your IDE.
+Simply place the PicoXLSX4j jar file (e.g. **picoxlsx4j-2.3.2.jar**) into the lib folder of your project and create a library reference to it in your IDE.
 ## As source files
 Place all .java files from the PicoXLSX4j source folder into your project. The folder structure defines the packages. Please use refactoring if you want to relocate the files.
 ## Maven ##
@@ -41,7 +41,7 @@ Add the following information to your POM file within the <code>&lt;dependencies
 <dependency>
     <groupId>ch.rabanti</groupId>
     <artifactId>picoxlsx4j</artifactId>
-    <version>2.3.1</version>
+    <version>2.3.2</version>
 </dependency>
 ``` 
 
@@ -57,7 +57,7 @@ Please see the version number of Maven Central [![Maven Central](https://maven-b
  workbook.WS.value("Some Data");                                        // Add cell A1
  workbook.WS.formula("=A1");                                            // Add formula to cell B1
  workbook.WS.down();                                                    // Go to row 2
- workbook.WS.value(new Date(), BasicStyles.Bold());                     // Add formated value to cell A2
+ workbook.WS.value(new Date(), BasicStyles.Bold());                     // Add formatted value to cell A2
  try{
    workbook.save();                                                     // Save the workbook as myWorkbook.xlsx
  } catch (Exception ex) {}

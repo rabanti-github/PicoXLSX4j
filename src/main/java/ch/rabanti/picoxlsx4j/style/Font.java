@@ -262,16 +262,16 @@ public class Font extends AbstractStyle
     }
 
     /**
-     * Gets the strike parameter of the font
-     * @return If true, the font is stroked through
+     * Gets whether the font is struck through
+     * @return If true, the font is declared as strike-through
      */
     public boolean isStrike() {
         return strike;
     }
 
     /**
-     * Sets the strike parameter of the font
-     * @param strike If true, the font is stroked through
+     * Sets whether the font is struck through
+     * @param strike If true, the font is declared as strike-through
      */
     public void setStrike(boolean strike) {
         this.strike = strike;

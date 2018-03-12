@@ -1,5 +1,18 @@
 # Change Log
 
+## v2.3.2
+ 
+---
+ 
+Release Date: **12.03.2018**
+
+**Note**: Due to some refactoring (see below) in this version, changes of existing code may be necessary. However, most introduced changes are on a rather low level and probably only used internally although publicly accessible
+
+- Renamed the getters and setters get/setRowAddress and get/setColumnAddress to get/setRowNumber and get/setColumnNumber in the class Cell for clarity
+- Renamed the methods getCurrentColumnAddress, getCurrentRowAddress, setCurrentColumnAddress and setCurrentRowAddress in the class Worksheet to getCurrentColumnNumber, getCurrentRowNumber, setCurrentColumnNumber and SetCurrentRowNumber for clarity
+- Renamed the constants MIN_ROW_ADDRESS, MAX_ROW_ADDRESS, MIN_COLUMN_ADDRESS, MAX_COLUMN_ADDRESS in the class Worksheet to MIN_ROW_NUMBER, MAX_ROW_NUMBER, MIN_COLUMN_NUMBER, MAX_COLUMN_NUMBER for clarity
+- Fixed typos
+- Documentation update
 
 ## v2.3.1
  
@@ -65,7 +78,7 @@ Release Date: **29.10.2017**
 - Complete replacement of style handling
 - Added an option to add styles with the cell values in one step
 - Added a sanitizing function for worksheet names (with auto-sanitizing when adding a worksheet as option)
-- Changed specific exception to gerenal exceptions (e.g. StyleException, FormatException or WorksheetException)
+- Changed specific exceptions to general exceptions (e.g. StyleException, FormatException or WorksheetException)
 - Added function to retrieve cell values easier
 - Added functions to get the current column or row number
 - Many internal optimizations

@@ -10,7 +10,8 @@ import ch.rabanti.picoxlsx4j.exception.WorksheetException;
 import ch.rabanti.picoxlsx4j.style.Style;
 
 /**
- * Class to provide access to the current worksheet with a shortened syntax
+ * Class to provide access to the current worksheet with a shortened syntax<br>
+ * Note: The WS object can be null if the workbook was created without a worksheet. The object will be available as soon as the current worksheet is defined
  * @author Raphael Stoeckli
  */
     public class Shortener

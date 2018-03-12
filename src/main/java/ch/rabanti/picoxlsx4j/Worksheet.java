@@ -34,33 +34,33 @@ public class Worksheet {
     */
     public static final float DEFAULT_ROW_HEIGHT = 15f;
     /**
-     * Maximum column address (zero-based)
+     * Maximum column number (zero-based)
      */
-    public static final int MAX_COLUMN_ADDRESS = 16383;
+    public static final int MAX_COLUMN_NUMBER = 16383;
     /**
     * Maximum column width as constant
     */
     public static final float MAX_COLUMN_WIDTH = 255f;
     /**
-     * Maximum row address (zero-based)
+     * Maximum row number (zero-based)
      */
-    public static final int MAX_ROW_ADDRESS = 1048575;
+    public static final int MAX_ROW_NUMBER = 1048575;
     /**
     * Maximum row height as constant
     */
     public static final float MAX_ROW_HEIGHT = 409.5f;    
     /**
-     * Minimum column address (zero-based)
+     * Minimum column number (zero-based)
      */
-    public static final int MIN_COLUMN_ADDRESS = 0;
+    public static final int MIN_COLUMN_NUMBER = 0;
     /**
      * Minimum column width as constant
      */
     public static final float MIN_COLUMN_WIDTH = 0f;
     /**
-     * Minimum row address (zero-based)
+     * Minimum row number (zero-based)
      */
-    public static final int MIN_ROW_ADDRESS = 0;
+    public static final int MIN_ROW_NUMBER = 0;
     /**
      * Minimum row height as constant
      */
@@ -86,7 +86,7 @@ public class Worksheet {
      */
     public enum SheetProtectionValue
     {
-        // sheet, // Is alway on 1 if protected
+        // sheet, // Is always on 1 if protected
         /**
          * If selected, the user can edit objects if the worksheets is protected
          */
@@ -194,14 +194,14 @@ public class Worksheet {
         return autoFilterRange;
     }
     /**
-     * Gets the cells as list of the worksheet
+     * Gets the cells of the worksheet as map with the cell address as key and the cell object as value
      * @return List of Cell objects
      */
     public Map<String, Cell> getCells() {
         return cells;
     }
     /**
-     * Gets the map of all columns with non-standard properties, like auto filter applied or a special width
+     * Gets all columns with non-standard properties, like auto filter applied or a special width as map with the zero-based column index as key and the column object as value
      * @return map of columns
      */
     public Map<Integer, Column> getColumns() {
@@ -223,46 +223,46 @@ public class Worksheet {
         this.currentCellDirection = currentCellDirection;
     }
     /**
-     * Sets the current column address (column number, zero based)
-     * @param columnAddress Column number (zero based)
-     * @throws RangeException Thrown if the address is out of the valid range. Range is from 0 to 16383 (16384 columns)
+     * Sets the current column number (zero based)
+     * @param columnNumber Column number (zero based)
+     * @throws RangeException Thrown if the number is out of the valid range. Range is from 0 to 16383 (16384 columns)
      */
-    public void setCurrentColumnAddress(int columnAddress)
+    public void setCurrentColumnNumber(int columnNumber)
     {
-        if (columnAddress > MAX_COLUMN_ADDRESS || columnAddress < MIN_COLUMN_ADDRESS)
+        if (columnNumber > MAX_COLUMN_NUMBER || columnNumber < MIN_COLUMN_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(columnAddress) + ") is out of range. Range is from "+ Integer.toString(MIN_COLUMN_ADDRESS)+ " to "+ Integer.toString(MAX_COLUMN_ADDRESS) +" ("+ Integer.toString(MAX_COLUMN_ADDRESS + 1) +" columns).");
+            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from "+ Integer.toString(MIN_COLUMN_NUMBER)+ " to "+ Integer.toString(MAX_COLUMN_NUMBER) +" ("+ Integer.toString(MAX_COLUMN_NUMBER + 1) +" columns).");
         }
-        this.currentColumnNumber = columnAddress;
+        this.currentColumnNumber = columnNumber;
     }  
     /**
-     * Sets the current row address (row number, zero based)
-     * @param rowAddress Row number (zero based)
-     * @throws RangeException Thrown if the address is out of the valid range. Range is from 0 to 1048575 (1048576 rows)
+     * Sets the current row number (zero based)
+     * @param rowNumber Row number (zero based)
+     * @throws RangeException Thrown if the number is out of the valid range. Range is from 0 to 1048575 (1048576 rows)
      */
-    public void setCurrentRowAddress(int rowAddress)
+    public void setCurrentRowNumber(int rowNumber)
     {
-        if (rowAddress > MAX_ROW_ADDRESS || rowAddress < MIN_ROW_ADDRESS)
+        if (rowNumber > MAX_ROW_NUMBER || rowNumber < MIN_ROW_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The row number (" + Integer.toString(rowAddress) + ") is out of range. Range is from "+ Integer.toString(MIN_ROW_ADDRESS) +" to "+ Integer.toString(MAX_ROW_ADDRESS) +" ("+ Integer.toString(MAX_ROW_ADDRESS + 1)+" rows).");
+            throw new RangeException("OutOfRangeException","The row number (" + Integer.toString(rowNumber) + ") is out of range. Range is from "+ Integer.toString(MIN_ROW_NUMBER) +" to "+ Integer.toString(MAX_ROW_NUMBER) +" ("+ Integer.toString(MAX_ROW_NUMBER + 1)+" rows).");
         }
-        this.currentRowNumber = rowAddress;
+        this.currentRowNumber = rowNumber;
     }
     
     /**
-     * Gets the current column address (column number, zero based)
-     * @return Column address (zero-based)
+     * Gets the current column number (zero based)
+     * @return Column number (zero-based)
      */
-    public int getCurrentColumnAddress()
+    public int getCurrentColumnNumber()
     {
         return this.currentColumnNumber;
     }
 
     /**
-     * Gets the current row address (row number, zero based)
-     * @return Row address (zero-based)
+     * Gets the current row number (zero based)
+     * @return Row number (zero-based)
      */
-    public int getCurrentRowAddress()
+    public int getCurrentRowNumber()
     {
         return this.currentRowNumber;
     }     
@@ -306,30 +306,22 @@ public class Worksheet {
         this.defaultRowHeight = defaultRowHeight;
     }
     /**
-     * Gets the Map of hidden rows.  Key is the row number (zero-based), value is a boolean. True indicates hidden, false visible.Entries with the value false are not affecting the worksheet. These entries can be removed<br>
+     * Gets the hidden rows as map with the zero-based row number as key and a boolean as value. True indicates hidden, false visible. Entries with the value false are not affecting the worksheet. These entries can be removed<br>
      * @return Map with hidden rows
      */
     public Map<Integer, Boolean> getHiddenRows() {
         return hiddenRows;
     }
     /**
-     * Gets the map with merged cells (only references)
+     * Gets the merged cells (only references) as map with the cell address as key and the range object as value
      * @return Hashmap with merged cell references
      */
     public Map<String, Range> getMergedCells() {
         return mergedCells;
     }
-    /*
-    / **
-    * Gets the map of column widths. Key is the column number (zero-based), value is a float from 0 to 255.0
-    * @return Map of column widths
-    * /
-    public Map<Integer, Float> getColumnWidths() {
-    return columnWidths;
-    }
-    */
+
     /**
-     * Gets the map of row heights. Key is the row number (zero-based), value is a float from 0 to 409.5
+     * Gets defined row heights as map with the zero-based row number as key and the height (float from 0 to 409.5) as value
      * @return Map of row heights
      */
     public Map<Integer, Float> getRowHeights() {
@@ -421,7 +413,7 @@ public class Worksheet {
         }
     }
     /**
-     * Gets the list of SheetProtectionValue. These values defines the allowed actions if the worksheet is protected
+     * Gets the list of SheetProtectionValues. These values define the allowed actions if the worksheet is protected
      * @return List of SheetProtectionValues
      */
     public List<SheetProtectionValue> getSheetProtectionValues() {
@@ -544,13 +536,13 @@ public class Worksheet {
         {
             if (this.getCurrentCellDirection() == CellDirection.ColumnToColumn)
             {
-                this.currentColumnNumber = cell.getColumnAddress() + 1;
-                this.currentRowNumber = cell.getRowAddress();
+                this.currentColumnNumber = cell.getColumnNumber() + 1;
+                this.currentRowNumber = cell.getRowNumber();
             }
             else
             {
-                this.currentColumnNumber = cell.getColumnAddress();
-                this.currentRowNumber = cell.getRowAddress() + 1;
+                this.currentColumnNumber = cell.getColumnNumber();
+                this.currentRowNumber = cell.getRowNumber() + 1;
             }
         }
     }
@@ -789,8 +781,8 @@ public class Worksheet {
         int len = values.size();
         for(int i = 0; i < len; i++)
         {
-            list.get(i).setRowAddress(addresses.get(i).Row);
-            list.get(i).setColumnAddress(addresses.get(i).Column);
+            list.get(i).setRowNumber(addresses.get(i).Row);
+            list.get(i).setColumnNumber(addresses.get(i).Column);
             list.get(i).setWorksheetReference(this);
             addNextCell(list.get(i), false, style);
         }
@@ -926,15 +918,15 @@ public class Worksheet {
     }
     
     /**
-     * Gets the cell of the specified column and row address (zero-based)
-     * @param columnAddress Column address of the cell
-     * @param rowAddress Row address of the cell
+     * Gets the cell of the specified column and row number (zero-based)
+     * @param columnNumber Column address of the cell
+     * @param rowNumber Row address of the cell
      * @return Cell object
      * @throws WorksheetException Throws a WorksheetException if the cell was not found on the cell table of this worksheet
      */
-    public Cell getCell(int columnAddress, int rowAddress)
+    public Cell getCell(int columnNumber, int rowNumber)
     {
-        return getCell(new Address(columnAddress, rowAddress));
+        return getCell(new Address(columnNumber, rowNumber));
     }    
     
     /**
@@ -1111,8 +1103,8 @@ public class Worksheet {
         int endRow = 0;
         for(Map.Entry<String, Cell> item  : this.getCells().entrySet())
         {
-            if (item.getValue().getColumnAddress() < start || item.getValue().getColumnAddress() > end) { continue; }
-            if (item.getValue().getRowAddress() > endRow) {endRow = item.getValue().getRowAddress();}
+            if (item.getValue().getColumnNumber() < start || item.getValue().getColumnNumber() > end) { continue; }
+            if (item.getValue().getRowNumber() > endRow) {endRow = item.getValue().getRowNumber();}
         }
         Column c;
         for(int i = start; i <= end; i++)
@@ -1264,9 +1256,9 @@ public class Worksheet {
      */
     private void setColumnHiddenState(int columnNumber, boolean state)
     {
-        if (columnNumber > MAX_COLUMN_ADDRESS || columnNumber < 0)
+        if (columnNumber > MAX_COLUMN_NUMBER || columnNumber < 0)
         {
-            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from 0 to "+ Integer.toString(MAX_COLUMN_ADDRESS) +" ("+ Integer.toString(MAX_COLUMN_ADDRESS + 1) +" columns).");
+            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from 0 to "+ Integer.toString(MAX_COLUMN_NUMBER) +" ("+ Integer.toString(MAX_COLUMN_NUMBER + 1) +" columns).");
         }
         if (this.columns.containsKey(columnNumber) && state == true)
         {
@@ -1287,9 +1279,9 @@ public class Worksheet {
      */
     public void setColumnWidth(int columnNumber, float width)
     {
-        if (columnNumber > MAX_COLUMN_ADDRESS || columnNumber < MIN_COLUMN_ADDRESS)
+        if (columnNumber > MAX_COLUMN_NUMBER || columnNumber < MIN_COLUMN_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from "+ Integer.toString(MIN_COLUMN_ADDRESS)+ " to "+ Integer.toString(MAX_COLUMN_ADDRESS) +" ("+ Integer.toString(MAX_COLUMN_ADDRESS + 1) +" columns).");
+            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from "+ Integer.toString(MIN_COLUMN_NUMBER)+ " to "+ Integer.toString(MAX_COLUMN_NUMBER) +" ("+ Integer.toString(MAX_COLUMN_NUMBER + 1) +" columns).");
         }
         if (width < MIN_COLUMN_WIDTH || width > MAX_COLUMN_WIDTH)
         {
@@ -1314,8 +1306,8 @@ public class Worksheet {
      */
     public void setCurrentCellAddress(int columnAddress, int rowAddress)
     {
-        setCurrentColumnAddress(columnAddress);
-        setCurrentRowAddress(rowAddress);       
+        setCurrentColumnNumber(columnAddress);
+        setCurrentRowNumber(rowAddress);
     }
     /**
      * Sets the height of the passed row number (zero-based)
@@ -1325,9 +1317,9 @@ public class Worksheet {
      */
     public void setRowHeight(int rowNumber, float height)
     {
-        if (rowNumber > MAX_ROW_ADDRESS || rowNumber < MIN_ROW_ADDRESS)
+        if (rowNumber > MAX_ROW_NUMBER || rowNumber < MIN_ROW_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The row number (" + Integer.toString(rowNumber) + ") is out of range. Range is from "+ Integer.toString(MIN_ROW_ADDRESS) +" to "+ Integer.toString(MAX_ROW_ADDRESS) +" ("+ Integer.toString(MAX_ROW_ADDRESS + 1)+" rows).");
+            throw new RangeException("OutOfRangeException","The row number (" + Integer.toString(rowNumber) + ") is out of range. Range is from "+ Integer.toString(MIN_ROW_NUMBER) +" to "+ Integer.toString(MAX_ROW_NUMBER) +" ("+ Integer.toString(MAX_ROW_NUMBER + 1)+" rows).");
         }       
         if (height < 0 || height > 409.5)
         {
@@ -1343,9 +1335,9 @@ public class Worksheet {
      */
     private void setRowHiddenState(int rowNumber, boolean state)
     {
-        if (rowNumber > MAX_ROW_ADDRESS || rowNumber < MIN_ROW_ADDRESS)
+        if (rowNumber > MAX_ROW_NUMBER || rowNumber < MIN_ROW_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The row number (" + Integer.toString(rowNumber) + ") is out of range. Range is from "+ Integer.toString(MIN_ROW_ADDRESS) +" to "+ Integer.toString(MAX_ROW_ADDRESS) +" ("+ Integer.toString(MAX_ROW_ADDRESS + 1)+" rows).");
+            throw new RangeException("OutOfRangeException","The row number (" + Integer.toString(rowNumber) + ") is out of range. Range is from "+ Integer.toString(MIN_ROW_NUMBER) +" to "+ Integer.toString(MAX_ROW_NUMBER) +" ("+ Integer.toString(MAX_ROW_NUMBER + 1)+" rows).");
         }
         if (this.hiddenRows.containsKey(rowNumber))
         {

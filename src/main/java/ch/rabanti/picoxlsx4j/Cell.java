@@ -62,9 +62,9 @@ public class Cell implements Comparable<Cell>{
 // ### P R I V A T E  F I E L D S ###
     
     private Style cellStyle;
-    private int columnAddress;
+    private int columnNumber;
     private CellType dataType;
-    private int rowAddress;
+    private int rowNumber;
     private Object value;
     private Worksheet worksheetReference;
     
@@ -76,7 +76,7 @@ public class Cell implements Comparable<Cell>{
      */
     public String getCellAddress()
     {
-        return Cell.resolveCellAddress(this.columnAddress, this.rowAddress);
+        return Cell.resolveCellAddress(this.columnNumber, this.rowNumber);
     }
     /**
      * Sets the combined cell Address as string in the format A1 - XFD1048576
@@ -86,8 +86,8 @@ public class Cell implements Comparable<Cell>{
     public void setCellAddress(String address)
     {
         Address temp = Cell.resolveCellCoordinate(address);
-        this.columnAddress = temp.Column;
-        this.rowAddress = temp.Row;
+        this.columnNumber = temp.Column;
+        this.rowNumber = temp.Row;
     }
     /**
      * Gets the combined cell address as class
@@ -95,7 +95,7 @@ public class Cell implements Comparable<Cell>{
      */
     public Address getCellAddress2()
     {
-        return new Address(this.columnAddress, this.rowAddress);
+        return new Address(this.columnNumber, this.rowNumber);
     }
     /**
      * Sets the combined cell address as class
@@ -103,8 +103,8 @@ public class Cell implements Comparable<Cell>{
      */
     public void setCellAddress2(Address address)
     {
-        this.setColumnAddress(address.Column);
-        this.setRowAddress(address.Row);
+        this.setColumnNumber(address.Column);
+        this.setRowNumber(address.Row);
     }
 
     /**
@@ -120,20 +120,20 @@ public class Cell implements Comparable<Cell>{
      * Gets the number of the column (zero-based)
      * @return Column number (zero-based)
      */    
-    public int getColumnAddress() {
-        return columnAddress;
+    public int getColumnNumber() {
+        return columnNumber;
     }
 
     /**
      * Sets the number of the column (zero-based)
-     * @param columnAddress Column number (zero-based)
+     * @param columnNumber Column number (zero-based)
      */
-    public void setColumnAddress(int columnAddress) {
-        if (columnAddress < Worksheet.MIN_COLUMN_ADDRESS || columnAddress > Worksheet.MAX_COLUMN_ADDRESS)
+    public void setColumnNumber(int columnNumber) {
+        if (columnNumber < Worksheet.MIN_COLUMN_NUMBER || columnNumber > Worksheet.MAX_COLUMN_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The passed number (" + Integer.toString(columnAddress) + ")is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_ADDRESS) + " to " + Integer.toString(Worksheet.MAX_COLUMN_ADDRESS) + " (" + (Integer.toString(Worksheet.MAX_COLUMN_ADDRESS + 1)) + " rows).");
+            throw new RangeException("OutOfRangeException","The passed number (" + Integer.toString(columnNumber) + ")is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_NUMBER) + " to " + Integer.toString(Worksheet.MAX_COLUMN_NUMBER) + " (" + (Integer.toString(Worksheet.MAX_COLUMN_NUMBER + 1)) + " rows).");
         }        
-        this.columnAddress = columnAddress;
+        this.columnNumber = columnNumber;
     }
 
     /**
@@ -155,19 +155,19 @@ public class Cell implements Comparable<Cell>{
      * Gets the number of the row (zero-based)
      * @return Row number (zero-based)
      */
-    public int getRowAddress() {
-        return rowAddress;
+    public int getRowNumber() {
+        return rowNumber;
     }
     /**
      * Sets the number of the row (zero-based)
-     * @param rowAddress Row number (zero-based)
+     * @param rowNumber Row number (zero-based)
      */
-    public void setRowAddress(int rowAddress) {
-        if (rowAddress < Worksheet.MIN_ROW_ADDRESS || rowAddress > Worksheet.MAX_ROW_ADDRESS)
+    public void setRowNumber(int rowNumber) {
+        if (rowNumber < Worksheet.MIN_ROW_NUMBER || rowNumber > Worksheet.MAX_ROW_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The passed number (" + Integer.toString(rowAddress) + ")is out of range. Range is from " + Integer.toString(Worksheet.MIN_ROW_ADDRESS) + " to " + Integer.toString(Worksheet.MAX_ROW_ADDRESS) + " (" + (Integer.toString(Worksheet.MAX_ROW_ADDRESS + 1)) + " rows).");
+            throw new RangeException("OutOfRangeException","The passed number (" + Integer.toString(rowNumber) + ")is out of range. Range is from " + Integer.toString(Worksheet.MIN_ROW_NUMBER) + " to " + Integer.toString(Worksheet.MAX_ROW_NUMBER) + " (" + (Integer.toString(Worksheet.MAX_ROW_NUMBER + 1)) + " rows).");
         }
-        this.rowAddress = rowAddress;
+        this.rowNumber = rowNumber;
     }
     /**
      * Gets the value of the cell (generic object type)
@@ -206,14 +206,14 @@ public class Cell implements Comparable<Cell>{
 // ### C O N S T R U C T O R S ###
     
     /**
-     * Default constructor
+     * Default constructor. Cells created with this constructor do not have a link to a worksheet initially
      */
     public Cell()
     {
         this.worksheetReference = null;
     }
     /**
-     * Constructor with value and cell type
+     * Constructor with value and cell type. Cells created with this constructor do not have a link to a worksheet initially
      * @param value Value of the cell
      * @param type Type of the cell
      */
@@ -224,19 +224,19 @@ public class Cell implements Comparable<Cell>{
         resolveCellType();
     }
     /**
-     * Constructor with value, cell type, row address and column address
+     * Constructor with value, cell type, row number, column number and the link to a worksheet
      * @param value Value of the cell
      * @param type Type of the cell
-     * @param column Column address of the cell (zero-based)
-     * @param row Row address of the cell (zero-based)
+     * @param column Column number of the cell (zero-based)
+     * @param row Row number of the cell (zero-based)
      * @param reference Worksheet reference
      */
     public Cell(Object value, CellType type, int column, int row, Worksheet reference)
     {
         this.dataType = type;
         this.value = value;
-        this.columnAddress = column;
-        this.rowAddress = row;
+        this.columnNumber = column;
+        this.rowNumber = row;
         this.worksheetReference = reference;
         if (type == CellType.DEFAULT)
         {
@@ -253,13 +253,13 @@ public class Cell implements Comparable<Cell>{
      */
     @Override
     public int compareTo(Cell o) {
-        if (this.rowAddress == o.rowAddress)
+        if (this.rowNumber == o.rowNumber)
         {
-            return Integer.compare(this.columnAddress, o.getColumnAddress());
+            return Integer.compare(this.columnNumber, o.getColumnNumber());
         }
         else
         {
-            return Integer.compare(this.rowAddress, o.getRowAddress());
+            return Integer.compare(this.rowNumber, o.getRowNumber());
         }
     }
    
@@ -503,9 +503,9 @@ public class Cell implements Comparable<Cell>{
      */
     public static String resolveCellAddress(int column, int row)
     {
-            if (row > Worksheet.MAX_ROW_ADDRESS || row < Worksheet.MIN_ROW_ADDRESS)
+            if (row > Worksheet.MAX_ROW_NUMBER || row < Worksheet.MIN_ROW_NUMBER)
             {
-                throw new RangeException("OutOfRangeException","The row number (" + Integer.toString(row) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_ROW_ADDRESS) + " to " + Integer.toString(Worksheet.MAX_ROW_ADDRESS) + " (" + (Integer.toString(Worksheet.MIN_ROW_ADDRESS) + 1) + " rows).");
+                throw new RangeException("OutOfRangeException","The row number (" + Integer.toString(row) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_ROW_NUMBER) + " to " + Integer.toString(Worksheet.MAX_ROW_NUMBER) + " (" + (Integer.toString(Worksheet.MIN_ROW_NUMBER) + 1) + " rows).");
             }
             return resolveColumnAddress(column) + Integer.toString(row + 1);    
     }
@@ -536,13 +536,13 @@ public class Cell implements Comparable<Cell>{
         column = resolveColumn(mx.group(1));
         row = digits - 1;
         
-        if (row > Worksheet.MAX_ROW_ADDRESS || row < Worksheet.MIN_ROW_ADDRESS)
+        if (row > Worksheet.MAX_ROW_NUMBER || row < Worksheet.MIN_ROW_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The row number (" + Integer.toString(row) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_ROW_ADDRESS) + " to " + Integer.toString(Worksheet.MAX_ROW_ADDRESS) + " (" + Integer.toString((Worksheet.MAX_ROW_ADDRESS + 1)) + " rows).");
+            throw new RangeException("OutOfRangeException","The row number (" + Integer.toString(row) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_ROW_NUMBER) + " to " + Integer.toString(Worksheet.MAX_ROW_NUMBER) + " (" + Integer.toString((Worksheet.MAX_ROW_NUMBER + 1)) + " rows).");
         }     
-        if (column > Worksheet.MAX_COLUMN_ADDRESS || column < Worksheet.MIN_COLUMN_ADDRESS)
+        if (column > Worksheet.MAX_COLUMN_NUMBER || column < Worksheet.MIN_COLUMN_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(column) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_ADDRESS) + " to " + Integer.toString(Worksheet.MAX_COLUMN_ADDRESS) + " (" + Integer.toString((Worksheet.MAX_COLUMN_ADDRESS + 1)) + " columns).");
+            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(column) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_NUMBER) + " to " + Integer.toString(Worksheet.MAX_COLUMN_NUMBER) + " (" + Integer.toString((Worksheet.MAX_COLUMN_NUMBER + 1)) + " columns).");
         }
         
         Address output = new Address(column, row);
@@ -586,20 +586,20 @@ public class Cell implements Comparable<Cell>{
      */
     public static int resolveColumn(String columnAddress)
     {
-        int temp;
+        int chr;
         int result = 0;
-        int multiplicator = 1;
+        int multiplier = 1;
         
         for (int i = columnAddress.length() - 1; i >= 0; i--)
         {
-            temp = (int)columnAddress.charAt(i);
-            temp = temp - 64;
-            result = result + (temp * multiplicator);
-            multiplicator = multiplicator * 26;
+            chr = (int)columnAddress.charAt(i);
+            chr = chr - 64;
+            result = result + (chr * multiplier);
+            multiplier = multiplier * 26;
         }
-        if (result - 1 > Worksheet.MAX_COLUMN_ADDRESS || result - 1 < Worksheet.MIN_COLUMN_ADDRESS)
+        if (result - 1 > Worksheet.MAX_COLUMN_NUMBER || result - 1 < Worksheet.MIN_COLUMN_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(result - 1) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_ADDRESS) + " to " + Integer.toString(Worksheet.MAX_COLUMN_ADDRESS) + " (" + Integer.toString((Worksheet.MAX_COLUMN_ADDRESS + 1)) + " columns).");
+            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(result - 1) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_NUMBER) + " to " + Integer.toString(Worksheet.MAX_COLUMN_NUMBER) + " (" + Integer.toString((Worksheet.MAX_COLUMN_NUMBER + 1)) + " columns).");
         }        
         return result - 1;
     }
@@ -612,9 +612,9 @@ public class Cell implements Comparable<Cell>{
      */
     public static String resolveColumnAddress(int columnNumber)
     {
-        if (columnNumber > Worksheet.MAX_COLUMN_ADDRESS || columnNumber < Worksheet.MIN_COLUMN_ADDRESS)
+        if (columnNumber > Worksheet.MAX_COLUMN_NUMBER || columnNumber < Worksheet.MIN_COLUMN_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_ADDRESS) + " to " + Integer.toString(Worksheet.MAX_COLUMN_ADDRESS) + " (" + Integer.toString((Worksheet.MAX_COLUMN_ADDRESS + 1)) + " columns).");
+            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_NUMBER) + " to " + Integer.toString(Worksheet.MAX_COLUMN_NUMBER) + " (" + Integer.toString((Worksheet.MAX_COLUMN_NUMBER + 1)) + " columns).");
         }
         // A - XFD
         int j = 0;

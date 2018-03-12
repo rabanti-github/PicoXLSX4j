@@ -180,7 +180,7 @@ public class Workbook {
 // ### C O N S T R U C T O R S ###
     /**
      * Default Constructor with additional parameter to create a default worksheet
-     * @param createWorksheet If true, a default worksheet will be created and set as default worksheet
+     * @param createWorksheet If true, a default worksheet with the name 'Sheet1' will be created and set as current worksheet
      */
     public Workbook(boolean createWorksheet)
     { 
@@ -263,7 +263,7 @@ public class Workbook {
     }
     
     /**
-     * Adding a new Worksheet
+     * Adding a new Worksheet. The new worksheet will be defined as current worksheet
      * @param name Name of the new worksheet
      * @throws WorksheetException Thrown if the name of the worksheet already exists
      * @throws FormatException Thrown if the worksheet name contains illegal characters or is out of range (length between 1 an 31)
@@ -274,7 +274,7 @@ public class Workbook {
         {
             if (this.worksheets.get(i).getSheetName().equals(name))
             {
-                throw new WorksheetException("WorksheetNameAlreadxExistsException","The worksheet with the name '" + name + "' already exists.");
+                throw new WorksheetException("WorksheetNameAlreadyExistsException","The worksheet with the name '" + name + "' already exists.");
             }
         }
         int number = this.worksheets.size() + 1;
@@ -285,7 +285,7 @@ public class Workbook {
     }
     
     /**
-     * Adding a new Worksheet with a sanitizing option
+     * Adding a new Worksheet with a sanitizing option. The new worksheet will be defined as current worksheet
      * @param name Name of the new worksheet
      * @param sanitizeSheetName If true, the name of the worksheet will be sanitized automatically according to the specifications of Excel
      * @throws WorksheetException Thrown if the name of the worksheet already exists and sanitizeSheetName is false
@@ -305,7 +305,7 @@ public class Workbook {
     }
     
     /**
-     * Adding a new Worksheet
+     * Adding a new Worksheet. The new worksheet will be defined as current worksheet
      * @param worksheet Prepared worksheet object
      * @throws WorksheetException Thrown if the name of the worksheet already exists
      * @throws FormatException Thrown if the worksheet name contains illegal characters or is out of range (length between 1 an 31
@@ -316,7 +316,7 @@ public class Workbook {
         {
             if (this.worksheets.get(i).getSheetName().equals(worksheet.getSheetName()))
             {
-                throw new WorksheetException("WorksheetNameAlreadxExistsException","The worksheet with the name '" + worksheet.getSheetName() + "' already exists.");
+                throw new WorksheetException("WorksheetNameAlreadyExistsException","The worksheet with the name '" + worksheet.getSheetName() + "' already exists.");
             }
         }
         int number = this.worksheets.size() + 1;
@@ -502,9 +502,9 @@ public class Workbook {
                     {
                         cell = new Cell();
                         cell.setDataType(Cell.CellType.EMPTY);
-                        cell.setRowAddress(address.Row);
-                        cell.setColumnAddress(address.Column);
-                        sheet.addCell(cell, cell.getColumnAddress(), cell.getRowAddress());
+                        cell.setRowNumber(address.Row);
+                        cell.setColumnNumber(address.Column);
+                        sheet.addCell(cell, cell.getColumnNumber(), cell.getRowNumber());
                     }
                     else
                     {

@@ -238,7 +238,7 @@ public class CellXf  extends AbstractStyle
      }
 
     /**
-     * Gets whether the assigned cell is locked if the worksheet is protected
+     * Gets whether the locked property (used for locking / protection of cells or worksheets) will be defined in the XF entry of the style. If true, locked will be defined
      * @return If true, the style is used for locking / protection of cells or worksheets
      */
     public boolean isLocked() {
@@ -246,7 +246,7 @@ public class CellXf  extends AbstractStyle
     }
 
     /**
-     * Sets whether the assigned cell is locked if the worksheet is protected
+     * Sets whether the locked property (used for locking / protection of cells or worksheets) will be defined in the XF entry of the style. If true, locked will be defined
      * @param locked If true, the style is used for locking / protection of cells or worksheets
      */
     public void setLocked(boolean locked) {
@@ -254,7 +254,7 @@ public class CellXf  extends AbstractStyle
     }
 
     /**
-     * Gets whether the assigned cell content (in the header) is invisible if the worksheet is protected
+     * Gets whether the hidden property (used for protection or hiding of cells) will be defined in the XF entry of the style. If true, hidden will be defined
      * @return If true, the style is used for hiding cell values / protection of cells
      */
     public boolean isHidden() {
@@ -262,7 +262,7 @@ public class CellXf  extends AbstractStyle
     }
 
     /**
-     * Sets whether the assigned cell content (in the header) is invisible if the worksheet is protected
+     * Sets whether the hidden property (used for protection or hiding of cells) will be defined in the XF entry of the style. If true, hidden will be defined
      * @param hidden If true, the style is used for hiding cell values / protection of cells
      */
     public void setHidden(boolean hidden) {
@@ -270,7 +270,7 @@ public class CellXf  extends AbstractStyle
     }
 
     /**
-     * Gets whether the alignment is applied. This is used for merging cells
+     * Gets whether the applyAlignment property (used to merge cells) will be defined in the XF entry of the style. If true, applyAlignment will be defined
      * @return If true, the applyAlignment value of the style will be set to true (used to merge cells)
      */
     public boolean isForceApplyAlignment() {
@@ -278,7 +278,7 @@ public class CellXf  extends AbstractStyle
     }
 
     /**
-     * Sets whether the alignment is applied. This is used for merging cells
+     * Sets whether the applyAlignment property (used to merge cells) will be defined in the XF entry of the style. If true, applyAlignment will be defined
      * @param forceApplyAlignment If true, the applyAlignment value of the style will be set to true (used to merge cells)
      */
     public void setForceApplyAlignment(boolean forceApplyAlignment) {
