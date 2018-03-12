@@ -4,9 +4,13 @@
  
 ---
  
-Release Date: **04.03.2018**
+Release Date: **12.03.2018**
 
-- Maintenace update
+**Note**: Due to some refactoring (see below) in this version, changes of existing code may be necessary. However, most introduced changes are on a rather low level and probably only used internally although publicly accessible
+
+- Renamed the getters and setters get/setRowAddress and get/setColumnAddress to get/setRowNumber and get/setColumnNumber in the class Cell for clarity
+- Renamed the methods getCurrentColumnAddress, getCurrentRowAddress, setCurrentColumnAddress and setCurrentRowAddress in the class Worksheet to getCurrentColumnNumber, getCurrentRowNumber, setCurrentColumnNumber and SetCurrentRowNumber for clarity
+- Renamed the constants MIN_ROW_ADDRESS, MAX_ROW_ADDRESS, MIN_COLUMN_ADDRESS, MAX_COLUMN_ADDRESS in the class Worksheet to MIN_ROW_NUMBER, MAX_ROW_NUMBER, MIN_COLUMN_NUMBER, MAX_COLUMN_NUMBER for clarity
 - Fixed typos
 - Documentation update
 

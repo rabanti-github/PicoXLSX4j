@@ -194,8 +194,8 @@ public class PicoXLSX4j {
             workbook.getCurrentWorksheet().addNextCell(2);                      // Add cell A2
             workbook.getCurrentWorksheet().addNextCell(3);                      // Add cell A3
             workbook.getCurrentWorksheet().addNextCell(4);                      // Add cell A4
-            int row = workbook.getCurrentWorksheet().getCurrentRowAddress();    // Get the row number (will be 4 = row row 5)
-            int col = workbook.getCurrentWorksheet().getCurrentColumnAddress(); // Get the column number (will be 0 = column A)
+            int row = workbook.getCurrentWorksheet().getCurrentRowNumber();    // Get the row number (will be 4 = row row 5)
+            int col = workbook.getCurrentWorksheet().getCurrentColumnNumber(); // Get the column number (will be 0 = column A)
             workbook.getCurrentWorksheet().addNextCell("This cell has the row number " + (row+1) + " and column number " + (col+1));
             workbook.getCurrentWorksheet().goToNextColumn();                    // Go to Column B
             workbook.getCurrentWorksheet().addNextCell("A");                    // Add cell B1

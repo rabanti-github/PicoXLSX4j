@@ -180,7 +180,7 @@ public class Workbook {
 // ### C O N S T R U C T O R S ###
     /**
      * Default Constructor with additional parameter to create a default worksheet
-     * @param createWorksheet If true, a default worksheet will be created and set as default worksheet
+     * @param createWorksheet If true, a default worksheet with the name 'Sheet1' will be created and set as current worksheet
      */
     public Workbook(boolean createWorksheet)
     { 
@@ -502,9 +502,9 @@ public class Workbook {
                     {
                         cell = new Cell();
                         cell.setDataType(Cell.CellType.EMPTY);
-                        cell.setRowAddress(address.Row);
-                        cell.setColumnAddress(address.Column);
-                        sheet.addCell(cell, cell.getColumnAddress(), cell.getRowAddress());
+                        cell.setRowNumber(address.Row);
+                        cell.setColumnNumber(address.Column);
+                        sheet.addCell(cell, cell.getColumnNumber(), cell.getRowNumber());
                     }
                     else
                     {

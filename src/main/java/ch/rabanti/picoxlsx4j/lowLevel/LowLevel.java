@@ -324,7 +324,7 @@ public class LowLevel {
      */
     private String createRowString(List<Cell> columnFields, Worksheet worksheet)
     {
-        int rowNumber = columnFields.get(0).getRowAddress();
+        int rowNumber = columnFields.get(0).getRowNumber();
         String height = "";
         String hidden = "";
         if (worksheet.getRowHeights().containsKey(rowNumber))
@@ -1115,14 +1115,14 @@ public class LowLevel {
          List<List<Cell>> output = new ArrayList<>();
          if (temp.size() > 0)
          {
-             int rowNumber = temp.get(0).getRowAddress();
+             int rowNumber = temp.get(0).getRowNumber();
              for (int i = 0; i < temp.size(); i++)
              {
-                 if (temp.get(i).getRowAddress() != rowNumber)
+                 if (temp.get(i).getRowNumber() != rowNumber)
                  {
                      output.add(line);
                      line = new ArrayList<>();
-                     rowNumber = temp.get(i).getRowAddress();
+                     rowNumber = temp.get(i).getRowNumber();
                  }
                  line.add(temp.get(i));
              }
