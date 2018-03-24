@@ -77,4 +77,4 @@ Please see the version number of Maven Central [![Maven Central](https://maven-b
 
 ## Further References
 See the full <b>API-Documentation</b> at: [https://rabanti-github.github.io/PicoXLSX4j/](https://rabanti-github.github.io/PicoXLSX4j/).<br>
-The [Demo class](https://github.com/rabanti-github/PicoXLSX4j/blob/master/src/ch/rabanti/picoxlsx4j/demo/PicoXLSX4j.java) contains twelve simple use cases. You can find also the full documentation in the [Javadoc-Folder](https://github.com/rabanti-github/PicoXLSX4j/tree/master/dist/javadoc) or as Javadoc annotations in the .java files.<br>
+The [Demo class](https://github.com/rabanti-github/PicoXLSX4j/blob/master/src/main/java/ch/rabanti/picoxlsx4j/demo/PicoXLSX4j.java) contains twelve simple use cases. You can find also the full documentation in the [Javadoc-Folder](https://github.com/rabanti-github/PicoXLSX4j/tree/master/dist/javadoc) or as Javadoc annotations in the .java files.<br>
