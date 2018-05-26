@@ -160,7 +160,7 @@ public class NumberFormat extends AbstractStyle
         */
         custom(164);
 
-        private int numVal;
+        private final int numVal;
         /**
          * Enum constructor with numeric value
          * @param numVal Numeric value of the enum entry

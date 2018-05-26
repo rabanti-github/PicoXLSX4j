@@ -24,7 +24,7 @@ public class Helper {
     static
     {
         Calendar rootCalendar = Calendar.getInstance();
-        rootCalendar.set(1899, 11, 29);
+        rootCalendar.set(1899, Calendar.DECEMBER, 29);
         ROOT_TICKS = rootCalendar.getTimeInMillis();
     }
     

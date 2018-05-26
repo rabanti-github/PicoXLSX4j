@@ -13,13 +13,13 @@ import java.util.HashMap;
  * Class representing a reduced sorted map (key / value). This class is not compatible with the Map interface
  * @author Raphael Stoeckli
  */
-public class SortedMap {
+class SortedMap {
 
 // ### P R I V A T E  F I E L D S ###    
     private int count;
-    private HashMap<String, Integer> index;
-    private ArrayList<String> keyEntries;
-    private ArrayList<String> valueEntries;
+    private final HashMap<String, Integer> index;
+    private final ArrayList<String> keyEntries;
+    private final ArrayList<String> valueEntries;
     
    
 // ### C O N S T R U C T O R S ###

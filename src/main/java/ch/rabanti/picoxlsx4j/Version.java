@@ -20,6 +20,6 @@ public final class Version {
     /**
      * Version of the library
      */
-    public static final String VERSION = "2.30200"; // 2.3.2
+    public static final String VERSION = "2.30300"; // 2.3.3
     
 }
