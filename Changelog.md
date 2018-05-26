@@ -1,9 +1,17 @@
 # Change Log
 
+## v2.3.3
+
+---
+Release Date: **26.05.2018**
+
+- Fixed a bug in the handling of worksheet protection
+- Code cleanup
+
+
 ## v2.3.2
  
 ---
- 
 Release Date: **12.03.2018**
 
 **Note**: Due to some refactoring (see below) in this version, changes of existing code may be necessary. However, most introduced changes are on a rather low level and probably only used internally although publicly accessible
@@ -14,10 +22,10 @@ Release Date: **12.03.2018**
 - Fixed typos
 - Documentation update
 
+
 ## v2.3.1
  
 ---
- 
 Release Date: **16.02.2018**
 
 **Note**: The naming of the released jar has changed due to the new Maven deployment process. The version number is now part of the jar file name. This release has no functional changes to version 2.3.0
@@ -43,6 +51,7 @@ Release Date: **13.02.2018**
  
 
 ## v2.2.0
+
 ---
 Release Date: **10.12.2017**
 
@@ -51,6 +60,7 @@ Release Date: **10.12.2017**
 
 
 ## v2.1.0 
+
 ---
 Release Date: **03.12.2017**
 
@@ -60,6 +70,7 @@ Release Date: **03.12.2017**
 
 
 ## v2.0.1 
+
 ---
 Release Date: **01.11.2017**
 
@@ -70,6 +81,7 @@ Release Date: **01.11.2017**
 
 
 ## v2.0.0 
+
 ---
 Release Date: **29.10.2017**
 
@@ -86,6 +98,7 @@ Release Date: **29.10.2017**
 - Added new functionality to the demos
 
 ## v1.6.3 
+
 ---
 Release Date: **24.08.2017**
 
@@ -95,13 +108,15 @@ Release Date: **24.08.2017**
 - Fixed typos
 
 ## v1.6.2 
+
 ---
 Release Date: **12.08.2017**
 
 - fixed a bug in the function to remove merged cells (Worksheet class)
 - Fixed typos
 
-## v1.6.1 
+## v1.6.1
+ 
 ---
 Release Date: **08.08.2017**
 
@@ -113,6 +128,7 @@ Release Date: **08.08.2017**
 - HTML documentation moved to folder 'docs' to provide an automatic API documentation on the hosting platform
 
 ## v1.6.0 
+
 ---
 Release Date: **15.04.2017**
 
@@ -124,6 +140,7 @@ Release Date: **15.04.2017**
 - Minor changes (code and documentation)
 
 ## v1.5.5
+
 ---
 Release Date: **03.04.2017**
 
@@ -133,6 +150,7 @@ Release Date: **03.04.2017**
 - Fixed typos
 
 ## v1.5.4
+
 ---
 Release Date: **20.03.2017**
 
@@ -140,12 +158,14 @@ Release Date: **20.03.2017**
 - Fixed typos
 
 ## v1.5.3
+
 ---
 Release Date: **02.12.2016**
 
 - Fixed bug in the handling of the cell types
 
 ## v1.5.2
+
 ---
 Release Date: **17.11.2016**
 
@@ -153,12 +173,15 @@ Release Date: **17.11.2016**
 - Passed null values to cells are now interpreted as empty values. Caused an exception until now
 
 ## v1.5.1
+
 ---
 Release Date: **15.11.2016**
 
 - Fixed bug in sharedStrings table
 
+
 ## v1.5.0
+
 ---
 Release Date: **16.08.2016**
 
@@ -169,6 +192,7 @@ Release Date: **16.08.2016**
 - Added support for long (64bit) data type
 
 ## v1.4.0
+
 ---
 Release Date: **11.08.2016**
 
@@ -179,6 +203,7 @@ Release Date: **11.08.2016**
 - Added further demo for the new features
 
 ## v1.3.0  
+
 ---
 Release Date: **18.01.2016**
 
@@ -191,12 +216,14 @@ Release Date: **18.01.2016**
 - Added further demo for the new features
 
 ## v1.2.4	
+
 ---
 Release Date: **08.11.2015**
 
 - Fixed a bug in the meta data section
 
 ## v1.2.3	
+
 ---
 Release Date: **04.11.2015**
 
@@ -204,12 +231,14 @@ Release Date: **04.11.2015**
 - Fixed typos
 
 ## v1.2.2	
+
 ---
 Release Date: **02.11.2015**
 
 - Added support for protecting workbooks
 
 ## v1.2.1	
+
 ---
 Release Date: **01.11.2015**
 
@@ -218,6 +247,7 @@ Release Date: **01.11.2015**
 - Added more documentation
 
 ## v1.2.0	
+
 ---
 Release Date: **31.10.2015**
 
@@ -227,7 +257,8 @@ Release Date: **31.10.2015**
 - Fixed typos
 - Added further demo for the new features
 
-## v1.1.3	
+## v1.1.3
+	
 ---
 Release Date: **13.10.2015**
 
@@ -235,6 +266,7 @@ Release Date: **13.10.2015**
 - Fixed Javadoc to meet requirements of Java 8
 
 ## v1.1.2	
+
 ---
 Release Date: **12.10.2015**
 

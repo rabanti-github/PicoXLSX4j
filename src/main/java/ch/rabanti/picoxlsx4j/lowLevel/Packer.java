@@ -27,15 +27,15 @@ public class Packer {
     /**
      * Path of the main content type file (MSXML)
      */
-    static final String CONTENT_TYPE_DOCUMENT = "[Content_Types].xml";
+    private static final String CONTENT_TYPE_DOCUMENT = "[Content_Types].xml";
     
 // ### P R I V A T E  F I E L D S ###    
-    private List<String> contentTypeList;
-    private List<byte[]> dataList;
-    private List<Boolean> includeContentType;
-    private List<String> pathList;
-    private List<Relationship> relationships;
-    private LowLevel lowLevelReference;
+    private final List<String> contentTypeList;
+    private final List<byte[]> dataList;
+    private final List<Boolean> includeContentType;
+    private final List<String> pathList;
+    private final List<Relationship> relationships;
+    private final LowLevel lowLevelReference;
     
 // ### C O N S T R U C T O R S ###
     /**
@@ -157,7 +157,7 @@ public class Packer {
         {
             byte[] contentTypes = createContentTypeDocument();
             
-            ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream((OutputStream)stream), Charset.forName("UTF-8"));
+            ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(stream), Charset.forName("UTF-8"));
             out.setMethod(ZipOutputStream.DEFLATED);
             ZipEntry entry = new ZipEntry(CONTENT_TYPE_DOCUMENT);
             out.putNextEntry(entry);
@@ -193,17 +193,17 @@ public class Packer {
      */
     public class Relationship
     {
-        private String rootFolder;
-        private List<String> targetList;
-        private List<String> typeList;
-        private List<String> idList;
+        private final String rootFolder;
+        private final List<String> targetList;
+        private final List<String> typeList;
+        private final List<String> idList;
         private int currentId;
 
         /**
          * Gets the root folder of the relationship
          * @return Root folder of the relationship
          */
-        public String getRootFolder() {
+        String getRootFolder() {
             return rootFolder;
         }
 
@@ -211,7 +211,7 @@ public class Packer {
          * Gets the list of targets
          * @return ArrayList of targets as strings
          */
-        public List<String> getTargetList() {
+        List<String> getTargetList() {
             return targetList;
         }
 
@@ -219,7 +219,7 @@ public class Packer {
          * Gets the list of types
          * @return ArrayList of types as strings
          */
-        public List<String> getTypeList() {
+        List<String> getTypeList() {
             return typeList;
         }
 
@@ -227,7 +227,7 @@ public class Packer {
          * Gets the list of IDs (rId...)
          * @return ArrayList of IDs as strings
          */
-        public List<String> getIdList() {
+        List<String> getIdList() {
             return idList;
         }
         
@@ -235,7 +235,7 @@ public class Packer {
          * Constructor with definition of the root folder
          * @param path Root folder of the relationship
          */
-        public Relationship(String path)
+        Relationship(String path)
         {
             this.idList = new ArrayList<>();
             this.targetList = new ArrayList<>();

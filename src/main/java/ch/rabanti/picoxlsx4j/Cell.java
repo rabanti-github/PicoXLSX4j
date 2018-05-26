@@ -384,8 +384,8 @@ public class Cell implements Comparable<Cell>{
     public  static <T> List<Cell> convertArray(List<T> list)
     {
         List<Cell> output = new ArrayList<>();
-        Cell c = null;
-        Object o = null;
+        Cell c;
+        Object o;
         for (int i = 0; i < list.size(); i++)
         {
             o = list.get(i);
@@ -544,9 +544,8 @@ public class Cell implements Comparable<Cell>{
         {
             throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(column) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_NUMBER) + " to " + Integer.toString(Worksheet.MAX_COLUMN_NUMBER) + " (" + Integer.toString((Worksheet.MAX_COLUMN_NUMBER + 1)) + " columns).");
         }
-        
-        Address output = new Address(column, row);
-        return output;
+
+        return new Address(column, row);
     } 
     /**
      * Resolves a cell range from the format like A1:B3 or AAD556:AAD1000
@@ -569,8 +568,7 @@ public class Cell implements Comparable<Cell>{
         {
             Address start = resolveCellCoordinate(split[0]);
             Address end = resolveCellCoordinate(split[1]);
-            Range output = new Range(start, end);
-            return output;
+            return new Range(start, end);
         }
         catch(Exception e)
         {

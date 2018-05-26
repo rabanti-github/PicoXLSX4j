@@ -27,13 +27,13 @@ public class StyleManager
     static final String STYLEPREFIX = "style=";
      
 // ### P R I V A T E  F I E L D S ###
-    private ArrayList<AbstractStyle> borders;
-    private ArrayList<AbstractStyle> cellXfs;
-    private ArrayList<AbstractStyle> fills;
-    private ArrayList<AbstractStyle> fonts;
-    private ArrayList<AbstractStyle> numberFormats;
-    private ArrayList<AbstractStyle> styles;
-    private ArrayList<String> styleNames;
+    private final ArrayList<AbstractStyle> borders;
+    private final ArrayList<AbstractStyle> cellXfs;
+    private final ArrayList<AbstractStyle> fills;
+    private final ArrayList<AbstractStyle> fonts;
+    private final ArrayList<AbstractStyle> numberFormats;
+    private final ArrayList<AbstractStyle> styles;
+    private final ArrayList<String> styleNames;
     
 // ### C O N S T R U C T O R S ### 
     /**
