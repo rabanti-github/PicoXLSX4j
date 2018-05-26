@@ -52,7 +52,7 @@ public class Fill extends AbstractStyle
         gray125(6);
         
         private final int value;
-        private PatternValue(int value) { this.value = value; }
+        PatternValue(int value) { this.value = value; }
         public int getValue() { return value; }
         
     }
@@ -72,7 +72,7 @@ public class Fill extends AbstractStyle
         fillColor(1);
       
         private final int value;
-        private FillType(int value) { this.value = value; }
+        FillType(int value) { this.value = value; }
         public int getValue() { return value; }
     }    
     
@@ -83,7 +83,7 @@ public class Fill extends AbstractStyle
      */
     public static String getPatternName(PatternValue pattern)
     {
-        String output = "";
+        String output;
         switch (pattern)
         {
             case none:

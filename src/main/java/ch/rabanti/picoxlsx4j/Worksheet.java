@@ -1120,8 +1120,7 @@ public class Worksheet {
                 this.getColumns().get(i).setAutoFilter(true);
             }
         }
-        Range temp = new Range(new Address(start, 0), new Address(end, endRow));
-        this.autoFilterRange = temp;
+        this.autoFilterRange = new Range(new Address(start, 0), new Address(end, endRow));
     }
     /**
      * Method to recalculate the collection of columns of this worksheet. This is an internal method. There is no need to use it. It must be public to require access from the LowLevel class

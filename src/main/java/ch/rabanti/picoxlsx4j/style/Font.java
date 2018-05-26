@@ -40,7 +40,7 @@ public class Font extends AbstractStyle
         none(0);
         
         private final int value;
-        private VerticalAlignValue(int value) { this.value = value; }
+        VerticalAlignValue(int value) { this.value = value; }
         public int getValue() { return value; }        
     }    
     
@@ -63,7 +63,7 @@ public class Font extends AbstractStyle
         none(0);
         
         private final int value;
-        private SchemeValue(int value) { this.value = value; }
+        SchemeValue(int value) { this.value = value; }
         public int getValue() { return value; }  
     }    
     

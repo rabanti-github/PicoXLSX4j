@@ -35,9 +35,9 @@ import java.util.*;
 public class LowLevel {
      
 // ### P R I V A T E  F I E L D S ###    
-    private SortedMap sharedStrings;
+    private final SortedMap sharedStrings;
     private int sharedStringsTotalCount;
-    private Workbook workbook;
+    private final Workbook workbook;
     private boolean interceptDocuments;
     private HashMap<String, Document> interceptedDocuments;
     
@@ -97,12 +97,11 @@ public class LowLevel {
      * @param value Value of the XML element
      * @param tagName Tag name of the XML element
      * @param nameSpace Optional XML name space. Can be empty or null
-     * @return Returns false if no tag was appended, because the value or tag name was null or empty
      */
-    private boolean appendXMLtag(StringBuilder sb, String value, String tagName, String nameSpace)
+    private void appendXMLtag(StringBuilder sb, String value, String tagName, String nameSpace)
     {
-        if (Helper.isNullOrEmpty(value)) { return false; }
-        if (sb == null || Helper.isNullOrEmpty(tagName)) { return false; }
+        if (Helper.isNullOrEmpty(value)) { return; }
+        if (sb == null || Helper.isNullOrEmpty(tagName)) { return; }
         boolean hasNoNs = Helper.isNullOrEmpty(nameSpace);
         sb.append('<');
         if (hasNoNs == false)
@@ -120,7 +119,6 @@ public class LowLevel {
         }
         sb.append(tagName);
         sb.append(">");
-        return true;
     }
    
     
@@ -129,14 +127,13 @@ public class LowLevel {
      * @return Formatted XML document
      * @throws IOException Thrown in case of an error while creating the XML document
      */
-    public Document createAppPropertiesDocument() throws IOException
+    private Document createAppPropertiesDocument() throws IOException
     {
         StringBuilder sb = new StringBuilder();
         sb.append("<Properties xmlns=\"http://schemas.openxmlformats.org/officeDocument/2006/extended-properties\" xmlns:vt=\"http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes\">");
         sb.append(createAppString());
         sb.append("</Properties>");
-        Document doc = createXMLDocument(sb.toString(), "APPPROPERTIES");
-        return doc;
+        return createXMLDocument(sb.toString(), "APPPROPERTIES");
     }    
     /**
      * Method to create the XML string for the app-properties document
@@ -213,8 +210,7 @@ public class LowLevel {
         sb.append("<cp:coreProperties xmlns:cp=\"http://schemas.openxmlformats.org/package/2006/metadata/core-properties\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:dcterms=\"http://purl.org/dc/terms/\" xmlns:dcmitype=\"http://purl.org/dc/dcmitype/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
         sb.append(createCorePropertiesString());
         sb.append("</cp:coreProperties>");
-        Document doc = createXMLDocument(sb.toString(),"COREPROPERTIES");
-        return doc;
+        return createXMLDocument(sb.toString(),"COREPROPERTIES");
     }    
     /**
      * Method to create the XML string for the core-properties document
@@ -492,8 +488,7 @@ public class LowLevel {
                 sb.append("</t></si>");
             }
             sb.append("</sst>");
-            Document doc = createXMLDocument(sb.toString(), "SHAREDSTRINGS");
-            return doc;
+        return createXMLDocument(sb.toString(), "SHAREDSTRINGS");
     }
     /**
      * Method to create the protection string of the passed worksheet
@@ -555,6 +550,7 @@ public class LowLevel {
         {
             item = (Map.Entry<Worksheet.SheetProtectionValue, Integer>)itr.next();
             temp = item.getKey().name();// Note! If the enum names differs from the OOXML definitions, this method will cause invalid OOXML entries
+            sb.append(" ").append(temp).append("=\"").append(item.getValue()).append("\"");
         }
         if (Helper.isNullOrEmpty(sheet.getSheetProtectionPassword()) == false)
         {
@@ -794,8 +790,7 @@ public class LowLevel {
             }
         }
         sb.append("</styleSheet>");
-        Document doc = createXMLDocument(sb.toString(), "STYLESHEET");
-        return doc;
+        return createXMLDocument(sb.toString(), "STYLESHEET");
     }
     
     /**
@@ -807,7 +802,7 @@ public class LowLevel {
     {
         Style[] styles = this.workbook.getStyleManager().getStyles();
         StringBuilder sb = new StringBuilder();
-        StringBuilder sb2 = null;
+        StringBuilder sb2;
         String alignmentString, protectionString;
         int formatNumber, textRotation;
         for (Style style : styles) {
@@ -982,8 +977,7 @@ public class LowLevel {
         }
         sb.append("</sheets>");
         sb.append("</workbook>");
-        Document doc = createXMLDocument(sb.toString(), "WORKBOOK");
-        return doc;
+        return createXMLDocument(sb.toString(), "WORKBOOK");
     }
     /**
      * Method to create a worksheet part as XML document
@@ -1041,10 +1035,9 @@ public class LowLevel {
             sb.append("<autoFilter ref=\"").append(worksheet.getAutoFilterRange().toString()).append("\"/>");
         }
         sb.append("</worksheet>");
-        
-        Document doc = createXMLDocument(sb.toString(), "WORKSHEET: " + worksheet.getSheetName());
+
         //testing.Performance.SaveLoggedValues("LineLength.xlsx");
-        return doc;
+        return createXMLDocument(sb.toString(), "WORKSHEET: " + worksheet.getSheetName());
     }
     
     /**
@@ -1195,10 +1188,10 @@ public class LowLevel {
     
 // ### S T A T I C   M E T H O D S ###        
     /**
-     * Method to convert an XML document to an byte array
+     * Method to convert an XML document to a byte array
      * @param document Document to process
      * @return array of bytes (UTF-8)
-     * @throws IOException Thrown if the document could not be converted to a byte stream
+     * @throws IOException Thrown if the document could not be converted to a byte array
      */
     public static byte[] createBytesFromDocument(Document document) throws IOException
     {
@@ -1218,7 +1211,7 @@ public class LowLevel {
         }
         catch(Exception e)
         {
-            throw new IOException("ByteSteamException","There was an error while creating the byte stream. Please see the inner exception.", e);
+            throw new IOException("ByteSteamException","There was an error while creating the byte array. Please see the inner exception.", e);
         }
     }    
 
@@ -1227,7 +1220,7 @@ public class LowLevel {
      * @param input Input string to process
      * @return Escaped string
      */
-    public static String escapeXMLAttributeChars(String input)
+    private static String escapeXMLAttributeChars(String input)
     {
         input = escapeXMLChars(input); // Sanitize string from illegal characters beside quotes
         input = input.replace("\"", "&quot;");
@@ -1238,7 +1231,7 @@ public class LowLevel {
      * @param input Input string to process
      * @return Escaped string
      */
-    public static String escapeXMLChars(String input)
+    private static String escapeXMLChars(String input)
     {
         int len = input.length();
         List<Integer> illegalCharacters = new ArrayList<>(len);
@@ -1312,7 +1305,7 @@ public class LowLevel {
      * @param password Password as plain text
      * @return Encoded password
      */
-    public static String generatePasswordHash(String password)
+    private static String generatePasswordHash(String password)
     {
         if (Helper.isNullOrEmpty(password)) { return ""; }
         int passwordLength = password.length();

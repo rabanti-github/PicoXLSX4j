@@ -60,10 +60,10 @@ public class CellXf  extends AbstractStyle
          none(0);
          
         private final int value;
-        private HorizontalAlignValue(int value) { this.value = value; }
+        HorizontalAlignValue(int value) { this.value = value; }
         public int getValue() { return value; }
          
-     };
+     }
 
      /**
       * Enum for the vertical alignment of a cell 
@@ -96,7 +96,7 @@ public class CellXf  extends AbstractStyle
          none(0);
          
         private final int value;
-        private VerticalAlignValue(int value) { this.value = value; }
+        VerticalAlignValue(int value) { this.value = value; }
         public int getValue() { return value; }
      }     
 
@@ -118,7 +118,7 @@ public class CellXf  extends AbstractStyle
           */
          none(0);
         private final int value;
-        private TextBreakValue(int value) { this.value = value; }
+        TextBreakValue(int value) { this.value = value; }
         public int getValue() { return value; }
      }
 
@@ -137,7 +137,7 @@ public class CellXf  extends AbstractStyle
          vertical(1);
          
         private final int value;
-        private TextDirectionValue(int value) { this.value = value; }
+        TextDirectionValue(int value) { this.value = value; }
         public int getValue() { return value; }
      }
 

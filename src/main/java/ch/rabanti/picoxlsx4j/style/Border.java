@@ -78,7 +78,7 @@ public class Border extends AbstractStyle
         s_double(13);
         
         private final int value;
-        private StyleValue(int value) { this.value = value; }
+        StyleValue(int value) { this.value = value; }
         public int getValue() { return value; }
     }
     
