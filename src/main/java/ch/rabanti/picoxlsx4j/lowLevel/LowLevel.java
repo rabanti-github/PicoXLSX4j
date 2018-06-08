@@ -664,7 +664,7 @@ public class LowLevel {
         return sb.toString();
     }  
     /**
-     * Method to create the XML string for the font part of the style sheet document
+     * Method to create the XML string for the Font part of the style sheet document
      * @return String with formatted XML data
      */
     private String createStyleFontString()
