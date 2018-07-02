@@ -1,5 +1,17 @@
 # Change Log
 
+## v2.5.0
+
+---
+Release Date: **03.07.2018**
+
+- Added address types (no fixed rows and columns, fixed rows, fixed columns, fixed rows and columns)
+- Added new CellDirection Disabled, if the addresses of the cells are defined manually (addNextCell will override the current cell in this case)
+- Altered Demo 3 to demonstrate disabling of automatic cell addressing
+- Extended Demo 1 to demonstrate the new address types
+- Minor, internal changes
+
+
 ## v2.4.0
 
 ---
