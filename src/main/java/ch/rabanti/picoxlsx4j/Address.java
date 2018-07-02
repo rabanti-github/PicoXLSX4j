@@ -26,24 +26,59 @@ import static ch.rabanti.picoxlsx4j.Cell.resolveCellAddress;
          * Row of the address (zero-based)
          */
         public final int Row;
+
+        public final Cell.AddressType Type;
         
 // ### C O N S T R U C T O R S ###        
         /**
          * Constructor with with row and column as arguments
          * @param column Column of the address (zero-based)
          * @param row Row of the address (zero-based)
+
          */
         public Address(int column, int row)
         {
             this.Column = column;
             this.Row = row;
+            this.Type = Cell.AddressType.Default;
         }
-        
+
+        /**
+         * Constructor with address as string
+         * @param address Address string (e.g. 'A1:B12')
+         */
         public Address(String address)
         {
-         Address a = Cell.resolveCellCoordinate(address);
-         this.Column = a.Column;
-         this.Row = a.Row;
+             Address a = Cell.resolveCellCoordinate(address);
+             this.Column = a.Column;
+             this.Row = a.Row;
+             this.Type = Cell.AddressType.Default;
+        }
+
+        /**
+         * Constructor with with row, column and address type as arguments
+         * @param column Column of the address (zero-based)
+         * @param row Row of the address (zero-based)
+         * @param type Referencing type of the address
+         */
+        public Address(int column, int row, Cell.AddressType type)
+        {
+            this.Column = column;
+            this.Row = row;
+            this.Type = type;
+        }
+
+        /**
+         * Constructor with address as string and address type
+         * @param address Address string (e.g. 'A1:B12')
+         * @param type Optional referencing type of the address
+         */
+        public Address(String address, Cell.AddressType type)
+        {
+            this.Type = type;
+            Address a = Cell.resolveCellCoordinate(address);
+            this.Column = a.Column;
+            this.Row = a.Row;
         }
 
 // ### M E T H O D S ###
@@ -72,7 +107,16 @@ import static ch.rabanti.picoxlsx4j.Cell.resolveCellAddress;
          */
         public String getAddress()
         {
-            return resolveCellAddress(this.Column, this.Row);
+            return resolveCellAddress(this.Column, this.Row, this.Type);
+        }
+
+        /**
+         * Gets the column address (A - XFD)
+         * @return Column address as letter(s)
+         */
+        public String getColumn()
+        {
+            return Cell.resolveColumnAddress(Column);
         }
         
         /**
