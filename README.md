@@ -9,7 +9,7 @@ PicoXLSX4j is a small Java library to create XLSX files (Microsoft Excel 2007 or
 * No need for 3rd party libraries
 * Pure usage of standard JRE
 
-**Please have a look at the successor library [https://github.com/rabanti-github/NanoXLSX4j](NanoXLSX4j) for reader support.**
+**Please have a look at the successor library [NanoXLSX4j](https://github.com/rabanti-github/NanoXLSX4j) for reader support.**
 
 Project website: [https://picoxlsx.rabanti.ch](https://picoxlsx.rabanti.ch)
 
