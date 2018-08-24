@@ -1,5 +1,14 @@
 # Change Log
 
+## v2.5.2
+
+---
+Release Date: **24.08.2018**
+
+- Fixed a bug in the calculation of OA Dates (internal format)
+- Documentation Update
+
+
 ## v2.5.1
 
 ---

@@ -18,13 +18,11 @@ import java.util.Date;
 public class Helper {
         
 // ### C O N S T A N T S ###    
-    //private static Calendar root = Calendar.getInstance();
-    //static { root.set(1899, 11, 29); }
     private static final long ROOT_TICKS;
     static
     {
         Calendar rootCalendar = Calendar.getInstance();
-        rootCalendar.set(1899, Calendar.DECEMBER, 29);
+        rootCalendar.set(1899, Calendar.DECEMBER, 30,0,0,0);
         ROOT_TICKS = rootCalendar.getTimeInMillis();
     }
     
@@ -41,7 +39,7 @@ public class Helper {
         Calendar dateCal = Calendar.getInstance();
         dateCal.setTime(date);
         long currentTicks = dateCal.getTimeInMillis();
-        double d = ((dateCal.get(Calendar.SECOND) + (dateCal.get(Calendar.MINUTE) * 60) + (dateCal.get(Calendar.HOUR_OF_DAY) * 3600)) / 86400) + Math.floor((currentTicks - ROOT_TICKS) / (86400000));
+        double d = ((double)(dateCal.get(Calendar.SECOND) + (dateCal.get(Calendar.MINUTE) * 60) + (dateCal.get(Calendar.HOUR_OF_DAY) * 3600)) / 86400) + Math.floor((currentTicks - ROOT_TICKS) / (86400000));
         if (d < 0)
         {
             throw new FormatException("FormatException","The date is not in a valid range for Excel. Dates before 1900-01-01 are not allowed.");
