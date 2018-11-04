@@ -525,8 +525,8 @@ public class Workbook {
                     if (pos != 0)
                     {
                         cell.setDataType(Cell.CellType.EMPTY);
+                        cell.setStyle(mergeStyle);
                     }
-                    cell.setStyle(mergeStyle);
                     pos++;
                 }
             }
