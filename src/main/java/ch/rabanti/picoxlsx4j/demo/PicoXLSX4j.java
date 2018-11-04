@@ -75,7 +75,7 @@ public class PicoXLSX4j {
     }
 
     /**
-     * This method show the shortened style of writing cells
+     * This method shows the shortened style of writing cells
      */
     private static void shortenerDemo() {
         Workbook wb = new Workbook(outputFolder + "shortenerDemo.xlsx", "Sheet1"); // Create a workbook (important: A worksheet must be created as well)

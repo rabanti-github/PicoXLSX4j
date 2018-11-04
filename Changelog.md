@@ -1,5 +1,13 @@
 # Change Log
 
+## v2.5.3
+
+---
+Release Date: **04.11.2018**
+
+- Fixed a bug in the style handling of merged cells. Bug fix provided by David Courtel for PicoXLSX (C#)
+
+
 ## v2.5.2
 
 ---
