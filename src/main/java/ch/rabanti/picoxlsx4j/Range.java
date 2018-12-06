@@ -51,9 +51,30 @@ package ch.rabanti.picoxlsx4j;
          * @return Returns the range (e.g. 'A1:B12')
          */
         @Override
-        public String toString()
-        {
+        public String toString(){
             return StartAddress.toString() + ":" + EndAddress.toString();
+        }
+
+        /**
+         * Overwritten equals method
+         * @param o Other object to compare
+         * @return True if this instance is equal to the other instance
+         */
+        @Override
+        public boolean equals(Object o){
+            if(o == this){
+                return true;
+            }
+            if (!(o instanceof Range)){
+                return false;
+            }
+            Range range = (Range)o;
+            if (this.StartAddress.equals(range.StartAddress) && this.EndAddress.equals(range.EndAddress)){
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         
     } 
