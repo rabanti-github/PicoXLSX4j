@@ -6,8 +6,6 @@
  */
 package ch.rabanti.picoxlsx4j.style;
 
-import static ch.rabanti.picoxlsx4j.style.StyleManager.FILLPREFIX;
-
 /**
  * Class representing a Fill (background) entry. The Fill entry is used to define background colors and fill patterns
  * @author Raphael Stoeckli
@@ -259,7 +257,7 @@ public class Fill extends AbstractStyle
     @Override
     public String toString()
     {
-        return this.getHash();
+        return "Fill:"  + Integer.toString(this.hashCode());
     }    
     
     /**
@@ -282,16 +280,15 @@ public class Fill extends AbstractStyle
      * @return Calculated hash as string
      */
     @Override
-    String calculateHash() {
-        
-        StringBuilder sb = new StringBuilder();
-        sb.append(FILLPREFIX);        
-        castValue(this.indexedColor, sb, ':');
-        castValue(this.patternFill.getValue(), sb, ':');
-        castValue(this.foregroundColor, sb, ':');
-        castValue(this.backgroundColor, sb, null);
-        return sb.toString();
-    }    
+    public int hashCode(){
+        int p = 263;
+        int r = 1;
+        r *= p + this.indexedColor;
+        r *= p + this.patternFill.value;
+        r *= p + this.foregroundColor.hashCode();
+        r *= p + this.backgroundColor.hashCode();
+        return r;
+    }
     
     
 }

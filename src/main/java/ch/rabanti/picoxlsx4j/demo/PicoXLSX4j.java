@@ -7,6 +7,7 @@
 package ch.rabanti.picoxlsx4j.demo;
 
 import ch.rabanti.picoxlsx4j.*;
+import ch.rabanti.picoxlsx4j.demo.testing.Performance;
 import ch.rabanti.picoxlsx4j.style.BasicStyles;
 import ch.rabanti.picoxlsx4j.style.CellXf;
 import ch.rabanti.picoxlsx4j.style.Fill;
@@ -42,7 +43,13 @@ public class PicoXLSX4j {
             File dir = new File(outputFolder);                                   // Create new folder if not existing
             dir.mkdirs();
         }
+
+        /** PERFORMANCE TESTING **/
+        Performance.dateStressTest(outputFolder + "dateStressTest.xlsx", "Dates", 2000);
+        /* *********************** */
+        return;
         // --> Demos are starting here
+        /*
         basicDemo();
         shortenerDemo();
         streamDemo();
@@ -56,6 +63,7 @@ public class PicoXLSX4j {
         demo8();
         demo9();
         demo10();
+        */
     }
 
     /**

@@ -10,6 +10,8 @@ import ch.rabanti.picoxlsx4j.exception.StyleException;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class representing a style manager to maintain all styles and its components of a workbook
@@ -17,15 +19,7 @@ import java.util.Collections;
  */
 public class StyleManager
 {
-    
-// ### C O N S T A N T S ###
-    static final String BORDERPREFIX = "borders@";
-    static final String CELLXFPREFIX = "/cellXf@";
-    static final String FILLPREFIX = "/fill@";
-    static final String FONTPREFIX = "/font@";
-    static final String NUMBERFORMATPREFIX = "/numberFormat@";
-    static final String STYLEPREFIX = "style=";
-     
+
 // ### P R I V A T E  F I E L D S ###
     private final ArrayList<AbstractStyle> borders;
     private final ArrayList<AbstractStyle> cellXfs;
@@ -34,6 +28,7 @@ public class StyleManager
     private final ArrayList<AbstractStyle> numberFormats;
     private final ArrayList<AbstractStyle> styles;
     private final ArrayList<String> styleNames;
+    //private final Map<String, AbstractStyle> internalStyleCache;
     
 // ### C O N S T R U C T O R S ### 
     /**
@@ -48,6 +43,7 @@ public class StyleManager
         this.numberFormats = new ArrayList<>();
         this.styles = new ArrayList<>();
         this.styleNames = new ArrayList<>();
+        //this.internalStyleCache = new HashMap<>();
     }
     
 // ###  M E T H O D S ###
@@ -57,12 +53,12 @@ public class StyleManager
      * @param hash Hash of the component
      * @return Determined component. If not found, null will be returned
      */
-    private AbstractStyle getComponentByHash(ArrayList<AbstractStyle> list, String hash)
+    private AbstractStyle getComponentByHash(ArrayList<AbstractStyle> list, int hash)
     {
         int len = list.size();
         for(int i = 0; i < len; i++)
         {
-           if (list.get(i).getHash().equals(hash))
+           if (list.get(i).hashCode() == hash)
            {
                return list.get(i);
            }
@@ -76,7 +72,7 @@ public class StyleManager
      * @return Determined border
      * @throws StyleException Throws a StyleException if the border was not found in the style manager
      */
-    public Border getBorderByHash(String hash)
+    public Border getBorderByHash(int hash)
     {
         AbstractStyle component = getComponentByHash(this.borders, hash);
         if (component == null)
@@ -110,7 +106,7 @@ public class StyleManager
      * @return Determined cellXf
      * @throws StyleException Throws a StyleException if the cellXf was not found in the style manager
      */
-    public CellXf getCellXfByHash(String hash)
+    public CellXf getCellXfByHash(int hash)
     {
         AbstractStyle component = getComponentByHash(this.cellXfs, hash);
         if (component == null)
@@ -144,7 +140,7 @@ public class StyleManager
      * @return Determined font
      * @throws StyleException Throws a StyleException if the font was not found in the style manager
      */
-    public Fill getFillByHash(String hash)
+    public Fill getFillByHash(int hash)
     {
         AbstractStyle component = getComponentByHash(this.fills, hash);
         if (component == null)
@@ -178,7 +174,7 @@ public class StyleManager
      * @return Determined font
      * @throws StyleException Throws a StyleException if the font was not found in the style manager
      */
-    public Font getFontByHash(String hash)
+    public Font getFontByHash(int hash)
     {
         AbstractStyle component = getComponentByHash(this.fonts, hash);
         if (component == null)
@@ -212,7 +208,7 @@ public class StyleManager
      * @return Determined number format
      * @throws StyleException Throws a StyleException if the number format was not found in the style manager
      */
-    public NumberFormat getNumberFormatByHash(String hash)
+    public NumberFormat getNumberFormatByHash(int hash)
     {
         AbstractStyle component = getComponentByHash(this.numberFormats, hash);
         if (component == null)
@@ -265,7 +261,7 @@ public class StyleManager
      * @return Determined style
      * @throws StyleException Throws a StyleException if the style was not found in the style manager
      */
-    public Style getStyleByHash(String hash)
+    public Style getStyleByHash(int hash)
     {
         AbstractStyle component = getComponentByHash(this.styles, hash);
         if (component == null)
@@ -301,8 +297,19 @@ public class StyleManager
      */
     public Style addStyle(Style style)
     {
-        String hash = addStyleComponent(style);
-        return (Style)this.getComponentByHash(this.styles, hash);
+        /*
+        if (style.isInternalStyle()){
+            if (!this.internalStyleCache.containsKey(style.getName())){
+                addStyleComponent(style);
+                this.internalStyleCache.put(style.getName(), style);
+            }
+            return (Style)this.internalStyleCache.get(style.getName());
+        }
+        else {
+        */
+            int hash = addStyleComponent(style);
+            return (Style)this.getComponentByHash(this.styles, hash);
+        //}
     }        
     
     /**
@@ -311,7 +318,7 @@ public class StyleManager
      * @param id Id of the component
      * @return Hash of the added or determined component
      */
-    private String addStyleComponent(AbstractStyle style, Integer id)
+    private int addStyleComponent(AbstractStyle style, Integer id)
     {
         style.setInternalID(id);
         return addStyleComponent(style);
@@ -322,9 +329,9 @@ public class StyleManager
      * @param style Component to add
      * @return Hash of the added or determined component
      */
-    private String addStyleComponent(AbstractStyle style)
+    private int addStyleComponent(AbstractStyle style)
     {
-        String hash = style.getHash();
+        int hash = style.hashCode();
         if (style instanceof Border)
         {
             if (this.getComponentByHash(this.borders, hash) == null) { this.borders.add(style); }
@@ -369,7 +376,7 @@ public class StyleManager
                 {
                     id = s.getInternalID();
                 }
-                String temp = this.addStyleComponent(s.getBorder(), id);
+                int temp = this.addStyleComponent(s.getBorder(), id);
                 s.setBorder((Border)this.getComponentByHash(this.borders, temp));
                 temp = this.addStyleComponent(s.getCellXf(), id);
                 s.setCellXf((CellXf)this.getComponentByHash(this.cellXfs, temp));
@@ -382,7 +389,7 @@ public class StyleManager
                 this.styles.add(s);
             }
             reorganize(styles);
-            hash = s.calculateHash();
+            hash = s.hashCode();
         }
         return hash;
     }
@@ -484,16 +491,16 @@ public class StyleManager
     {
         Style s;
         boolean match = false;
-        String hash = component.getHash();
+        int hash = component.hashCode();
         int len = this.styles.size();
         for(int i = 0; i < len; i++)
         {
             s = (Style)this.styles.get(i);
-            if (component instanceof Border) { if (s.getBorder().getHash().equals(hash)) { match = true; break; } }
-            else if (component instanceof CellXf) { if (s.getCellXf().getHash().equals(hash)) { match = true; break; } }
-            if (component instanceof Fill) { if (s.getFill().getHash().equals(hash)) { match = true; break; } }
-            if (component instanceof Font) { if (s.getFont().getHash().equals(hash)) { match = true; break; } }
-            if (component instanceof NumberFormat) { if (s.getNumberFormat().getHash().equals(hash)) { match = true; break; } }
+            if (component instanceof Border) { if (s.getBorder().hashCode() == hash) { match = true; break; } }
+            else if (component instanceof CellXf) { if (s.getCellXf().hashCode() == hash) { match = true; break; } }
+            if (component instanceof Fill) { if (s.getFill().hashCode() == hash) { match = true; break; } }
+            if (component instanceof Font) { if (s.getFont().hashCode() == hash) { match = true; break; } }
+            if (component instanceof NumberFormat) { if (s.getNumberFormat().hashCode() == hash) { match = true; break; } }
         }
         return match;
     }

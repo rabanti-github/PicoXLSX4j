@@ -38,21 +38,15 @@ public abstract class AbstractStyle implements Comparable<AbstractStyle>
         this.internalID = internalID;
     }
 
-    /**
-     * Gets the unique hash of the object
-     * @return Hash as string
-     */
-    public String getHash() {
-     return this.calculateHash();
-    }
-     
-// ### M E T H O D S ###
+
+    // ### M E T H O D S ###
     /**
      * Abstract method definition to calculate the hash of the component
      * @return Returns the hash of the component as string
      */
-    abstract String calculateHash();
-    
+    //abstract String calculateHash();
+
+
     /**
      * Abstract method to copy a component (dereferencing)
      * @return Returns a copied component
@@ -66,7 +60,7 @@ public abstract class AbstractStyle implements Comparable<AbstractStyle>
      */
     public boolean equals(AbstractStyle other)
     {
-        return this.calculateHash().equals(other.getHash());
+        return this.hashCode() == other.hashCode();
     }
     
     /**

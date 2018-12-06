@@ -8,8 +8,6 @@ package ch.rabanti.picoxlsx4j.style;
 
 import ch.rabanti.picoxlsx4j.exception.RangeException;
 
-import static ch.rabanti.picoxlsx4j.style.StyleManager.CELLXFPREFIX;
-
 /**
  * Class representing an XF entry. The XF entry is used to make reference to other style instances like Border or Fill and for the positioning of the cell content
  * @author Raphael Stoeckli
@@ -334,7 +332,7 @@ public class CellXf  extends AbstractStyle
     @Override
     public String toString()
     {
-        return this.getHash();
+        return "StyleXF:"  + Integer.toString(this.hashCode());
     }
 
     /**
@@ -368,18 +366,18 @@ public class CellXf  extends AbstractStyle
      * @return Calculated hash as string
      */     
     @Override
-    String calculateHash() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(CELLXFPREFIX);
-        castValue(this.horizontalAlign.getValue(), sb, ':');
-        castValue(this.verticalAlign, sb, ':');
-        castValue(this.alignment.getValue(), sb, ':');
-        castValue(this.textDirection.getValue(), sb, ':');
-        castValue(this.textRotation, sb, ':');
-        castValue(this.forceApplyAlignment, sb, ':');
-        castValue(this.locked, sb, ':');
-        castValue(this.hidden, sb, null);
-        return sb.toString();
+    public int hashCode(){
+        int p = 269;
+        int r = 1;
+        r *= p + this.horizontalAlign.value;
+        r *= p + this.verticalAlign.value;
+        r *= p + this.alignment.value;
+        r *= p + this.textDirection.value;
+        r *= p + this.textRotation;
+        r *= p + (this.forceApplyAlignment ? 0 : 1);
+        r *= p + (this.locked ? 0 : 1);
+        r *= p + (this.hidden ? 0 : 1);
+        return r;
     }
 
 

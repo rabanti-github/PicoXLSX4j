@@ -6,9 +6,6 @@
  */
 package ch.rabanti.picoxlsx4j.style;
 
-import static ch.rabanti.picoxlsx4j.style.StyleManager.NUMBERFORMATPREFIX;
-
-
 /**
  * Class representing a NumberFormat entry. The NumberFormat entry is used to define cell formats like currency or date
  * @author Raphael Stoeckli
@@ -263,7 +260,7 @@ public class NumberFormat extends AbstractStyle
     @Override
     public String toString()
     {
-        return this.getHash();
+        return "NumberFormat:"  + Integer.toString(this.hashCode());
     }
     
     /**
@@ -285,14 +282,15 @@ public class NumberFormat extends AbstractStyle
      * @return Calculated hash as string
      */
     @Override
-    String calculateHash() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(NUMBERFORMATPREFIX);
-        castValue(this.customFormatCode, sb, ':');
-        castValue(this.customFormatID, sb, ':');
-        castValue(this.number.getValue(), sb, null);
-        return sb.toString();
+    public int hashCode(){
+        int p = 251;
+        int r = 1;
+        r *= p + this.customFormatCode.hashCode();
+        r *= p + this.customFormatID;
+        r *= p + this.number.getValue();
+        return r;
     }
-    
-    
+
+
+
 }

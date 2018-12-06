@@ -167,7 +167,7 @@ public class Style extends AbstractStyle
         this.fontRef = new Font();
         this.numberFormatRef = new NumberFormat();
         this.styleNameDefined = false;
-        this.name = this.calculateHash();
+        this.name = Integer.toString(this.hashCode());
     }
     
     /**
@@ -261,7 +261,7 @@ public class Style extends AbstractStyle
         }
         if (this.styleNameDefined == false)
         {
-            this.name = this.calculateHash();
+            this.name = Integer.toString(this.hashCode());
         }
     }
     
@@ -272,7 +272,7 @@ public class Style extends AbstractStyle
     @Override
     public String toString()
     {
-        return this.getInternalID() + "->" + this.getHash();
+        return this.getInternalID() + "->" + Integer.toString(this.hashCode());
     }
     
     /**
@@ -280,26 +280,21 @@ public class Style extends AbstractStyle
      * @return Calculated hash as string
      */
     @Override
-    String calculateHash()
-    {
-        StringBuilder sb = new StringBuilder();
+    public int hashCode(){
         if (borderRef == null || cellXfRef == null || fillRef == null || fontRef == null || numberFormatRef == null)
         {
             throw new StyleException("MissingReferenceException","The hash of the style could not be created because one or more components are missing as references");
         }
-        sb.append(StyleManager.STYLEPREFIX);
-        if (this.getInternalID() != null)
-        {
-            sb.append(this.getInternalID());
-            sb.append(':');
-        }
-        sb.append(borderRef.calculateHash());
-        sb.append(cellXfRef.calculateHash());
-        sb.append(fillRef.calculateHash());
-        sb.append(fontRef.calculateHash());
-        sb.append(numberFormatRef.calculateHash());
-        return sb.toString();
+        int p = 241;
+        int r = 1;
+        r *= p + this.borderRef.hashCode();
+        r *= p + this.cellXfRef.hashCode();
+        r *= p + this.fillRef.hashCode();
+        r *= p + this.fontRef.hashCode();
+        r *= p + this.numberFormatRef.hashCode();
+        return r;
     }
+
 
     /**
      * Method to copy the current object to a new one

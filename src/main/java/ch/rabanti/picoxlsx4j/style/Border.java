@@ -6,8 +6,6 @@
  */
 package ch.rabanti.picoxlsx4j.style;
 
-import static ch.rabanti.picoxlsx4j.style.StyleManager.BORDERPREFIX;
-
 /**
  * Class representing a Border entry. The Border entry is used to define frames and cell borders
  * @author Raphael Stoeckli
@@ -397,7 +395,7 @@ public class Border extends AbstractStyle
     @Override
     public String toString()
     {
-        return this.getHash();
+        return "Border:"  + Integer.toString(this.hashCode());
     }
     
     /**
@@ -428,23 +426,22 @@ public class Border extends AbstractStyle
      * @return Calculated hash as string
      */
     @Override
-    String calculateHash() {
-        
-        StringBuilder sb = new StringBuilder();
-        sb.append(BORDERPREFIX);
-        castValue(this.bottomColor, sb, ':');
-        castValue(this.bottomStyle.getValue(), sb, ':');
-        castValue(this.diagonalColor, sb, ':');
-        castValue(this.diagonalDown, sb, ':');
-        castValue(this.diagonalStyle.getValue(), sb, ':');
-        castValue(this.diagonalUp, sb, ':');
-        castValue(this.leftColor, sb, ':');
-        castValue(this.leftStyle.getValue(), sb, ':');
-        castValue(this.rightColor, sb, ':');
-        castValue(this.rightStyle.getValue(), sb, ':');
-        castValue(this.topColor, sb, ':');
-        castValue(this.topStyle.getValue(), sb, null);
-        return sb.toString();
+    public int hashCode(){
+        int p = 271;
+        int r = 1;
+        r *= p + this.bottomStyle.value;
+        r *= p + this.diagonalStyle.value;
+        r *= p + this.topStyle.value;
+        r *= p + this.leftStyle.value;
+        r *= p + this.rightStyle.value;
+        r *= p + this.bottomColor.hashCode();
+        r *= p + this.diagonalColor.hashCode();
+        r *= p + this.topColor.hashCode();
+        r *= p + this.leftColor.hashCode();
+        r *= p + this.rightColor.hashCode();
+        r *= p + (this.diagonalDown ? 0 : 1);
+        r *= p + (this.diagonalUp ? 0 : 1);
+        return r;
     }
     
 }

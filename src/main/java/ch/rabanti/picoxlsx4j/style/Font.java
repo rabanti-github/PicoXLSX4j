@@ -6,8 +6,6 @@
  */
 package ch.rabanti.picoxlsx4j.style;
 
-import static ch.rabanti.picoxlsx4j.style.StyleManager.FONTPREFIX;
-
 /**
  * Class representing a Font entry. The Font entry is used to define text formatting
  * @author Raphael Stoeckli
@@ -326,7 +324,7 @@ public class Font extends AbstractStyle
     @Override
     public String toString()
     {
-        return this.getHash();
+        return "Font:"  + Integer.toString(this.hashCode());
     }
     
     /**
@@ -358,24 +356,23 @@ public class Font extends AbstractStyle
      * @return Calculated hash as string
      */
     @Override
-    String calculateHash()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append(FONTPREFIX);
-        castValue(this.bold, sb, ':');
-        castValue(this.italic, sb, ':');
-        castValue(this.underline, sb, ':');
-        castValue(this.doubleUnderline, sb, ':');
-        castValue(this.strike, sb, ':');
-        castValue(this.colorTheme, sb, ':');
-        castValue(this.colorValue, sb, ':');
-        castValue(this.family, sb, ':');
-        castValue(this.name, sb, ':');
-        castValue(this.scheme.getValue(), sb, ':');
-        castValue(this.verticalAlign.getValue(), sb, ':');
-        castValue(this.charset, sb, ':');
-        castValue(this.size, sb, null);
-        return sb.toString();
+    public int hashCode(){
+        int p = 257;
+        int r = 1;
+        r *= p + (this.bold ? 0 : 1);
+        r *= p + (this.italic ? 0 : 1);
+        r *= p + (this.underline ? 0 : 1);
+        r *= p + (this.doubleUnderline ? 0 : 1);
+        r *= p + (this.strike ? 0 : 1);
+        r *= p + this.colorTheme;
+        r *= p + this.colorValue.hashCode();
+        r *= p + this.family.hashCode();
+        r *= p + this.name.hashCode();
+        r *= p + this.scheme.getValue();
+        r *= p + this.verticalAlign.value;
+        r *= p + this.charset.hashCode();
+        r *= p + this.size;
+        return r;
     }
     
     
