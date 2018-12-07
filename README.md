@@ -35,7 +35,7 @@ The only requirement for developments are a current JDK to develop and JRE to ru
 
 # Installation
 ## As JAR
-Simply place the PicoXLSX4j jar file (e.g. **picoxlsx4j-2.5.3.jar**) into the lib folder of your project and create a library reference to it in your IDE.
+Simply place the PicoXLSX4j jar file (e.g. **picoxlsx4j-2.5.4.jar**) into the lib folder of your project and create a library reference to it in your IDE.
 ## As source files
 Place all .java files from the PicoXLSX4j source folder into your project. The folder structure defines the packages. Please use refactoring if you want to relocate the files.
 ## Maven ##
@@ -44,7 +44,7 @@ Add the following information to your POM file within the <code>&lt;dependencies
 <dependency>
     <groupId>ch.rabanti</groupId>
     <artifactId>picoxlsx4j</artifactId>
-    <version>2.5.3</version>
+    <version>2.5.4</version>
 </dependency>
 ``` 
 
