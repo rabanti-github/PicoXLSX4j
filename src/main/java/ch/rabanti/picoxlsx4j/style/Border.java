@@ -8,88 +8,93 @@ package ch.rabanti.picoxlsx4j.style;
 
 /**
  * Class representing a Border entry. The Border entry is used to define frames and cell borders
+ *
  * @author Raphael Stoeckli
  */
-public class Border extends AbstractStyle
-{
+public class Border extends AbstractStyle {
 // ### E N U M S ###
+
     /**
      * Enum for the border style
      */
-    public enum StyleValue
-    {
+    public enum StyleValue {
         /**
-        * no border
-        */
+         * no border
+         */
         none(0),
         /**
-        * hair border
-        */
+         * hair border
+         */
         hair(1),
         /**
-        * dotted border
-        */
+         * dotted border
+         */
         dotted(2),
         /**
-        * dashed border with double-dots
-        */
+         * dashed border with double-dots
+         */
         dashDotDot(3),
         /**
-        * dash-dotted border
-        */
+         * dash-dotted border
+         */
         dashDot(4),
         /**
-        * dashed border
-        */
+         * dashed border
+         */
         dashed(5),
         /**
-        * thin border
-        */
+         * thin border
+         */
         thin(6),
         /**
-        * medium-dashed border with double-dots
-        */
+         * medium-dashed border with double-dots
+         */
         mediumDashDotDot(7),
         /**
-        * slant dash-dotted border
-        */
+         * slant dash-dotted border
+         */
         slantDashDot(8),
         /**
-        * medium dash-dotted border
-        */
+         * medium dash-dotted border
+         */
         mediumDashDot(9),
         /**
-        * medium dashed border
-        */
+         * medium dashed border
+         */
         mediumDashed(10),
         /**
-        * medium border
-        */
+         * medium border
+         */
         medium(11),
         /**
-        * thick border
-        */
+         * thick border
+         */
         thick(12),
         /**
-        * double border
-        */
+         * double border
+         */
         s_double(13);
-        
+
         private final int value;
-        StyleValue(int value) { this.value = value; }
-        public int getValue() { return value; }
+
+        StyleValue(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
-    
+
     /**
      * Gets the border style name from the enum
+     *
      * @param style Enum to process
      * @return The valid value of the border style as String
      */
-    public static String getStyleName(StyleValue style)
-    {
+    public static String getStyleName(StyleValue style) {
         String output = "";
-        switch (style)
-        {
+        switch (style) {
             case none:
                 output = "";
                 break;
@@ -136,9 +141,9 @@ public class Border extends AbstractStyle
                 break;
         }
         return output;
-    }    
-    
-// ### P R I V A T E  F I E L D S ###
+    }
+
+    // ### P R I V A T E  F I E L D S ###
     private StyleValue leftStyle;
     private StyleValue rightStyle;
     private StyleValue topStyle;
@@ -153,8 +158,10 @@ public class Border extends AbstractStyle
     private String diagonalColor;
 
 // ### G E T T E R S  &  S E T T E R S ###
+
     /**
      * Gets the style of left cell border
+     *
      * @return Style of left cell border
      */
     public StyleValue getLeftStyle() {
@@ -163,6 +170,7 @@ public class Border extends AbstractStyle
 
     /**
      * Sets the style of left cell border
+     *
      * @param leftStyle Style of left cell border
      */
     public void setLeftStyle(StyleValue leftStyle) {
@@ -171,6 +179,7 @@ public class Border extends AbstractStyle
 
     /**
      * Gets the style of right cell border
+     *
      * @return Style of right cell border
      */
     public StyleValue getRightStyle() {
@@ -179,6 +188,7 @@ public class Border extends AbstractStyle
 
     /**
      * Sets the style of right cell border
+     *
      * @param rightStyle Style of right cell border
      */
     public void setRightStyle(StyleValue rightStyle) {
@@ -187,6 +197,7 @@ public class Border extends AbstractStyle
 
     /**
      * Gets the style of top cell border
+     *
      * @return Style of top cell border
      */
     public StyleValue getTopStyle() {
@@ -195,6 +206,7 @@ public class Border extends AbstractStyle
 
     /**
      * Sets the style of top cell border
+     *
      * @param topStyle Style of top cell border
      */
     public void setTopStyle(StyleValue topStyle) {
@@ -203,6 +215,7 @@ public class Border extends AbstractStyle
 
     /**
      * Gets the style of bottom cell border
+     *
      * @return Style of bottom cell border
      */
     public StyleValue getBottomStyle() {
@@ -211,6 +224,7 @@ public class Border extends AbstractStyle
 
     /**
      * Sets the style of bottom cell border
+     *
      * @param bottomStyle Style of bottom cell border
      */
     public void setBottomStyle(StyleValue bottomStyle) {
@@ -219,6 +233,7 @@ public class Border extends AbstractStyle
 
     /**
      * Gets the style of the diagonal lines
+     *
      * @return Style of the diagonal lines
      */
     public StyleValue getDiagonalStyle() {
@@ -227,6 +242,7 @@ public class Border extends AbstractStyle
 
     /**
      * Sets the style of the diagonal lines
+     *
      * @param diagonalStyle Style of the diagonal lines
      */
     public void setDiagonalStyle(StyleValue diagonalStyle) {
@@ -235,6 +251,7 @@ public class Border extends AbstractStyle
 
     /**
      * Gets the downwards diagonal line
+     *
      * @return If true, the downwards diagonal line is used
      */
     public boolean isDiagonalDown() {
@@ -243,6 +260,7 @@ public class Border extends AbstractStyle
 
     /**
      * Sets the downwards diagonal line
+     *
      * @param diagonalDown If true, the downwards diagonal line is used
      */
     public void setDiagonalDown(boolean diagonalDown) {
@@ -251,6 +269,7 @@ public class Border extends AbstractStyle
 
     /**
      * Gets the upwards diagonal line
+     *
      * @return If true, the upwards diagonal line is used
      */
     public boolean isDiagonalUp() {
@@ -259,6 +278,7 @@ public class Border extends AbstractStyle
 
     /**
      * Sets the upwards diagonal line
+     *
      * @param diagonalUp If true, the upwards diagonal line is used
      */
     public void setDiagonalUp(boolean diagonalUp) {
@@ -267,6 +287,7 @@ public class Border extends AbstractStyle
 
     /**
      * Gets the color code of the left border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     *
      * @return Color code (ARGB)
      */
     public String getLeftColor() {
@@ -275,6 +296,7 @@ public class Border extends AbstractStyle
 
     /**
      * Sets the color code of the left border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     *
      * @param leftColor Color code (ARGB)
      */
     public void setLeftColor(String leftColor) {
@@ -283,6 +305,7 @@ public class Border extends AbstractStyle
 
     /**
      * Gets the color code of the right border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     *
      * @return Color code (ARGB)
      */
     public String getRightColor() {
@@ -291,6 +314,7 @@ public class Border extends AbstractStyle
 
     /**
      * Sets the color code of the right border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     *
      * @param rightColor Color code (ARGB)
      */
     public void setRightColor(String rightColor) {
@@ -299,6 +323,7 @@ public class Border extends AbstractStyle
 
     /**
      * Gets the color code of the top border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     *
      * @return Color code (ARGB)
      */
     public String getTopColor() {
@@ -307,6 +332,7 @@ public class Border extends AbstractStyle
 
     /**
      * Sets the color code of the top border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     *
      * @param topColor Color code (ARGB)
      */
     public void setTopColor(String topColor) {
@@ -315,6 +341,7 @@ public class Border extends AbstractStyle
 
     /**
      * Gets the color code of the bottom border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     *
      * @return Color code (ARGB)
      */
     public String getBottomColor() {
@@ -323,6 +350,7 @@ public class Border extends AbstractStyle
 
     /**
      * Sets the color code of the bottom border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     *
      * @param bottomColor Color code (ARGB)
      */
     public void setBottomColor(String bottomColor) {
@@ -331,6 +359,7 @@ public class Border extends AbstractStyle
 
     /**
      * Gets the color code of the diagonal lines. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     *
      * @return Color code (ARGB)
      */
     public String getDiagonalColor() {
@@ -339,6 +368,7 @@ public class Border extends AbstractStyle
 
     /**
      * Sets the color code of the diagonal lines. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+     *
      * @param diagonalColor Color code (ARGB)
      */
     public void setDiagonalColor(String diagonalColor) {
@@ -346,11 +376,11 @@ public class Border extends AbstractStyle
     }
 
 // ### C O N S T R U C T O R S ###       
+
     /**
      * Default constructor
      */
-    public Border()
-    {
+    public Border() {
         this.bottomColor = "";
         this.topColor = "";
         this.leftColor = "";
@@ -363,48 +393,73 @@ public class Border extends AbstractStyle
         this.diagonalStyle = StyleValue.none;
         this.diagonalDown = false;
         this.diagonalUp = false;
-    }    
-    
+    }
+
 // ### M E T H O D S ###
+
     /**
      * Method to determine whether the object has no values but the default values (means: is empty and must not be processed)
+     *
      * @return True if empty, otherwise false
      */
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         boolean state = true;
-        if (this.bottomColor.length() != 0) {state = false;}
-        if (this.topColor.length() != 0) {state = false;}
-        if (this.leftColor.length() != 0) {state = false;}
-        if (this.rightColor.length() != 0) {state = false;}
-        if (this.diagonalColor.length() != 0) {state = false;}
-        if (this.leftStyle != StyleValue.none) {state = false;}
-        if (this.rightStyle != StyleValue.none) {state = false;}
-        if (this.topStyle != StyleValue.none) {state = false;}
-        if (this.bottomStyle != StyleValue.none) {state = false;}
-        if (this.diagonalStyle != StyleValue.none) {state = false;}
-        if (this.diagonalDown != false) {state = false;}
-        if (this.diagonalUp != false) { state = false; }
+        if (this.bottomColor.length() != 0) {
+            state = false;
+        }
+        if (this.topColor.length() != 0) {
+            state = false;
+        }
+        if (this.leftColor.length() != 0) {
+            state = false;
+        }
+        if (this.rightColor.length() != 0) {
+            state = false;
+        }
+        if (this.diagonalColor.length() != 0) {
+            state = false;
+        }
+        if (this.leftStyle != StyleValue.none) {
+            state = false;
+        }
+        if (this.rightStyle != StyleValue.none) {
+            state = false;
+        }
+        if (this.topStyle != StyleValue.none) {
+            state = false;
+        }
+        if (this.bottomStyle != StyleValue.none) {
+            state = false;
+        }
+        if (this.diagonalStyle != StyleValue.none) {
+            state = false;
+        }
+        if (this.diagonalDown != false) {
+            state = false;
+        }
+        if (this.diagonalUp != false) {
+            state = false;
+        }
         return state;
-    }    
-    
+    }
+
     /**
      * Override toString method
-     * @return String of a class 
+     *
+     * @return String of a class
      */
     @Override
-    public String toString()
-    {
-        return "Border:"  + Integer.toString(this.hashCode());
+    public String toString() {
+        return "Border:" + Integer.toString(this.hashCode());
     }
-    
+
     /**
      * Method to copy the current object to a new one
+     *
      * @return Copy of the current object without the internal ID
      */
     @Override
-    public Border copy()
-    {
+    public Border copy() {
         Border copy = new Border();
         copy.setBottomColor(this.bottomColor);
         copy.setBottomStyle(this.bottomStyle);
@@ -419,14 +474,15 @@ public class Border extends AbstractStyle
         copy.setTopColor(this.topColor);
         copy.setTopStyle(this.topStyle);
         return copy;
-    } 
-    
+    }
+
     /**
      * Override method to calculate the hash of this component
+     *
      * @return Calculated hash as string
      */
     @Override
-    public int hashCode(){
+    public int hashCode() {
         int p = 271;
         int r = 1;
         r *= p + this.bottomStyle.value;
@@ -443,5 +499,5 @@ public class Border extends AbstractStyle
         r *= p + (this.diagonalUp ? 0 : 1);
         return r;
     }
-    
+
 }

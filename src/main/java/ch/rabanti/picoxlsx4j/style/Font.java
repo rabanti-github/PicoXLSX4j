@@ -8,21 +8,20 @@ package ch.rabanti.picoxlsx4j.style;
 
 /**
  * Class representing a Font entry. The Font entry is used to define text formatting
+ *
  * @author Raphael Stoeckli
  */
-public class Font extends AbstractStyle
-{
+public class Font extends AbstractStyle {
 // ### E N U M S ###
     /**
      * Default font family as constant
      */
     public static final String DEFAULTFONT = "Calibri";
-    
+
     /**
      * Enum for the vertical alignment of the text from base line
      */
-    public enum VerticalAlignValue
-    {
+    public enum VerticalAlignValue {
         // baseline, // Maybe not used in Excel
         /**
          * Text will be rendered as subscript
@@ -36,17 +35,22 @@ public class Font extends AbstractStyle
          * Text will be rendered normal
          */
         none(0);
-        
+
         private final int value;
-        VerticalAlignValue(int value) { this.value = value; }
-        public int getValue() { return value; }        
-    }    
-    
+
+        VerticalAlignValue(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
     /**
      * Enum for the font scheme
      */
-    public enum SchemeValue
-    {
+    public enum SchemeValue {
         /**
          * Font scheme is major
          */
@@ -59,13 +63,19 @@ public class Font extends AbstractStyle
          * No Font scheme is used
          */
         none(0);
-        
+
         private final int value;
-        SchemeValue(int value) { this.value = value; }
-        public int getValue() { return value; }  
-    }    
-    
-// ### P R I V A T E  F I E L D S ###
+
+        SchemeValue(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
+    // ### P R I V A T E  F I E L D S ###
     private int size;
     private String name;
     private String family;
@@ -81,8 +91,10 @@ public class Font extends AbstractStyle
     private String charset;
 
 // ### G E T T E R S  &  S E T T E R S ###
+
     /**
      * Gets the font size. Valid range is from 8 to 75
+     *
      * @return Font size
      */
     public int getSize() {
@@ -91,16 +103,22 @@ public class Font extends AbstractStyle
 
     /**
      * Sets the Font size. Valid range is from 8 to 75
+     *
      * @param size Font size
      */
     public void setSize(int size) {
-        if (size < 8) { this.size = 8; }
-        else if (size > 75) { this.size = 72; }
-        else { this.size = size; }
+        if (size < 8) {
+            this.size = 8;
+        } else if (size > 75) {
+            this.size = 72;
+        } else {
+            this.size = size;
+        }
     }
 
     /**
      * Gets the font name (Default is Calibri)
+     *
      * @return Font name
      */
     public String getName() {
@@ -109,6 +127,7 @@ public class Font extends AbstractStyle
 
     /**
      * Sets the font name (Default is Calibri)
+     *
      * @param name Font name
      */
     public void setName(String name) {
@@ -117,6 +136,7 @@ public class Font extends AbstractStyle
 
     /**
      * Gets the font family (Default is 2)
+     *
      * @return Font family
      */
     public String getFamily() {
@@ -125,6 +145,7 @@ public class Font extends AbstractStyle
 
     /**
      * Sets the font family (Default is 2)
+     *
      * @param family Font family
      */
     public void setFamily(String family) {
@@ -133,6 +154,7 @@ public class Font extends AbstractStyle
 
     /**
      * Gets the font color theme (Default is 1)
+     *
      * @return Font color theme
      */
     public int getColorTheme() {
@@ -141,6 +163,7 @@ public class Font extends AbstractStyle
 
     /**
      * Sets the font color theme (Default is 1)
+     *
      * @param colorTheme Font color theme
      */
     public void setColorTheme(int colorTheme) {
@@ -149,6 +172,7 @@ public class Font extends AbstractStyle
 
     /**
      * Gets the Font color (default is empty)
+     *
      * @return Font color
      */
     public String getColorValue() {
@@ -157,6 +181,7 @@ public class Font extends AbstractStyle
 
     /**
      * Sets the font color (default is empty)
+     *
      * @param colorValue Font color
      */
     public void setColorValue(String colorValue) {
@@ -165,6 +190,7 @@ public class Font extends AbstractStyle
 
     /**
      * Gets the font scheme (Default is minor)
+     *
      * @return Font scheme
      */
     public SchemeValue getScheme() {
@@ -173,6 +199,7 @@ public class Font extends AbstractStyle
 
     /**
      * Sets the Font scheme (Default is minor)
+     *
      * @param scheme Font scheme
      */
     public void setScheme(SchemeValue scheme) {
@@ -181,6 +208,7 @@ public class Font extends AbstractStyle
 
     /**
      * Gets the alignment of the font (Default is none)
+     *
      * @return Alignment of the font
      */
     public VerticalAlignValue getVerticalAlign() {
@@ -189,6 +217,7 @@ public class Font extends AbstractStyle
 
     /**
      * Sets the Alignment of the font (Default is none)
+     *
      * @param verticalAlign Alignment of the font
      */
     public void setVerticalAlign(VerticalAlignValue verticalAlign) {
@@ -197,6 +226,7 @@ public class Font extends AbstractStyle
 
     /**
      * Gets the bold parameter of the font
+     *
      * @return If true, the font is bold
      */
     public boolean isBold() {
@@ -205,6 +235,7 @@ public class Font extends AbstractStyle
 
     /**
      * Sets the bold parameter of the font
+     *
      * @param bold If true, the font is bold
      */
     public void setBold(boolean bold) {
@@ -213,6 +244,7 @@ public class Font extends AbstractStyle
 
     /**
      * Gets the italic parameter of the font
+     *
      * @return If true, the font is italic
      */
     public boolean isItalic() {
@@ -221,6 +253,7 @@ public class Font extends AbstractStyle
 
     /**
      * Sets the italic parameter of the font
+     *
      * @param italic If true, the font is italic
      */
     public void setItalic(boolean italic) {
@@ -229,6 +262,7 @@ public class Font extends AbstractStyle
 
     /**
      * Gets the underline parameter of the font
+     *
      * @return If true, the font as one underline
      */
     public boolean isUnderline() {
@@ -237,6 +271,7 @@ public class Font extends AbstractStyle
 
     /**
      * Sets the underline parameter of the font
+     *
      * @param underline If true, the font as one underline
      */
     public void setUnderline(boolean underline) {
@@ -245,6 +280,7 @@ public class Font extends AbstractStyle
 
     /**
      * Gets the double-underline parameter of the font
+     *
      * @return If true, the font ha a double underline
      */
     public boolean isDoubleUnderline() {
@@ -253,6 +289,7 @@ public class Font extends AbstractStyle
 
     /**
      * Sets the double-underline parameter of the font
+     *
      * @param doubleUnderline If true, the font ha a double underline
      */
     public void setDoubleUnderline(boolean doubleUnderline) {
@@ -261,6 +298,7 @@ public class Font extends AbstractStyle
 
     /**
      * Gets whether the font is struck through
+     *
      * @return If true, the font is declared as strike-through
      */
     public boolean isStrike() {
@@ -269,6 +307,7 @@ public class Font extends AbstractStyle
 
     /**
      * Sets whether the font is struck through
+     *
      * @param strike If true, the font is declared as strike-through
      */
     public void setStrike(boolean strike) {
@@ -277,6 +316,7 @@ public class Font extends AbstractStyle
 
     /**
      * Gets the charset of the Font (Default is empty)
+     *
      * @return Charset of the Font
      */
     public String getCharset() {
@@ -285,28 +325,29 @@ public class Font extends AbstractStyle
 
     /**
      * Sets the charset of the Font (Default is empty)
+     *
      * @param charset Charset of the Font
      */
     public void setCharset(String charset) {
         this.charset = charset;
     }
-    
+
     /**
      * Gets whether this object is the default font
+     *
      * @return In true the font is equals the default font
      */
-    public boolean isDefaultFont()
-    {
+    public boolean isDefaultFont() {
         Font temp = new Font();
-        return this.equals(temp); 
+        return this.equals(temp);
     }
-    
+
 // ### C O N S T R U C T O R S ###   
+
     /**
      * Default constructor
      */
-    public Font()
-    {
+    public Font() {
         this.size = 11;
         this.name = DEFAULTFONT;
         this.family = "2";
@@ -315,25 +356,25 @@ public class Font extends AbstractStyle
         this.charset = "";
         this.scheme = SchemeValue.minor;
         this.verticalAlign = VerticalAlignValue.none;
-    }    
-    
-     /**
+    }
+
+    /**
      * Override toString method
+     *
      * @return String of a class instance
      */
     @Override
-    public String toString()
-    {
-        return "Font:"  + Integer.toString(this.hashCode());
+    public String toString() {
+        return "Font:" + Integer.toString(this.hashCode());
     }
-    
+
     /**
      * Method to copy the current object to a new one
+     *
      * @return Copy of the current object without the internal ID
-     */          
+     */
     @Override
-    public Font copy()
-    {
+    public Font copy() {
         Font copy = new Font();
         copy.setBold(this.bold);
         copy.setCharset(this.charset);
@@ -351,12 +392,13 @@ public class Font extends AbstractStyle
         return copy;
     }
 
-     /**
+    /**
      * Override method to calculate the hash of this component
+     *
      * @return Calculated hash as string
      */
     @Override
-    public int hashCode(){
+    public int hashCode() {
         int p = 257;
         int r = 1;
         r *= p + (this.bold ? 0 : 1);
@@ -374,6 +416,6 @@ public class Font extends AbstractStyle
         r *= p + this.size;
         return r;
     }
-    
-    
+
+
 }
