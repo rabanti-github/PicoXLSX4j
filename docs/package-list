@@ -3,4 +3,5 @@ ch.rabanti.picoxlsx4j.demo
 ch.rabanti.picoxlsx4j.demo.testing
 ch.rabanti.picoxlsx4j.exception
 ch.rabanti.picoxlsx4j.lowLevel
+ch.rabanti.picoxlsx4j.matchers
 ch.rabanti.picoxlsx4j.style
