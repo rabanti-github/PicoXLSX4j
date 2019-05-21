@@ -35,7 +35,7 @@ The only requirement for developments are a current JDK to develop and JRE to ru
 
 # Installation
 ## As JAR
-Simply place the PicoXLSX4j jar file (e.g. **picoxlsx4j-2.5.4.jar**) into the lib folder of your project and create a library reference to it in your IDE.
+Simply place the PicoXLSX4j jar file (e.g. **picoxlsx4j-2.5.5.jar**) into the lib folder of your project and create a library reference to it in your IDE.
 ## As source files
 Place all .java files from the PicoXLSX4j source folder into your project. The folder structure defines the packages. Please use refactoring if you want to relocate the files.
 ## Maven ##
@@ -44,12 +44,12 @@ Add the following information to your POM file within the <code>&lt;dependencies
 <dependency>
     <groupId>ch.rabanti</groupId>
     <artifactId>picoxlsx4j</artifactId>
-    <version>2.5.4</version>
+    <version>2.5.5</version>
 </dependency>
 ``` 
 
 **Important:** The version number may change.
-Please see the version number of Maven Central [![Maven Central](https://maven-badges.herokuapp.com/maven-central/ch.rabanti/picoxlsx4j/badge.svg)](https://maven-badges.herokuapp.com/maven-central/ch.rabanti/nanoxlsx4j)
+Please see the version number of Maven Central [![Maven Central](https://maven-badges.herokuapp.com/maven-central/ch.rabanti/picoxlsx4j/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser)
  or check the [Change Log](https://github.com/rabanti-github/PicoXLSX4j/blob/master/Changelog.md) for the most recent version. The keywords ```LATEST```  and ```RELEASE``` are only valid in Maven 2, not 3 and newer. 
 
 

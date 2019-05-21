@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2018
+ * Copyright Raphael Stoeckli © 2019
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -155,7 +155,7 @@ public class Cell implements Comparable<Cell>{
     public void setColumnNumber(int columnNumber) {
         if (columnNumber < Worksheet.MIN_COLUMN_NUMBER || columnNumber > Worksheet.MAX_COLUMN_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The passed number (" + Integer.toString(columnNumber) + ")is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_NUMBER) + " to " + Integer.toString(Worksheet.MAX_COLUMN_NUMBER) + " (" + (Integer.toString(Worksheet.MAX_COLUMN_NUMBER + 1)) + " rows).");
+            throw new RangeException("OutOfRangeException","The passed number (" + columnNumber + ")is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER + " to " + Worksheet.MAX_COLUMN_NUMBER + " (" + ((Worksheet.MAX_COLUMN_NUMBER + 1)) + " rows).");
         }        
         this.columnNumber = columnNumber;
     }
@@ -189,7 +189,7 @@ public class Cell implements Comparable<Cell>{
     public void setRowNumber(int rowNumber) {
         if (rowNumber < Worksheet.MIN_ROW_NUMBER || rowNumber > Worksheet.MAX_ROW_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The passed number (" + Integer.toString(rowNumber) + ")is out of range. Range is from " + Integer.toString(Worksheet.MIN_ROW_NUMBER) + " to " + Integer.toString(Worksheet.MAX_ROW_NUMBER) + " (" + (Integer.toString(Worksheet.MAX_ROW_NUMBER + 1)) + " rows).");
+            throw new RangeException("OutOfRangeException","The passed number (" + rowNumber + ")is out of range. Range is from " + Worksheet.MIN_ROW_NUMBER + " to " + Worksheet.MAX_ROW_NUMBER + " (" + ((Worksheet.MAX_ROW_NUMBER + 1)) + " rows).");
         }
         this.rowNumber = rowNumber;
     }
@@ -531,14 +531,10 @@ public class Cell implements Comparable<Cell>{
      * @param column Column address of the cell (zero-based)
      * @param row Row address of the cell (zero-based)
      * @return Cell Address as string in the format A1 - XFD1048576
-     * @throws RangeException Thrown if the start or end address was out of range
+     * @throws RangeException Thrown if one of the passed addresses is out of range
      */
     public static String resolveCellAddress(int column, int row)
     {
-            if (row > Worksheet.MAX_ROW_NUMBER || row < Worksheet.MIN_ROW_NUMBER)
-            {
-                throw new RangeException("OutOfRangeException","The row number (" + Integer.toString(row) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_ROW_NUMBER) + " to " + Integer.toString(Worksheet.MAX_ROW_NUMBER) + " (" + (Integer.toString(Worksheet.MIN_ROW_NUMBER) + 1) + " rows).");
-            }
             return resolveCellAddress(column, row, AddressType.Default);
     }
 
@@ -548,26 +544,24 @@ public class Cell implements Comparable<Cell>{
      * @param row Row address of the cell (zero-based)
      * @param type Referencing type of the address
      * @return Cell Address as string in the format A1 - XFD1048576
-     * @throws RangeException Thrown if the start or end address was out of range
+     * @throws RangeException Thrown if one of the passed addresses is out of range
      */
     public static String resolveCellAddress(int column, int row, AddressType type)
     {
-        if (row > Worksheet.MAX_ROW_NUMBER || row < Worksheet.MIN_ROW_NUMBER)
-        {
-            throw new RangeException("OutOfRangeException","The row number (" + Integer.toString(row) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_ROW_NUMBER) + " to " + Integer.toString(Worksheet.MAX_ROW_NUMBER) + " (" + (Integer.toString(Worksheet.MIN_ROW_NUMBER) + 1) + " rows).");
-        }
+        validateColumnNumber(column);
+        validateRowNumber(row);
         switch (type) {
             case FixedRowAndColumn:
-                return "$"+ resolveColumnAddress(column) + "$" + Integer.toString(row + 1);
+                return "$"+ resolveColumnAddress(column) + "$" + (row + 1);
                // break;
             case FixedColumn:
-                return "$" + resolveColumnAddress(column) + Integer.toString(row + 1);
+                return "$" + resolveColumnAddress(column) + (row + 1);
                // break;
             case FixedRow:
-                return resolveColumnAddress(column) + "$" + Integer.toString(row + 1);
+                return resolveColumnAddress(column) + "$" + (row + 1);
                // break;
             default:
-                return resolveColumnAddress(column) + Integer.toString(row + 1);
+                return resolveColumnAddress(column) + (row + 1);
                // break;
         }
     }
@@ -575,7 +569,7 @@ public class Cell implements Comparable<Cell>{
     
     /**
      * Gets the column and row number (zero based) of a cell by the address
-     * @param address Address as string in the format A1 - XFD1048576
+     * @param address Address as string in the format A1 - XFD1048576. '$' signs indicating fixed rows and / or columns are considered
      * @return Address object of the passed string
      * @throws FormatException Thrown if the passed address was malformed
      * @throws RangeException Thrown if the resolved address is out of range
@@ -588,27 +582,29 @@ public class Cell implements Comparable<Cell>{
             throw new FormatException("FormatException","The cell address is null or empty and could not be resolved");
         }
         address = address.toUpperCase();
-        Pattern pattern = Pattern.compile("([A-Z]{1,3})([0-9]{1,7})");
+        Pattern pattern = Pattern.compile("(^(\\$?)([A-Z]{1,3})(\\$?)([0-9]{1,7})$)"); //
         Matcher mx = pattern.matcher(address);
-        if (mx.groupCount() != 2)
+        if (mx.groupCount() != 5)
         {
             throw new FormatException("FormatException","The format of the cell address (" + address + ") is malformed");
         }
         mx.find();
-        int digits = Integer.parseInt(mx.group(2));
-        column = resolveColumn(mx.group(1));
+        int digits = Integer.parseInt(mx.group(5));
+        column = resolveColumn(mx.group(3));
         row = digits - 1;
-        
-        if (row > Worksheet.MAX_ROW_NUMBER || row < Worksheet.MIN_ROW_NUMBER)
-        {
-            throw new RangeException("OutOfRangeException","The row number (" + Integer.toString(row) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_ROW_NUMBER) + " to " + Integer.toString(Worksheet.MAX_ROW_NUMBER) + " (" + Integer.toString((Worksheet.MAX_ROW_NUMBER + 1)) + " rows).");
-        }     
-        if (column > Worksheet.MAX_COLUMN_NUMBER || column < Worksheet.MIN_COLUMN_NUMBER)
-        {
-            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(column) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_NUMBER) + " to " + Integer.toString(Worksheet.MAX_COLUMN_NUMBER) + " (" + Integer.toString((Worksheet.MAX_COLUMN_NUMBER + 1)) + " columns).");
+        if (!mx.group(2).isEmpty() && !mx.group(4).isEmpty()){
+            return new Address(column, row, AddressType.FixedRowAndColumn);
+        }
+        else if (!mx.group(2).isEmpty() && mx.group(4).isEmpty()){
+            return new Address(column, row, AddressType.FixedColumn);
+        }
+        else if (mx.group(2).isEmpty() && !mx.group(4).isEmpty()){
+            return new Address(column, row, AddressType.FixedRow);
+        }
+        else {
+            return new Address(column, row, AddressType.Default);
         }
 
-        return new Address(column, row);
     } 
     /**
      * Resolves a cell range from the format like A1:B3 or AAD556:AAD1000
@@ -658,10 +654,7 @@ public class Cell implements Comparable<Cell>{
             result = result + (chr * multiplier);
             multiplier = multiplier * 26;
         }
-        if (result - 1 > Worksheet.MAX_COLUMN_NUMBER || result - 1 < Worksheet.MIN_COLUMN_NUMBER)
-        {
-            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(result - 1) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_NUMBER) + " to " + Integer.toString(Worksheet.MAX_COLUMN_NUMBER) + " (" + Integer.toString((Worksheet.MAX_COLUMN_NUMBER + 1)) + " columns).");
-        }        
+        validateColumnNumber(result - 1);
         return result - 1;
     }
     
@@ -673,10 +666,7 @@ public class Cell implements Comparable<Cell>{
      */
     public static String resolveColumnAddress(int columnNumber)
     {
-        if (columnNumber > Worksheet.MAX_COLUMN_NUMBER || columnNumber < Worksheet.MIN_COLUMN_NUMBER)
-        {
-            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_NUMBER) + " to " + Integer.toString(Worksheet.MAX_COLUMN_NUMBER) + " (" + Integer.toString((Worksheet.MAX_COLUMN_NUMBER + 1)) + " columns).");
-        }
+        validateColumnNumber(columnNumber);
         // A - XFD
         int j = 0;
         int k = 0;
@@ -700,5 +690,29 @@ public class Cell implements Comparable<Cell>{
         if (k > 0) { sb.append((char)(k + 64)); }
         sb.append((char)(j + 64));
         return sb.toString();
+    }
+
+    /**
+     * Validates the passed (zero-based) column number. an exception will be thrown if the column is invalid
+     * @param columnNumber Number to check
+     * @throws RangeException Thrown if the passed column number is out of range
+     */
+    static void validateColumnNumber(int columnNumber){
+        if (columnNumber > Worksheet.MAX_COLUMN_NUMBER || columnNumber < Worksheet.MIN_COLUMN_NUMBER)
+        {
+            throw new RangeException("OutOfRangeException","The column number (" + columnNumber + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER + " to " + Worksheet.MAX_COLUMN_NUMBER + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1) + " columns).");
+        }
+    }
+
+    /**
+     * Validates the passed (zero-based) row number. an exception will be thrown if the row is invalid
+     * @param rowNumber Number to check
+     * @throws RangeException Thrown if the passed row number is out of range
+     */
+    static void validateRowNumber(int rowNumber){
+        if (rowNumber > Worksheet.MAX_ROW_NUMBER || rowNumber < Worksheet.MIN_ROW_NUMBER)
+        {
+            throw new RangeException("OutOfRangeException","The row number (" + rowNumber + ") is out of range. Range is from " + Worksheet.MIN_ROW_NUMBER + " to " + Worksheet.MAX_ROW_NUMBER + " (" + (Worksheet.MAX_ROW_NUMBER + 1) + " rows).");
+        }
     }
 }
