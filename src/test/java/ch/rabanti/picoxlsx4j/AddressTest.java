@@ -16,6 +16,9 @@ class AddressTest {
             "4,8,,FixedRow,4,8,E$9,FixedRow",
             "0,0,X22,,23,21,X22,Default",
             "0,0,C11,FixedColumn,2,10,$C11,FixedColumn",
+            "0,0,$F20,,5,19,$F20,FixedColumn",
+            "0,0,B$8,,1,7,B$8,FixedRow",
+            "0,0,$F$13,,5,12,$F$13,FixedRowAndColumn",
             "0,0,A999,FixedRowAndColumn,0,998,$A$999,FixedRowAndColumn",
     })
     void getAddress(int col, int row, String addr, Cell.AddressType type, int expCol, int expRow, String expAddr, Cell.AddressType expType) {

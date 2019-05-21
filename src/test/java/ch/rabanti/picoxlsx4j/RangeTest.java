@@ -8,17 +8,21 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
 
 class RangeTest {
 
     @DisplayName("Should return a valid Range object according to the composite input data (Addresses)")
-    @ParameterizedTest(name = "Start: {6}(C:{0},R:{1},T:{2}) and End: {7}(C:{3},R:{4},T:{5}) should lead to {10}")
+    @ParameterizedTest(name = "Start: {0} and End: {1} should lead to {4} ({2}:{3})")
     @CsvSource({
-            "0,0,Default,0,0,Default,A1,B1,A1,B1,A1:B1",
-            "0,0,Default,0,0,Default,$F4,$Z9,$F4,$Z9,$F4:$Z9"
+            "A1,B1,A1,B1,A1:B1",
+            "$F4,$Z9,$F4,$Z9,$F4:$Z9",
+            "$F$4,$Z$9,$F$4,$Z$9,$F$4:$Z$9",
+            "$X12,R555,$X12,R555,$X12:R555",
+            "S18,$Z29,S18,$Z29,S18:$Z29"
     })
-    public void compositeTest(int startCol, int startRow, Cell.AddressType startType, int endCol, int endRow, Cell.AddressType endType, String startAddr, String endAddr, String expectedStart, String expectedEnd, String expectedRange){
-        Range r = buildRange(startCol,startRow,startType,endCol,endRow,endType,startAddr,endAddr);
+    public void compositeTest(String startAddr, String endAddr, String expectedStart, String expectedEnd, String expectedRange){
+        Range r = buildRange(startAddr,endAddr);
         Address start = new Address(expectedStart);
         Address end = new Address(expectedEnd);
         assertThat(r,
@@ -30,25 +34,28 @@ class RangeTest {
         );
     }
 
-    @ParameterizedTest
-    public void toStringTest() {
+    @DisplayName("Should return a valid Range as String")
+    @ParameterizedTest(name = "Start: {0} and End: {1} should lead to {2}")
+    @CsvSource({
+            "A1,B1,A1:B1",
+            "$C1100,X200,$C1100:X200",
+            "$D$11,Z200,$D$11:Z200",
+            "S22,$V50, S22:$V50",
+            "L8,$X$9, L8:$X$9"
+    })
+    public void toStringTest(String startAddr, String endAddr, String expectedString) {
+        Range r = buildRange(startAddr, endAddr);
+        assertThat(r.toString(), is(expectedString));
     }
 
-    private static Range buildRange(int startCol, int startRow, Cell.AddressType startType, int endCol, int endRow, Cell.AddressType endType, String startAddr, String endAddr){
-        Address start, end;
-        if (startAddr == null){
+    public void invalidTest(){
 
-            start = new Address(startCol, startRow, startType);
-        }
-        else {
-            start = new Address(startAddr);
-        }
-        if (endAddr == null){
-            end = new Address(endCol, endRow, endType);
-        }
-        else {
-            end = new Address(endAddr);
-        }
+    }
+
+    private static Range buildRange(String startAddr, String endAddr){
+        Address start, end;
+        start = new Address(startAddr);
+        end = new Address(endAddr);
         return new Range(start, end);
     }
 }
