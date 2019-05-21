@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2018
+ * Copyright Raphael Stoeckli © 2019
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -450,7 +450,7 @@ public class Border extends AbstractStyle {
      */
     @Override
     public String toString() {
-        return "Border:" + Integer.toString(this.hashCode());
+        return "Border:" + this.hashCode();
     }
 
     /**
