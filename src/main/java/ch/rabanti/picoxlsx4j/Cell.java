@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2019
+ * Copyright Raphael Stoeckli © 2018
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -155,7 +155,7 @@ public class Cell implements Comparable<Cell>{
     public void setColumnNumber(int columnNumber) {
         if (columnNumber < Worksheet.MIN_COLUMN_NUMBER || columnNumber > Worksheet.MAX_COLUMN_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The passed number (" + columnNumber + ")is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER + " to " + Worksheet.MAX_COLUMN_NUMBER + " (" + ((Worksheet.MAX_COLUMN_NUMBER + 1)) + " rows).");
+            throw new RangeException("OutOfRangeException","The passed number (" + Integer.toString(columnNumber) + ")is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_NUMBER) + " to " + Integer.toString(Worksheet.MAX_COLUMN_NUMBER) + " (" + (Integer.toString(Worksheet.MAX_COLUMN_NUMBER + 1)) + " rows).");
         }        
         this.columnNumber = columnNumber;
     }
@@ -189,7 +189,7 @@ public class Cell implements Comparable<Cell>{
     public void setRowNumber(int rowNumber) {
         if (rowNumber < Worksheet.MIN_ROW_NUMBER || rowNumber > Worksheet.MAX_ROW_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The passed number (" + rowNumber + ")is out of range. Range is from " + Worksheet.MIN_ROW_NUMBER + " to " + Worksheet.MAX_ROW_NUMBER + " (" + ((Worksheet.MAX_ROW_NUMBER + 1)) + " rows).");
+            throw new RangeException("OutOfRangeException","The passed number (" + Integer.toString(rowNumber) + ")is out of range. Range is from " + Integer.toString(Worksheet.MIN_ROW_NUMBER) + " to " + Integer.toString(Worksheet.MAX_ROW_NUMBER) + " (" + (Integer.toString(Worksheet.MAX_ROW_NUMBER + 1)) + " rows).");
         }
         this.rowNumber = rowNumber;
     }
@@ -552,16 +552,16 @@ public class Cell implements Comparable<Cell>{
         validateRowNumber(row);
         switch (type) {
             case FixedRowAndColumn:
-                return "$"+ resolveColumnAddress(column) + "$" + (row + 1);
+                return "$"+ resolveColumnAddress(column) + "$" + Integer.toString(row + 1);
                // break;
             case FixedColumn:
-                return "$" + resolveColumnAddress(column) + (row + 1);
+                return "$" + resolveColumnAddress(column) + Integer.toString(row + 1);
                // break;
             case FixedRow:
-                return resolveColumnAddress(column) + "$" + (row + 1);
+                return resolveColumnAddress(column) + "$" + Integer.toString(row + 1);
                // break;
             default:
-                return resolveColumnAddress(column) + (row + 1);
+                return resolveColumnAddress(column) + Integer.toString(row + 1);
                // break;
         }
     }
@@ -592,13 +592,13 @@ public class Cell implements Comparable<Cell>{
         int digits = Integer.parseInt(mx.group(5));
         column = resolveColumn(mx.group(3));
         row = digits - 1;
-        if (!mx.group(2).isEmpty() && !mx.group(4).isEmpty()){
+        if (!mx.group(2).isEmpty() && !mx.group(2).isEmpty()){
             return new Address(column, row, AddressType.FixedRowAndColumn);
         }
-        else if (!mx.group(2).isEmpty() && mx.group(4).isEmpty()){
+        else if (!mx.group(2).isEmpty() && mx.group(2).isEmpty()){
             return new Address(column, row, AddressType.FixedColumn);
         }
-        else if (mx.group(2).isEmpty() && !mx.group(4).isEmpty()){
+        else if (mx.group(2).isEmpty() && !mx.group(2).isEmpty()){
             return new Address(column, row, AddressType.FixedRow);
         }
         else {
@@ -700,7 +700,7 @@ public class Cell implements Comparable<Cell>{
     static void validateColumnNumber(int columnNumber){
         if (columnNumber > Worksheet.MAX_COLUMN_NUMBER || columnNumber < Worksheet.MIN_COLUMN_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The column number (" + columnNumber + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER + " to " + Worksheet.MAX_COLUMN_NUMBER + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1) + " columns).");
+            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_COLUMN_NUMBER) + " to " + Integer.toString(Worksheet.MAX_COLUMN_NUMBER) + " (" + Integer.toString((Worksheet.MAX_COLUMN_NUMBER + 1)) + " columns).");
         }
     }
 
@@ -712,7 +712,7 @@ public class Cell implements Comparable<Cell>{
     static void validateRowNumber(int rowNumber){
         if (rowNumber > Worksheet.MAX_ROW_NUMBER || rowNumber < Worksheet.MIN_ROW_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The row number (" + rowNumber + ") is out of range. Range is from " + Worksheet.MIN_ROW_NUMBER + " to " + Worksheet.MAX_ROW_NUMBER + " (" + (Worksheet.MAX_ROW_NUMBER + 1) + " rows).");
+            throw new RangeException("OutOfRangeException","The row number (" + Integer.toString(rowNumber) + ") is out of range. Range is from " + Integer.toString(Worksheet.MIN_ROW_NUMBER) + " to " + Integer.toString(Worksheet.MAX_ROW_NUMBER) + " (" + Integer.toString((Worksheet.MAX_ROW_NUMBER + 1)) + " rows).");
         }
     }
 }

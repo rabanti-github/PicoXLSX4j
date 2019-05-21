@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2019
+ * Copyright Raphael Stoeckli © 2018
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -235,7 +235,7 @@ public class Worksheet {
     {
         if (columnNumber > MAX_COLUMN_NUMBER || columnNumber < MIN_COLUMN_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The column number (" + columnNumber + ") is out of range. Range is from "+ MIN_COLUMN_NUMBER + " to "+ MAX_COLUMN_NUMBER +" ("+ (MAX_COLUMN_NUMBER + 1) +" columns).");
+            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from "+ Integer.toString(MIN_COLUMN_NUMBER)+ " to "+ Integer.toString(MAX_COLUMN_NUMBER) +" ("+ Integer.toString(MAX_COLUMN_NUMBER + 1) +" columns).");
         }
         this.currentColumnNumber = columnNumber;
     }  
@@ -248,7 +248,7 @@ public class Worksheet {
     {
         if (rowNumber > MAX_ROW_NUMBER || rowNumber < MIN_ROW_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The row number (" + rowNumber + ") is out of range. Range is from "+ MIN_ROW_NUMBER +" to "+ MAX_ROW_NUMBER +" ("+ (MAX_ROW_NUMBER + 1) +" rows).");
+            throw new RangeException("OutOfRangeException","The row number (" + Integer.toString(rowNumber) + ") is out of range. Range is from "+ Integer.toString(MIN_ROW_NUMBER) +" to "+ Integer.toString(MAX_ROW_NUMBER) +" ("+ Integer.toString(MAX_ROW_NUMBER + 1)+" rows).");
         }
         this.currentRowNumber = rowNumber;
     }
@@ -286,7 +286,7 @@ public class Worksheet {
     public void setDefaultColumnWidth(float defaultColumnWidth) {
         if (defaultRowHeight < MIN_COLUMN_WIDTH || defaultRowHeight > MAX_COLUMN_WIDTH)
         {
-            throw new RangeException("OutOfRangeException","The passed default row height is out of range (" + MIN_COLUMN_WIDTH + " to " + MAX_COLUMN_WIDTH + ")");
+            throw new RangeException("OutOfRangeException","The passed default row height is out of range (" + Float.toString(MIN_COLUMN_WIDTH) + " to " + Float.toString(MAX_COLUMN_WIDTH) + ")");
         }
         this.defaultColumnWidth = defaultColumnWidth;
     }    
@@ -305,7 +305,7 @@ public class Worksheet {
     public void setDefaultRowHeight(float defaultRowHeight) {
         if (defaultRowHeight < MIN_ROW_HEIGHT || defaultRowHeight > MAX_ROW_HEIGHT)
         {
-            throw new RangeException("OutOfRangeException","The passed default row height is out of range (" + MIN_ROW_HEIGHT + " to " + MAX_ROW_HEIGHT + ")");
+            throw new RangeException("OutOfRangeException","The passed default row height is out of range (" + Float.toString(MIN_ROW_HEIGHT) + " to " + Float.toString(MAX_ROW_HEIGHT) + ")");
         }
         this.defaultRowHeight = defaultRowHeight;
     }
@@ -781,7 +781,7 @@ public class Worksheet {
         List<Address> addresses = Cell.getCellRange(startAddress, endAddress);
         if (values.size() != addresses.size())
         {
-            throw new RangeException("MalformedRangeException","The number of passed values (" + values.size() + ") differs from the number of cells within the range (" + addresses.size() + ")");
+            throw new RangeException("MalformedRangeException","The number of passed values (" + Integer.toString(values.size()) + ") differs from the number of cells within the range (" + Integer.toString(addresses.size()) + ")");
         }
         List<Cell> list = Cell.convertArray(values);
         int len = values.size();
@@ -1330,7 +1330,7 @@ public class Worksheet {
     {
         if (columnNumber > MAX_COLUMN_NUMBER || columnNumber < 0)
         {
-            throw new RangeException("OutOfRangeException","The column number (" + columnNumber + ") is out of range. Range is from 0 to "+ MAX_COLUMN_NUMBER +" ("+ (MAX_COLUMN_NUMBER + 1) +" columns).");
+            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from 0 to "+ Integer.toString(MAX_COLUMN_NUMBER) +" ("+ Integer.toString(MAX_COLUMN_NUMBER + 1) +" columns).");
         }
         if (this.columns.containsKey(columnNumber) && state == true)
         {
@@ -1353,11 +1353,11 @@ public class Worksheet {
     {
         if (columnNumber > MAX_COLUMN_NUMBER || columnNumber < MIN_COLUMN_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The column number (" + columnNumber + ") is out of range. Range is from "+ MIN_COLUMN_NUMBER + " to "+ MAX_COLUMN_NUMBER +" ("+ (MAX_COLUMN_NUMBER + 1) +" columns).");
+            throw new RangeException("OutOfRangeException","The column number (" + Integer.toString(columnNumber) + ") is out of range. Range is from "+ Integer.toString(MIN_COLUMN_NUMBER)+ " to "+ Integer.toString(MAX_COLUMN_NUMBER) +" ("+ Integer.toString(MAX_COLUMN_NUMBER + 1) +" columns).");
         }
         if (width < MIN_COLUMN_WIDTH || width > MAX_COLUMN_WIDTH)
         {
-            throw new RangeException("OutOfRangeException","The column width (" + width + ") is out of range. Range is from "+ MIN_COLUMN_WIDTH + " to "+ MAX_COLUMN_WIDTH + " (chars).");
+            throw new RangeException("OutOfRangeException","The column width (" + Float.toString(width) + ") is out of range. Range is from "+ Float.toString(MIN_COLUMN_WIDTH)+ " to "+ Float.toString(MAX_COLUMN_WIDTH)+ " (chars).");
         }
         if (this.columns.containsKey(columnNumber))
         {
@@ -1391,11 +1391,11 @@ public class Worksheet {
     {
         if (rowNumber > MAX_ROW_NUMBER || rowNumber < MIN_ROW_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The row number (" + rowNumber + ") is out of range. Range is from "+ MIN_ROW_NUMBER +" to "+ MAX_ROW_NUMBER +" ("+ (MAX_ROW_NUMBER + 1) +" rows).");
+            throw new RangeException("OutOfRangeException","The row number (" + Integer.toString(rowNumber) + ") is out of range. Range is from "+ Integer.toString(MIN_ROW_NUMBER) +" to "+ Integer.toString(MAX_ROW_NUMBER) +" ("+ Integer.toString(MAX_ROW_NUMBER + 1)+" rows).");
         }       
         if (height < 0 || height > 409.5)
         {
-            throw new RangeException("OutOfRangeException","The row height (" + height + ") is out of range. Range is from 0 to 409.5 (equals 546px).");
+            throw new RangeException("OutOfRangeException","The row height (" + Float.toString(height) + ") is out of range. Range is from 0 to 409.5 (equals 546px).");
         }
         this.rowHeights.put(rowNumber, height);
     }
@@ -1409,7 +1409,7 @@ public class Worksheet {
     {
         if (rowNumber > MAX_ROW_NUMBER || rowNumber < MIN_ROW_NUMBER)
         {
-            throw new RangeException("OutOfRangeException","The row number (" + rowNumber + ") is out of range. Range is from "+ MIN_ROW_NUMBER +" to "+ MAX_ROW_NUMBER +" ("+ (MAX_ROW_NUMBER + 1) +" rows).");
+            throw new RangeException("OutOfRangeException","The row number (" + Integer.toString(rowNumber) + ") is out of range. Range is from "+ Integer.toString(MIN_ROW_NUMBER) +" to "+ Integer.toString(MAX_ROW_NUMBER) +" ("+ Integer.toString(MAX_ROW_NUMBER + 1)+" rows).");
         }
         if (this.hiddenRows.containsKey(rowNumber))
         {
@@ -1472,11 +1472,11 @@ public class Worksheet {
             if (Worksheet.worksheetExists(name, workbook) == false) { break; } // OK
             if (originalName.length() + (number/10) >= 31)
             {
-                name = originalName.substring(0,30-number/10) + number;
+                name = originalName.substring(0,30-number/10) + Integer.toString(number);
             }
             else
             {
-                name = originalName + number;
+                name = originalName + Integer.toString(number);
             }
             number++;
         }
