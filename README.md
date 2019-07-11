@@ -1,5 +1,6 @@
 # PicoXLSX4j
-![PicoXLSX](https://rabanti-github.github.io/PicoXLSX/icons/PicoXLSX.png)
+![PicoXLSX](https://rabanti-github.github.io/PicoXLSX/icons/PicoXLSX.png)[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX4j.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX4j?ref=badge_shield)
+
 
 
 PicoXLSX4j is a small Java library to create XLSX files (Microsoft Excel 2007 or newer) in an easy and native way. It is a direct port of [PicoXLSX for C#](https://github.com/rabanti-github/PicoXLSX)
@@ -81,3 +82,7 @@ Please see the version number of Maven Central [![Maven Central](https://maven-b
 ## Further References
 See the full <b>API-Documentation</b> at: [https://rabanti-github.github.io/PicoXLSX4j/](https://rabanti-github.github.io/PicoXLSX4j/).<br>
 The [Demo class](https://github.com/rabanti-github/PicoXLSX4j/blob/master/src/main/java/ch/rabanti/picoxlsx4j/demo/PicoXLSX4j.java) contains 13 simple use cases. You can also look at the full API documentation or the Javadoc annotations in the particular .java files.<br>
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX4j.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX4j?ref=badge_large)
