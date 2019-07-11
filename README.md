@@ -1,5 +1,9 @@
-# PicoXLSX4j
-![PicoXLSX](https://rabanti-github.github.io/PicoXLSX/icons/PicoXLSX.png)[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX4j.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX4j?ref=badge_shield)
+# PicoXLSX4j ![PicoXLSX](https://rabanti-github.github.io/PicoXLSX/icons/PicoXLSX.png)
+
+
+![Maven Central](https://img.shields.io/maven-central/v/ch.rabanti/picoxlsx4j.svg?maxAge=86400)
+![license](https://img.shields.io/github/license/rabanti-github/picoXlsx.svg)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX4j.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX4j?ref=badge_shield)
 
 
 
@@ -50,8 +54,7 @@ Add the following information to your POM file within the <code>&lt;dependencies
 ``` 
 
 **Important:** The version number may change.
-Please see the version number of Maven Central [![Maven Central](https://maven-badges.herokuapp.com/maven-central/ch.rabanti/picoxlsx4j/badge.svg)](https://maven-badges.herokuapp.com/maven-central/ch.rabanti/picoxlsx4j)
- or check the [Change Log](https://github.com/rabanti-github/PicoXLSX4j/blob/master/Changelog.md) for the most recent version. The keywords ```LATEST```  and ```RELEASE``` are only valid in Maven 2, not 3 and newer. 
+Please see the version number of Maven Central at the top of the README (maven-central badge) or check the [Change Log](https://github.com/rabanti-github/PicoXLSX4j/blob/master/Changelog.md) for the most recent version. The keywords ```LATEST```  and ```RELEASE``` are only valid in Maven 2, not 3 and newer. 
 
 
 # Usage
