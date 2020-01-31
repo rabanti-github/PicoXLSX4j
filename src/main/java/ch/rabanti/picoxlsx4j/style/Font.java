@@ -43,7 +43,7 @@ public class Font extends AbstractStyle {
         }
 
         public int getValue() {
-            return value;
+            return this.value;
         }
     }
 
@@ -71,7 +71,7 @@ public class Font extends AbstractStyle {
         }
 
         public int getValue() {
-            return value;
+            return this.value;
         }
     }
 
@@ -98,7 +98,7 @@ public class Font extends AbstractStyle {
      * @return Font size
      */
     public int getSize() {
-        return size;
+        return this.size;
     }
 
     /**
@@ -122,7 +122,7 @@ public class Font extends AbstractStyle {
      * @return Font name
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -140,7 +140,7 @@ public class Font extends AbstractStyle {
      * @return Font family
      */
     public String getFamily() {
-        return family;
+        return this.family;
     }
 
     /**
@@ -158,7 +158,7 @@ public class Font extends AbstractStyle {
      * @return Font color theme
      */
     public int getColorTheme() {
-        return colorTheme;
+        return this.colorTheme;
     }
 
     /**
@@ -176,7 +176,7 @@ public class Font extends AbstractStyle {
      * @return Font color
      */
     public String getColorValue() {
-        return colorValue;
+        return this.colorValue;
     }
 
     /**
@@ -194,7 +194,7 @@ public class Font extends AbstractStyle {
      * @return Font scheme
      */
     public SchemeValue getScheme() {
-        return scheme;
+        return this.scheme;
     }
 
     /**
@@ -212,7 +212,7 @@ public class Font extends AbstractStyle {
      * @return Alignment of the font
      */
     public VerticalAlignValue getVerticalAlign() {
-        return verticalAlign;
+        return this.verticalAlign;
     }
 
     /**
@@ -230,7 +230,7 @@ public class Font extends AbstractStyle {
      * @return If true, the font is bold
      */
     public boolean isBold() {
-        return bold;
+        return this.bold;
     }
 
     /**
@@ -248,7 +248,7 @@ public class Font extends AbstractStyle {
      * @return If true, the font is italic
      */
     public boolean isItalic() {
-        return italic;
+        return this.italic;
     }
 
     /**
@@ -266,7 +266,7 @@ public class Font extends AbstractStyle {
      * @return If true, the font as one underline
      */
     public boolean isUnderline() {
-        return underline;
+        return this.underline;
     }
 
     /**
@@ -284,7 +284,7 @@ public class Font extends AbstractStyle {
      * @return If true, the font ha a double underline
      */
     public boolean isDoubleUnderline() {
-        return doubleUnderline;
+        return this.doubleUnderline;
     }
 
     /**
@@ -302,7 +302,7 @@ public class Font extends AbstractStyle {
      * @return If true, the font is declared as strike-through
      */
     public boolean isStrike() {
-        return strike;
+        return this.strike;
     }
 
     /**
@@ -320,7 +320,7 @@ public class Font extends AbstractStyle {
      * @return Charset of the Font
      */
     public String getCharset() {
-        return charset;
+        return this.charset;
     }
 
     /**

@@ -187,29 +187,29 @@ public class Worksheet {
     public void setAutoFilterRange(String range)
     {
         this.autoFilterRange = Cell.resolveCellRange(range);
-        recalculateAutoFilter();
-        recalculateColumns();
+        this.recalculateAutoFilter();
+        this.recalculateColumns();
     }
     /**
      * Gets the range of the auto filter. If null, no auto filters are applied
      * @return Range of auto filter
      */
     public Range getAutoFilterRange() {
-        return autoFilterRange;
+        return this.autoFilterRange;
     }
     /**
      * Gets the cells of the worksheet as map with the cell address as key and the cell object as value
      * @return List of Cell objects
      */
     public Map<String, Cell> getCells() {
-        return cells;
+        return this.cells;
     }
     /**
      * Gets all columns with non-standard properties, like auto filter applied or a special width as map with the zero-based column index as key and the column object as value
      * @return map of columns
      */
     public Map<Integer, Column> getColumns() {
-        return columns;
+        return this.columns;
     }
     
     /**
@@ -217,7 +217,7 @@ public class Worksheet {
      * @return Cell direction
      */
     public CellDirection getCurrentCellDirection() {
-        return currentCellDirection;
+        return this.currentCellDirection;
     }    
     /**
      * Sets the direction when using AddNextCell method
@@ -276,7 +276,7 @@ public class Worksheet {
      * @return Default column width
      */
     public float getDefaultColumnWidth() {
-        return defaultColumnWidth;
+        return this.defaultColumnWidth;
     } 
     /**
      * Sets the default column width
@@ -284,7 +284,7 @@ public class Worksheet {
      * @throws RangeException Throws a RangeException exception if the passed width is out of range (set)
      */
     public void setDefaultColumnWidth(float defaultColumnWidth) {
-        if (defaultRowHeight < MIN_COLUMN_WIDTH || defaultRowHeight > MAX_COLUMN_WIDTH)
+        if (this.defaultRowHeight < MIN_COLUMN_WIDTH || this.defaultRowHeight > MAX_COLUMN_WIDTH)
         {
             throw new RangeException("OutOfRangeException","The passed default row height is out of range (" + MIN_COLUMN_WIDTH + " to " + MAX_COLUMN_WIDTH + ")");
         }
@@ -295,7 +295,7 @@ public class Worksheet {
     * @return Default Row height
     */
     public float getDefaultRowHeight() {
-        return defaultRowHeight;
+        return this.defaultRowHeight;
     }
     /**
      * Sets the default Row height
@@ -314,14 +314,14 @@ public class Worksheet {
      * @return Map with hidden rows
      */
     public Map<Integer, Boolean> getHiddenRows() {
-        return hiddenRows;
+        return this.hiddenRows;
     }
     /**
      * Gets the merged cells (only references) as map with the cell address as key and the range object as value
      * @return Hashmap with merged cell references
      */
     public Map<String, Range> getMergedCells() {
-        return mergedCells;
+        return this.mergedCells;
     }
 
     /**
@@ -329,14 +329,14 @@ public class Worksheet {
      * @return Map of row heights
      */
     public Map<Integer, Float> getRowHeights() {
-        return rowHeights;
+        return this.rowHeights;
     }
     /**
      * Gets the range of selected cells of this worksheet. Null if no cells are selected
      * @return Cell range of the selected cells
      */
     public Range getSelectedCells() {
-        return selectedCells;
+        return this.selectedCells;
     }
     /**
      * Sets the selected cells on this worksheet
@@ -361,7 +361,7 @@ public class Worksheet {
      * @return Worksheet ID
      */
     public int getSheetID() {
-        return sheetID;
+        return this.sheetID;
     }
     /**
      * Sets the internal ID of the worksheet
@@ -375,7 +375,7 @@ public class Worksheet {
      * @return Name of the sheet
      */
     public String getSheetName() {
-        return sheetName;
+        return this.sheetName;
     }
     
     /**
@@ -383,7 +383,7 @@ public class Worksheet {
      * @return If true, the worksheet is protected
      */
     public boolean isUseSheetProtection() {
-        return useSheetProtection;
+        return this.useSheetProtection;
     }
     /**
      * Sets whether the worksheet is protected
@@ -398,7 +398,7 @@ public class Worksheet {
      * @return Password (UTF-8)
      */
     public String getSheetProtectionPassword() {
-        return sheetProtectionPassword;
+        return this.sheetProtectionPassword;
     }
     /**
      * Sets or removes the password for worksheet protection. If set, UseSheetProtection will be also set to true
@@ -406,7 +406,7 @@ public class Worksheet {
      */
     public void setSheetProtectionPassword(String password)
     {
-        if (Helper.isNullOrEmpty(password) == true)
+        if (Helper.isNullOrEmpty(password))
         {
             this.sheetProtectionPassword = null;
         }
@@ -421,14 +421,14 @@ public class Worksheet {
      * @return List of SheetProtectionValues
      */
     public List<SheetProtectionValue> getSheetProtectionValues() {
-        return sheetProtectionValues;
+        return this.sheetProtectionValues;
     }
     /**
      * Gets the Reference to the parent Workbook
      * @return Workbook reference
      */
     public Workbook getWorkbookReference() {
-        return workbookReference;
+        return this.workbookReference;
     }
     /**
      * Sets the Reference to the parent Workbook
@@ -445,7 +445,7 @@ public class Worksheet {
      */
     public Worksheet()
     {
-        init();
+        this.init();
     }
     /**
      * Constructor with workbook reference
@@ -454,7 +454,7 @@ public class Worksheet {
      */
     public Worksheet(Workbook reference)
     {
-        init();
+        this.init();
         this.workbookReference = reference;
     }
     /**
@@ -466,8 +466,8 @@ public class Worksheet {
      */
     public Worksheet(String name, int id, Workbook reference)
     {
-        init();
-        setSheetName(name);
+        this.init();
+        this.setSheetName(name);
         this.sheetID = id;
         this.workbookReference = reference;
     }    
@@ -484,7 +484,7 @@ public class Worksheet {
      */
     public void addNextCell(Object value)
     {
-        addNextCell(castValue(value, this.currentColumnNumber, this.currentRowNumber),true,null);
+        this.addNextCell(this.castValue(value, this.currentColumnNumber, this.currentRowNumber),true,null);
     }
 
      /**
@@ -497,7 +497,7 @@ public class Worksheet {
      */
     public void addNextCell(Object value, Style style)
     {
-        addNextCell(castValue(value, this.currentColumnNumber, this.currentRowNumber),true,style);
+        this.addNextCell(this.castValue(value, this.currentColumnNumber, this.currentRowNumber),true,style);
     }
    
     /**
@@ -511,7 +511,7 @@ public class Worksheet {
     private void addNextCell(Cell cell, boolean incremental, Style style)
     {
         cell.setWorksheetReference(this);
-        if (this.activeStyle != null && this.useActiveStyle == true && style == null)
+        if (this.activeStyle != null && this.useActiveStyle && style == null)
         {
             cell.setStyle(this.activeStyle);
         }
@@ -525,7 +525,7 @@ public class Worksheet {
         }
         String address = cell.getCellAddress();
         this.cells.put(address, cell);
-        if (incremental == true)
+        if (incremental)
         {
             if (this.getCurrentCellDirection() == CellDirection.ColumnToColumn)
             {
@@ -566,7 +566,7 @@ public class Worksheet {
      */
     public void addCell(Object value, int columnAddress, int rowAddress)
     {
-        addNextCell(castValue(value, columnAddress, rowAddress), false, null);
+        this.addNextCell(this.castValue(value, columnAddress, rowAddress), false, null);
     }
     
     /**
@@ -581,7 +581,7 @@ public class Worksheet {
      */
     public void addCell(Object value, int columnAddress, int rowAddress, Style style)
     {
-        addNextCell(castValue(value, columnAddress, rowAddress), false, style);
+        this.addNextCell(this.castValue(value, columnAddress, rowAddress), false, style);
 
     }    
     
@@ -597,7 +597,7 @@ public class Worksheet {
     public void addCell(Object value, String address)
     {
         Address adr = Cell.resolveCellCoordinate(address);
-        addCell(value, adr.Column, adr.Row);
+        this.addCell(value, adr.Column, adr.Row);
     }      
     
     /**
@@ -613,7 +613,7 @@ public class Worksheet {
     public void addCell(Object value, String address, Style style)
     {
         Address adr = Cell.resolveCellCoordinate(address);
-        addCell(value, adr.Column, adr.Row, style);
+        this.addCell(value, adr.Column, adr.Row, style);
     }      
     
 // ### M E T H O D S  -  A D D C E L L F O R M U L A ###
@@ -630,7 +630,7 @@ public class Worksheet {
     {
         Address adr = Cell.resolveCellCoordinate(address);
         Cell c = new Cell(formula, Cell.CellType.FORMULA, adr.Column, adr.Row, this);
-        addNextCell(c, false, null);
+        this.addNextCell(c, false, null);
     }
     
     /**
@@ -646,7 +646,7 @@ public class Worksheet {
     {
         Address adr = Cell.resolveCellCoordinate(address);
         Cell c = new Cell(formula, Cell.CellType.FORMULA, adr.Column, adr.Row, this);
-        addNextCell(c, false, style);
+        this.addNextCell(c, false, style);
     }    
     
     /**
@@ -660,7 +660,7 @@ public class Worksheet {
     public void addCellFormula(String formula, int columnAddress, int rowAddress)
     {
         Cell c = new Cell(formula, Cell.CellType.FORMULA, columnAddress, rowAddress, this);
-        addNextCell(c, false, null);
+        this.addNextCell(c, false, null);
     }     
     
     /**
@@ -675,7 +675,7 @@ public class Worksheet {
     public void addCellFormula(String formula, int columnAddress, int rowAddress, Style style)
     {
         Cell c = new Cell(formula, Cell.CellType.FORMULA, columnAddress, rowAddress, this);
-        addNextCell(c, false, style);
+        this.addNextCell(c, false, style);
     }
     
    /**
@@ -687,7 +687,7 @@ public class Worksheet {
     public void addNextCellFormula(String formula)
     {
         Cell c = new Cell(formula, Cell.CellType.FORMULA, this.currentColumnNumber, this.currentRowNumber, this);
-        addNextCell(c, true, null);
+        this.addNextCell(c, true, null);
     }  
     
     /**
@@ -700,7 +700,7 @@ public class Worksheet {
     public void addNextCellFormula(String formula, Style style)
     {
         Cell c = new Cell(formula, Cell.CellType.FORMULA, this.currentColumnNumber, this.currentRowNumber, this);
-        addNextCell(c, true, style);
+        this.addNextCell(c, true, style);
     }   
     
     
@@ -717,7 +717,7 @@ public class Worksheet {
      */
     public void addCellRange(List<Object> values, Address startAddress, Address endAddress)
     {
-        addCellRangeInternal(values, startAddress, endAddress, null);
+        this.addCellRangeInternal(values, startAddress, endAddress, null);
     }  
     
    /**
@@ -732,7 +732,7 @@ public class Worksheet {
      */
     public void addCellRange(List<Object> values, Address startAddress, Address endAddress, Style style)
     {
-        addCellRangeInternal(values, startAddress, endAddress, style);
+        this.addCellRangeInternal(values, startAddress, endAddress, style);
     }     
 
     /**
@@ -747,7 +747,7 @@ public class Worksheet {
     public void addCellRange(List<Object> values, String cellRange)
     {
         Range rng = Cell.resolveCellRange(cellRange);
-        addCellRangeInternal(values, rng.StartAddress, rng.EndAddress, null);
+        this.addCellRangeInternal(values, rng.StartAddress, rng.EndAddress, null);
     }       
     
     /**
@@ -763,7 +763,7 @@ public class Worksheet {
     public void addCellRange(List<Object> values, String cellRange, Style style)
     {
         Range rng = Cell.resolveCellRange(cellRange);
-        addCellRangeInternal(values, rng.StartAddress, rng.EndAddress, style);
+        this.addCellRangeInternal(values, rng.StartAddress, rng.EndAddress, style);
     }      
     
     /**
@@ -790,7 +790,7 @@ public class Worksheet {
             list.get(i).setRowNumber(addresses.get(i).Row);
             list.get(i).setColumnNumber(addresses.get(i).Column);
             list.get(i).setWorksheetReference(this);
-            addNextCell(list.get(i), false, style);
+            this.addNextCell(list.get(i), false, style);
         }
     }
     
@@ -826,7 +826,7 @@ public class Worksheet {
     public boolean removeCell(String address)
     {
         Address adr = Cell.resolveCellCoordinate(address);
-        return removeCell(adr.Column, adr.Row);
+        return this.removeCell(adr.Column, adr.Row);
     }    
     
 // ### C O M M O N   M E T H O D S ###   
@@ -837,9 +837,10 @@ public class Worksheet {
      */
     public void addAllowedActionOnSheetProtection(SheetProtectionValue typeOfProtection)
     {
-        if (this.sheetProtectionValues.contains(typeOfProtection) == false)
+        if (!this.sheetProtectionValues.contains(typeOfProtection))
         {
-            if (typeOfProtection == SheetProtectionValue.selectLockedCells && this.sheetProtectionValues.contains(SheetProtectionValue.selectUnlockedCells) == false)
+            if (typeOfProtection == SheetProtectionValue.selectLockedCells && !this.sheetProtectionValues
+                .contains(SheetProtectionValue.selectUnlockedCells))
             {
                 this.sheetProtectionValues.add(SheetProtectionValue.selectUnlockedCells);
             }
@@ -855,7 +856,7 @@ public class Worksheet {
      */
     public void addHiddenColumn(int columnNumber)
     {
-        setColumnHiddenState(columnNumber, true);
+        this.setColumnHiddenState(columnNumber, true);
     }   
     /**
      * Sets the defined column as hidden
@@ -865,7 +866,7 @@ public class Worksheet {
     public void addHiddenColumn(String columnAddress)
     {
         int columnNumber = Cell.resolveColumn(columnAddress);
-        setColumnHiddenState(columnNumber, true);
+        this.setColumnHiddenState(columnNumber, true);
     }
     /**
      * Sets the defined row as hidden
@@ -874,7 +875,7 @@ public class Worksheet {
      */
     public void addHiddenRow(int rowNumber)
     {
-        setRowHiddenState(rowNumber, true);
+        this.setRowHiddenState(rowNumber, true);
     }    
    
     /**
@@ -916,7 +917,7 @@ public class Worksheet {
      */
     public Cell getCell(Address address)
     {
-        if (this.cells.containsKey(address.getAddress()) == false)
+        if (!this.cells.containsKey(address.getAddress()))
         {
             throw new WorksheetException("CellNotFoundException", "The cell with the address " + address.getAddress() + " does not exist in this worksheet");
         }
@@ -932,7 +933,7 @@ public class Worksheet {
      */
     public Cell getCell(int columnNumber, int rowNumber)
     {
-        return getCell(new Address(columnNumber, rowNumber));
+        return this.getCell(new Address(columnNumber, rowNumber));
     }
 
     /**
@@ -953,7 +954,7 @@ public class Worksheet {
      */
     public boolean hasCell(int columnNumber, int rowNumber)
     {
-        return hasCell(new Address(columnNumber, rowNumber));
+        return this.hasCell(new Address(columnNumber, rowNumber));
     }
 
     /**
@@ -962,7 +963,7 @@ public class Worksheet {
      */
     public int getLastColumnNumber()
     {
-        return getLastAddress(true);
+        return this.getLastAddress(true);
     }
 
     /**
@@ -971,7 +972,7 @@ public class Worksheet {
      */
     public int getLastRowNumber()
     {
-        return getLastAddress(false);
+        return this.getLastAddress(false);
     }
 
     /**
@@ -985,7 +986,7 @@ public class Worksheet {
         int number;
         for(Map.Entry<String, Cell> cell : this.cells.entrySet())
         {
-            if (column == true)
+            if (column)
             {
                 number = cell.getValue().getColumnNumber();
             }
@@ -1010,7 +1011,7 @@ public class Worksheet {
     public void setColumnWidth(String columnAddress, float width)
     {
         int columnNumber = Cell.resolveColumn(columnAddress);
-        setColumnWidth(columnNumber, width);
+        this.setColumnWidth(columnNumber, width);
     } 
     
     /**
@@ -1022,7 +1023,7 @@ public class Worksheet {
     public void setCurrentCellAddress(String address)
     {
         Address adr = Cell.resolveCellCoordinate(address);
-        setCurrentCellAddress(adr.Column, adr.Row);
+        this.setCurrentCellAddress(adr.Column, adr.Row);
     }  
    
     /**
@@ -1082,7 +1083,7 @@ public class Worksheet {
     {
         for(int i = 0; i < numberOfColumns; i++)
         {
-            goToNextColumn();
+            this.goToNextColumn();
         }
     }
     
@@ -1103,7 +1104,7 @@ public class Worksheet {
     {
         for(int i = 0; i < numberOfRows; i++)
         {
-            goToNextRow();
+            this.goToNextRow();
         }
     }
     
@@ -1134,7 +1135,7 @@ public class Worksheet {
      */
     public String mergeCells(Range cellRange)
     {
-        return mergeCells(cellRange.StartAddress, cellRange.EndAddress);
+        return this.mergeCells(cellRange.StartAddress, cellRange.EndAddress);
     }
 
     /**
@@ -1146,7 +1147,7 @@ public class Worksheet {
     public String mergeCells(String cellRange)
     {
         Range range = Cell.resolveCellRange(cellRange);
-        return mergeCells(range.StartAddress, range.EndAddress);
+        return this.mergeCells(range.StartAddress, range.EndAddress);
     }    
     
     /**
@@ -1159,7 +1160,7 @@ public class Worksheet {
     {
         String key = startAddress.toString() + ":" + endAddress.toString();
         Range value = new Range(startAddress, endAddress);
-        if (this.mergedCells.containsKey(key) == false)
+        if (!this.mergedCells.containsKey(key))
         {
             this.mergedCells.put(key, value);
         }
@@ -1182,7 +1183,7 @@ public class Worksheet {
         Column c;
         for(int i = start; i <= end; i++)
         {
-            if (this.columns.containsKey(i) == false)
+            if (!this.columns.containsKey(i))
             {
                 c = new Column(i);
                 c.setAutoFilter(true);
@@ -1203,7 +1204,7 @@ public class Worksheet {
         ArrayList<Integer> columnsToDelete = new ArrayList<>();
         for(Map.Entry<Integer, Column> col  : this.getColumns().entrySet())
         {
-            if (col.getValue().hasAutoFilter() == false && col.getValue().isHidden() == false && col.getValue().getWidth() == Worksheet.DEFAULT_COLUMN_WIDTH)
+            if (!col.getValue().hasAutoFilter() && !col.getValue().isHidden() && col.getValue().getWidth() == Worksheet.DEFAULT_COLUMN_WIDTH)
             {
                 columnsToDelete.add(col.getKey());
             }
@@ -1228,7 +1229,7 @@ public class Worksheet {
      */
     public void removeHiddenColumn(int columnNumber)
     {
-        setColumnHiddenState(columnNumber, false);
+        this.setColumnHiddenState(columnNumber, false);
     }
     
     /**
@@ -1239,7 +1240,7 @@ public class Worksheet {
     public void removeHiddenColumn(String columnAddress)
     {
         int columnNumber = Cell.resolveColumn(columnAddress);
-        setColumnHiddenState(columnNumber, false);
+        this.setColumnHiddenState(columnNumber, false);
     }
     /**
      * Sets a previously defined, hidden row as visible again
@@ -1248,7 +1249,7 @@ public class Worksheet {
      */
     public void removeHiddenRow(int rowNumber)
     {
-        setRowHiddenState(rowNumber, false);
+        this.setRowHiddenState(rowNumber, false);
     }
     /**
      * Removes the defined merged cell range
@@ -1259,7 +1260,7 @@ public class Worksheet {
     public void removeMergedCells(String range)
     {
         range = range.toUpperCase();
-        if (this.mergedCells.containsKey(range) == false)
+        if (!this.mergedCells.containsKey(range))
         {
             throw new RangeException("MissingReferenceException","The cell range " + range + " was not found in the list of merged cell ranges");
         }
@@ -1313,11 +1314,11 @@ public class Worksheet {
         String end = Cell.resolveCellAddress(endColumn, 0);
         if (endColumn < startColumn)
         {
-            setAutoFilterRange(end + ":" + start);
+            this.setAutoFilterRange(end + ":" + start);
         }
         else
         {
-            setAutoFilterRange(start + ":" + end);
+            this.setAutoFilterRange(start + ":" + end);
         }
     }
     /**
@@ -1332,11 +1333,11 @@ public class Worksheet {
         {
             throw new RangeException("OutOfRangeException","The column number (" + columnNumber + ") is out of range. Range is from 0 to "+ MAX_COLUMN_NUMBER +" ("+ (MAX_COLUMN_NUMBER + 1) +" columns).");
         }
-        if (this.columns.containsKey(columnNumber) && state == true)
+        if (this.columns.containsKey(columnNumber) && state)
         {
             this.columns.get(columnNumber).setHidden(state);
         }
-        else if (state == true)
+        else if (state)
         {
             Column c = new Column(columnNumber);
             c.setHidden(state);
@@ -1378,8 +1379,8 @@ public class Worksheet {
      */
     public void setCurrentCellAddress(int columnAddress, int rowAddress)
     {
-        setCurrentColumnNumber(columnAddress);
-        setCurrentRowNumber(rowAddress);
+        this.setCurrentColumnNumber(columnAddress);
+        this.setCurrentRowNumber(rowAddress);
     }
     /**
      * Sets the height of the passed row number (zero-based)
@@ -1413,7 +1414,7 @@ public class Worksheet {
         }
         if (this.hiddenRows.containsKey(rowNumber))
         {
-            if (state == true)
+            if (state)
             {
                 this.hiddenRows.put(rowNumber, state);
             }
@@ -1422,7 +1423,7 @@ public class Worksheet {
                 this.hiddenRows.remove(rowNumber);
             }
         }
-        else if (state == true)
+        else if (state)
         {
             this.hiddenRows.put(rowNumber, state);
         }
@@ -1469,7 +1470,7 @@ public class Worksheet {
         int number = 1;
         while(true)
         {
-            if (Worksheet.worksheetExists(name, workbook) == false) { break; } // OK
+            if (!Worksheet.worksheetExists(name, workbook)) { break; } // OK
             if (originalName.length() + (number/10) >= 31)
             {
                 name = originalName.substring(0,30-number/10) + number;

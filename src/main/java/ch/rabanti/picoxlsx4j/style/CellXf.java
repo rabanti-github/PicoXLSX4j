@@ -64,7 +64,7 @@ public class CellXf extends AbstractStyle {
         }
 
         public int getValue() {
-            return value;
+            return this.value;
         }
 
     }
@@ -105,7 +105,7 @@ public class CellXf extends AbstractStyle {
         }
 
         public int getValue() {
-            return value;
+            return this.value;
         }
     }
 
@@ -132,7 +132,7 @@ public class CellXf extends AbstractStyle {
         }
 
         public int getValue() {
-            return value;
+            return this.value;
         }
     }
 
@@ -156,7 +156,7 @@ public class CellXf extends AbstractStyle {
         }
 
         public int getValue() {
-            return value;
+            return this.value;
         }
     }
 
@@ -178,7 +178,7 @@ public class CellXf extends AbstractStyle {
      * @return Text rotation in degrees (from +90 to -90)
      */
     public int getTextRotation() {
-        return textRotation;
+        return this.textRotation;
     }
 
     /**
@@ -190,7 +190,7 @@ public class CellXf extends AbstractStyle {
     public void setTextRotation(int textRotation) {
         this.textRotation = textRotation;
         this.textDirection = TextDirectionValue.horizontal;
-        calculateInternalRotation();
+        this.calculateInternalRotation();
     }
 
     /**
@@ -199,7 +199,7 @@ public class CellXf extends AbstractStyle {
      * @return Direction of the text within the cell
      */
     public TextDirectionValue getTextDirection() {
-        return textDirection;
+        return this.textDirection;
     }
 
     /**
@@ -210,7 +210,7 @@ public class CellXf extends AbstractStyle {
      */
     public void setTextDirection(TextDirectionValue textDirection) {
         this.textDirection = textDirection;
-        calculateInternalRotation();
+        this.calculateInternalRotation();
     }
 
     /**
@@ -219,7 +219,7 @@ public class CellXf extends AbstractStyle {
      * @return Horizontal alignment of the style
      */
     public HorizontalAlignValue getHorizontalAlign() {
-        return horizontalAlign;
+        return this.horizontalAlign;
     }
 
     /**
@@ -237,7 +237,7 @@ public class CellXf extends AbstractStyle {
      * @return Vertical alignment of the style
      */
     public VerticalAlignValue getVerticalAlign() {
-        return verticalAlign;
+        return this.verticalAlign;
     }
 
     /**
@@ -255,7 +255,7 @@ public class CellXf extends AbstractStyle {
      * @return Text break options of the style
      */
     public TextBreakValue getAlignment() {
-        return alignment;
+        return this.alignment;
     }
 
     /**
@@ -273,7 +273,7 @@ public class CellXf extends AbstractStyle {
      * @return If true, the style is used for locking / protection of cells or worksheets
      */
     public boolean isLocked() {
-        return locked;
+        return this.locked;
     }
 
     /**
@@ -291,7 +291,7 @@ public class CellXf extends AbstractStyle {
      * @return If true, the style is used for hiding cell values / protection of cells
      */
     public boolean isHidden() {
-        return hidden;
+        return this.hidden;
     }
 
     /**
@@ -309,7 +309,7 @@ public class CellXf extends AbstractStyle {
      * @return If true, the applyAlignment value of the style will be set to true (used to merge cells)
      */
     public boolean isForceApplyAlignment() {
-        return forceApplyAlignment;
+        return this.forceApplyAlignment;
     }
 
     /**

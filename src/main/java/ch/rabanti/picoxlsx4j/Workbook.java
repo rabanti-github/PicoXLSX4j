@@ -45,7 +45,7 @@ public class Workbook {
      * @return Current worksheet reference
      */
     public Worksheet getCurrentWorksheet() {
-        return currentWorksheet;
+        return this.currentWorksheet;
     }
     
     
@@ -54,7 +54,7 @@ public class Workbook {
      * @return Filename of the workbook
      */
     public String getFilename() {
-        return filename;
+        return this.filename;
     }
 
     /**
@@ -69,7 +69,7 @@ public class Workbook {
      * @return Zero-based worksheet index
      */
     public int getSelectedWorksheet() {
-        return selectedWorksheet;
+        return this.selectedWorksheet;
     }
     /**
      * Sets the selected worksheet in the output workbook<br>Note: This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this
@@ -88,7 +88,7 @@ public class Workbook {
                 break;
             }
         }
-        if (check == false)
+        if (!check)
         {
             throw new WorksheetException("MissingReferenceException","The passed worksheet object is not in the worksheet collection.");
         }        
@@ -112,7 +112,7 @@ public class Workbook {
      * @return Meta data object
      */
     public Metadata getWorkbookMetadata() {
-        return workbookMetadata;        
+        return this.workbookMetadata;
     }
 
     /**
@@ -136,14 +136,14 @@ public class Workbook {
      * @return Password (UTF-8)
      */
     public String getWorkbookProtectionPassword() {
-        return workbookProtectionPassword;
+        return this.workbookProtectionPassword;
     }
     /**
      * Gets the list of worksheets in the workbook
      * @return List of worksheet objects
      */
     public List<Worksheet> getWorksheets() {
-        return worksheets;
+        return this.worksheets;
     }
 
     /**
@@ -151,21 +151,21 @@ public class Workbook {
      * @return True if the structure is locked when the workbook is protected
      */
     public boolean isStructureLockedIfProtected() {
-        return lockStructureIfProtected;
+        return this.lockStructureIfProtected;
     }
     /**
      * Gets whether the windows are locked if workbook is protected
      * @return True if the windows are locked when the workbook is protected
      */
     public boolean isWindowsLockedIfProtected() {
-        return lockWindowsIfProtected;
+        return this.lockWindowsIfProtected;
     }    
     /**
      * Gets whether the workbook is protected
      * @return If true, the workbook is protected otherwise not
      */
     public boolean isWorkbookProtectionUsed() {
-        return useWorkbookProtection;
+        return this.useWorkbookProtection;
     }    
 
     /**
@@ -173,7 +173,7 @@ public class Workbook {
      * @return Style manager object
      */
     public StyleManager getStyleManager() {
-        return styleManager;
+        return this.styleManager;
     }
     
     
@@ -184,11 +184,11 @@ public class Workbook {
      * @param createWorksheet If true, a default worksheet with the name 'Sheet1' will be created and set as current worksheet
      */
     public Workbook(boolean createWorksheet)
-    { 
-            init();
-            if (createWorksheet == true)
+    {
+        this.init();
+            if (createWorksheet)
             {
-                addWorksheet("Sheet1");
+                this.addWorksheet("Sheet1");
             }       
     }
 
@@ -199,8 +199,8 @@ public class Workbook {
      */
     public Workbook(String sheetName)
     {
-        init();
-        addWorksheet(sheetName, true);
+        this.init();
+        this.addWorksheet(sheetName, true);
     }
 
     /**
@@ -211,9 +211,9 @@ public class Workbook {
      */
     public Workbook(String filename, String sheetName)
     {
-        init();   
+        this.init();
         this.filename = filename;
-        addWorksheet(sheetName, true);
+        this.addWorksheet(sheetName, true);
     }
     
     /**
@@ -224,9 +224,9 @@ public class Workbook {
      */
     public Workbook(String filename, String sheetName, boolean sanitizeSheetName)
     {
-        init();   
+        this.init();
         this.filename = filename;
-        addWorksheet(Worksheet.sanitizeWorksheetName(sheetName, this));
+        this.addWorksheet(Worksheet.sanitizeWorksheetName(sheetName, this));
     }    
     
 // ### M E T H O D S ###
@@ -282,11 +282,10 @@ public class Workbook {
      */
     public void addWorksheet(String name)
     {
-        for (int i = 0; i < this.worksheets.size(); i++)
-        {
-            if (this.worksheets.get(i).getSheetName().equals(name))
-            {
-                throw new WorksheetException("WorksheetNameAlreadyExistsException","The worksheet with the name '" + name + "' already exists.");
+        for (Worksheet worksheet : this.worksheets) {
+            if (worksheet.getSheetName().equals(name)) {
+                throw new WorksheetException("WorksheetNameAlreadyExistsException",
+                    "The worksheet with the name '" + name + "' already exists.");
             }
         }
         int number = this.worksheets.size() + 1;
@@ -305,14 +304,14 @@ public class Workbook {
      */
     public void addWorksheet(String name, boolean sanitizeSheetName)
     {
-        if (sanitizeSheetName == true)
+        if (sanitizeSheetName)
         {
             String sanitized = Worksheet.sanitizeWorksheetName(name, this);
-            addWorksheet(sanitized);
+            this.addWorksheet(sanitized);
         }
         else
         {
-            addWorksheet(name);
+            this.addWorksheet(name);
         }
     }
     
@@ -324,11 +323,10 @@ public class Workbook {
      */
     public void addWorksheet(Worksheet worksheet)
     {
-        for (int i = 0; i < this.worksheets.size(); i++)
-        {
-            if (this.worksheets.get(i).getSheetName().equals(worksheet.getSheetName()))
-            {
-                throw new WorksheetException("WorksheetNameAlreadyExistsException","The worksheet with the name '" + worksheet.getSheetName() + "' already exists.");
+        for (Worksheet value : this.worksheets) {
+            if (value.getSheetName().equals(worksheet.getSheetName())) {
+                throw new WorksheetException("WorksheetNameAlreadyExistsException",
+                    "The worksheet with the name '" + worksheet.getSheetName() + "' already exists.");
             }
         }
         int number = this.worksheets.size() + 1;
@@ -362,7 +360,7 @@ public class Workbook {
     */
     public void removeStyle(Style style)
     {
-        removeStyle(style, false);
+        this.removeStyle(style, false);
     }
     
     /**
@@ -372,7 +370,7 @@ public class Workbook {
     */
     public void removeStyle(String styleName)
     {
-        removeStyle(styleName, false);
+        this.removeStyle(styleName, false);
     }    
 
     /**
@@ -387,7 +385,7 @@ public class Workbook {
         {
             throw new StyleException("MissingReferenceException","The style to remove is not defined");
         }
-        removeStyle(style.getName(), onlyIfUnused);
+        this.removeStyle(style.getName(), onlyIfUnused);
     }
     
     /**
@@ -402,28 +400,26 @@ public class Workbook {
             throw new StyleException("MissingReferenceException","The style to remove is not defined (no name specified)");
         }
         
-        if (onlyIfUnused == true)
+        if (onlyIfUnused)
         {
                 boolean styleInUse = false;
                 Cell cell;
-                for(int i = 0; i < this.worksheets.size(); i++)
-                {
-                    for(Object item: this.worksheets.get(i).getCells().entrySet())
-                    {
-                        cell = (Cell)item;
-                        if (cell.getCellStyle() == null) { continue; }
-                        if (cell.getCellStyle().getName().equals(styleName))
-                        {
-                            styleInUse = true;
-                            break;
-                        }
+            for (Worksheet worksheet : this.worksheets) {
+                for (Object item : worksheet.getCells().entrySet()) {
+                    cell = (Cell) item;
+                    if (cell.getCellStyle() == null) {
+                        continue;
                     }
-                    if (styleInUse == true)
-                    {
+                    if (cell.getCellStyle().getName().equals(styleName)) {
+                        styleInUse = true;
                         break;
                     }
                 }
-                if (styleInUse == false)
+                if (styleInUse) {
+                    break;
+                }
+            }
+                if (!styleInUse)
                 {
                     this.styleManager.removeStyle(styleName);
                 }
@@ -453,7 +449,7 @@ public class Workbook {
                 break;
             }
         }
-        if (exists == false)
+        if (!exists)
         {
             throw new WorksheetException("MissingReferenceException","The worksheet with the name '" + name + "' does not exist.");
         }
@@ -467,7 +463,7 @@ public class Workbook {
             for (int i = 0; i < this.worksheets.size(); i++)
             {
                 this.worksheets.get(index).setSheetID(i + 1);
-                if (resetCurrent == true && i == 0)
+                if (resetCurrent && i == 0)
                 {
                     this.currentWorksheet = this.worksheets.get(i);
                 }
@@ -496,34 +492,27 @@ public class Workbook {
         Cell cell;
         Worksheet sheet;
         Address address;
-        Iterator itr;
+        Iterator<Map.Entry<String, Range>> itr;
         Map.Entry<String, Range> range;
-        for (int i = 0; i < this.worksheets.size(); i++)
-        {
-            sheet = this.worksheets.get(i);
+        for (Worksheet worksheet : this.worksheets) {
+            sheet = worksheet;
             itr = sheet.getMergedCells().entrySet().iterator();
-            while (itr.hasNext())
-            {
-                range = (Map.Entry<String, Range>)itr.next();
+            while (itr.hasNext()) {
+                range = itr.next();
                 pos = 0;
                 addresses = Cell.getCellRange(range.getValue().StartAddress, range.getValue().EndAddress);
-                for (int j = 0; j < addresses.size(); j++)
-                {
-                    address = addresses.get(j);
-                    if (sheet.getCells().containsKey(address.toString()) == false)
-                    {
+                for (Address value : addresses) {
+                    address = value;
+                    if (!sheet.getCells().containsKey(address.toString())) {
                         cell = new Cell();
                         cell.setDataType(Cell.CellType.EMPTY);
                         cell.setRowNumber(address.Row);
                         cell.setColumnNumber(address.Column);
                         sheet.addCell(cell, cell.getColumnNumber(), cell.getRowNumber());
-                    }
-                    else
-                    {
+                    } else {
                         cell = sheet.getCells().get(address.toString());
                     }
-                    if (pos != 0)
-                    {
+                    if (pos != 0) {
                         cell.setDataType(Cell.CellType.EMPTY);
                         cell.setStyle(mergeStyle);
                     }
@@ -577,16 +566,14 @@ public class Workbook {
     public Worksheet setCurrentWorksheet(String name)
     {
         boolean exists = false;
-        for(int i = 0; i < this.worksheets.size(); i++)
-        {
-            if (this.worksheets.get(i).getSheetName().equals(name))
-            {
-                this.currentWorksheet = this.worksheets.get(i);
+        for (Worksheet worksheet : this.worksheets) {
+            if (worksheet.getSheetName().equals(name)) {
+                this.currentWorksheet = worksheet;
                 exists = true;
                 break;
             }
         }
-        if (exists == false)
+        if (!exists)
         {
             throw new WorksheetException("MissingReferenceException","The worksheet with the name '" + name + "' does not exist.");
         }
@@ -605,7 +592,7 @@ public class Workbook {
         this.lockWindowsIfProtected = protectWindows;
         this.lockStructureIfProtected = protectStructure;
         this.workbookProtectionPassword = password;
-        if (protectWindows == false && protectStructure == false)
+        if (!protectWindows && !protectStructure)
         {
             this.useWorkbookProtection = false;
         }

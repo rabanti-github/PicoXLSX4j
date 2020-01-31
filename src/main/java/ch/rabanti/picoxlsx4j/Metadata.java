@@ -35,7 +35,7 @@ public class Metadata {
      * @return Application which created the workbook
      */
     public String getApplication() {
-        return application;
+        return this.application;
     }
 
     /**
@@ -50,7 +50,7 @@ public class Metadata {
      * @return Version of the creation application
      */
     public String getApplicationVersion() {
-        return applicationVersion;
+        return this.applicationVersion;
     }
     /**
      * Sets the version of the creation application. Default is the library version of PicoXLSX4j. Use the format xxxxx.yyyyy (e.g. 1.0 or 55.9875) in case of a custom value.
@@ -59,7 +59,7 @@ public class Metadata {
      */
     public void setApplicationVersion(String applicationVersion) {
         this.applicationVersion = applicationVersion;
-        checkVersion();
+        this.checkVersion();
     }
 
     /**
@@ -67,7 +67,7 @@ public class Metadata {
      * @return Category of the document
      */
     public String getCategory() {
-        return category;
+        return this.category;
     }
 
     /**
@@ -82,7 +82,7 @@ public class Metadata {
      * @return Company owning the document
      */
     public String getCompany() {
-        return company;
+        return this.company;
     }
     /**
      * Sets the company owning the document. This value is for organizational purpose. Add more than one manager by using the semicolon (;) between the words
@@ -97,7 +97,7 @@ public class Metadata {
      * @return Status of the document
      */
     public String getContentStatus() {
-        return contentStatus;
+        return this.contentStatus;
     }
 
     /**
@@ -112,7 +112,7 @@ public class Metadata {
      * @return Creator of the workbook
      */
     public String getCreator() {
-        return creator;
+        return this.creator;
     }
     /**
      * Sets the creator of the workbook. Add more than one creator by using the semicolon (;) between the authors
@@ -126,7 +126,7 @@ public class Metadata {
      * @return Description of the document
      */
     public String getDescription() {
-        return description;
+        return this.description;
     }
     /**
      * Sets the description of the document or comment about it
@@ -141,7 +141,7 @@ public class Metadata {
      * @return Hyper-link base of the document
      */
     public String getHyperlinkBase() {
-        return hyperlinkBase;
+        return this.hyperlinkBase;
     }
 
     /**
@@ -156,7 +156,7 @@ public class Metadata {
      * @return Keywords for the workbook
      */
     public String getKeywords() {
-        return keywords;
+        return this.keywords;
     }
     /**
      * Sets the keywords for the workbook. Separate the keywords with semicolons (;)
@@ -170,7 +170,7 @@ public class Metadata {
      * @return Responsible manager of the document
      */
     public String getManager() {
-        return manager;
+        return this.manager;
     }
     /**
      * Sets the responsible manager of the document. This value is for organizational purpose.
@@ -184,7 +184,7 @@ public class Metadata {
      * @return Subject of the workbook
      */
     public String getSubject() {
-        return subject;
+        return this.subject;
     }
     /**
      * Sets the subject of the workbook
@@ -198,7 +198,7 @@ public class Metadata {
      * @return Title of the workbook
      */
     public String getTitle() {
-        return title;
+        return this.title;
     }
     /**
      * Sets the title of the workbook
@@ -212,7 +212,7 @@ public class Metadata {
      * @return True if color MRU is used
      */
     public boolean isUseColorMRU() {
-        return useColorMRU;
+        return this.useColorMRU;
     }
     /**
      * If true, custom defined colors (in styles) will be added as recent colors (MRU)
@@ -250,7 +250,7 @@ public class Metadata {
             if (split[1].length() < 1 || split[1].length() > 5) { state = false; }
             if (split[0].length() < 1 || split[0].length() > 5) { state = false; }
         }
-        if (state == false)
+        if (!state)
         {
             throw new FormatException("FormatException","The format of the version in the meta data is wrong (" + this.applicationVersion + "). Should be in the format and a range from '0.0' to '99999.99999'");
         }

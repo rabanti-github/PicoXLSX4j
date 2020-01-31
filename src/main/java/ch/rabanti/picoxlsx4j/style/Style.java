@@ -43,7 +43,7 @@ public class Style extends AbstractStyle {
      * @return Border of the style
      */
     public Border getBorder() {
-        return borderRef;
+        return this.borderRef;
     }
 
     /**
@@ -52,7 +52,7 @@ public class Style extends AbstractStyle {
      * @return CellXf of the style
      */
     public CellXf getCellXf() {
-        return cellXfRef;
+        return this.cellXfRef;
     }
 
     /**
@@ -61,7 +61,7 @@ public class Style extends AbstractStyle {
      * @return Fill of the style
      */
     public Fill getFill() {
-        return fillRef;
+        return this.fillRef;
     }
 
     /**
@@ -70,7 +70,7 @@ public class Style extends AbstractStyle {
      * @return Font of the style
      */
     public Font getFont() {
-        return fontRef;
+        return this.fontRef;
     }
 
     /**
@@ -79,7 +79,7 @@ public class Style extends AbstractStyle {
      * @return Number format of the style
      */
     public NumberFormat getNumberFormat() {
-        return numberFormatRef;
+        return this.numberFormatRef;
     }
 
     /**
@@ -89,7 +89,7 @@ public class Style extends AbstractStyle {
      */
     public void setBorder(Border borderRef) {
         this.borderRef = borderRef;
-        reorganizeStyle();
+        this.reorganizeStyle();
     }
 
     /**
@@ -99,7 +99,7 @@ public class Style extends AbstractStyle {
      */
     public void setCellXf(CellXf cellXfRef) {
         this.cellXfRef = cellXfRef;
-        reorganizeStyle();
+        this.reorganizeStyle();
     }
 
     /**
@@ -109,7 +109,7 @@ public class Style extends AbstractStyle {
      */
     public void setFill(Fill fillRef) {
         this.fillRef = fillRef;
-        reorganizeStyle();
+        this.reorganizeStyle();
     }
 
     /**
@@ -119,7 +119,7 @@ public class Style extends AbstractStyle {
      */
     public void setFont(Font fontRef) {
         this.fontRef = fontRef;
-        reorganizeStyle();
+        this.reorganizeStyle();
     }
 
     /**
@@ -129,7 +129,7 @@ public class Style extends AbstractStyle {
      */
     public void setNumberFormat(NumberFormat numberFormatRef) {
         this.numberFormatRef = numberFormatRef;
-        reorganizeStyle();
+        this.reorganizeStyle();
     }
 
     /**
@@ -139,7 +139,7 @@ public class Style extends AbstractStyle {
      */
     public void setStyleManagerReference(StyleManager styleManagerReference) {
         this.styleManagerReference = styleManagerReference;
-        reorganizeStyle();
+        this.reorganizeStyle();
     }
 
     /**
@@ -148,7 +148,7 @@ public class Style extends AbstractStyle {
      * @return Name
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -167,7 +167,7 @@ public class Style extends AbstractStyle {
      * @return If true, the style is an internal style. Such styles are not meant to be altered
      */
     public boolean isInternalStyle() {
-        return internalStyle;
+        return this.internalStyle;
     }
 
 // ### C O N S T R U C T O R S ###   
@@ -262,7 +262,7 @@ public class Style extends AbstractStyle {
             this.fontRef = newStyle.getFont();
             this.numberFormatRef = newStyle.getNumberFormat();
         }
-        if (this.styleNameDefined == false) {
+        if (!this.styleNameDefined) {
             this.name = Integer.toString(this.hashCode());
         }
     }
@@ -284,7 +284,8 @@ public class Style extends AbstractStyle {
      */
     @Override
     public int hashCode() {
-        if (borderRef == null || cellXfRef == null || fillRef == null || fontRef == null || numberFormatRef == null) {
+        if (this.borderRef == null || this.cellXfRef == null || this.fillRef == null || this.fontRef
+            == null || this.numberFormatRef == null) {
             throw new StyleException("MissingReferenceException", "The hash of the style could not be created because one or more components are missing as references");
         }
         int p = 241;
@@ -305,7 +306,8 @@ public class Style extends AbstractStyle {
      */
     @Override
     public AbstractStyle copy() {
-        if (borderRef == null || cellXfRef == null || fillRef == null || fontRef == null || numberFormatRef == null) {
+        if (this.borderRef == null || this.cellXfRef == null || this.fillRef == null || this.fontRef
+            == null || this.numberFormatRef == null) {
             throw new StyleException("MissingReferenceException", "The style could not be copied because one or more components are missing as references");
         }
         Style copy = new Style();

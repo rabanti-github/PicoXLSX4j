@@ -38,7 +38,7 @@ public class Helper {
     {
         Calendar dateCal = Calendar.getInstance();
         dateCal.setTime(date);
-        long currentTicks = dateCal.getTimeInMillis();
+        double currentTicks = dateCal.getTimeInMillis();
         double d = ((double)(dateCal.get(Calendar.SECOND) + (dateCal.get(Calendar.MINUTE) * 60) + (dateCal.get(Calendar.HOUR_OF_DAY) * 3600)) / 86400) + Math.floor((currentTicks - ROOT_TICKS) / (86400000));
         if (d < 0)
         {

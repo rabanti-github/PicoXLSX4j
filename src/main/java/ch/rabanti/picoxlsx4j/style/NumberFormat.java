@@ -174,7 +174,7 @@ public class NumberFormat extends AbstractStyle {
          * @return Numeric value of the enum entry
          */
         public int getValue() {
-            return numVal;
+            return this.numVal;
         }
     }
 
@@ -191,7 +191,7 @@ public class NumberFormat extends AbstractStyle {
      * @return Format number
      */
     public FormatNumber getNumber() {
-        return number;
+        return this.number;
     }
 
     /**
@@ -209,7 +209,7 @@ public class NumberFormat extends AbstractStyle {
      * @return Format number of the custom format
      */
     public int getCustomFormatID() {
-        return customFormatID;
+        return this.customFormatID;
     }
 
     /**
@@ -227,7 +227,7 @@ public class NumberFormat extends AbstractStyle {
      * @return Custom format code
      */
     public String getCustomFormatCode() {
-        return customFormatCode;
+        return this.customFormatCode;
     }
 
     /**
@@ -245,7 +245,7 @@ public class NumberFormat extends AbstractStyle {
      * @return Returns true in case of a custom format (higher or equals 164)
      */
     public boolean isCustomFormat() {
-        return number == FormatNumber.custom;
+        return this.number == FormatNumber.custom;
     }
 
 // ### C O N S T R U C T O R S ###   

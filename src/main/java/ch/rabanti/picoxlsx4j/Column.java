@@ -33,7 +33,7 @@ public class Column {
      * @return Column address (A to XFD)
      */
     public String getColumnAddress() {
-        return columnAddress;
+        return this.columnAddress;
     }
 
     /**
@@ -49,7 +49,7 @@ public class Column {
      * @return Column number (0 to 16383)
      */
     public int getNumber() {
-        return number;
+        return this.number;
     }
     /**
      * Sets the column number
@@ -65,7 +65,7 @@ public class Column {
      * @return Width of the column
      */
     public float getWidth() {
-        return width;
+        return this.width;
     }
 
     /**
@@ -80,7 +80,7 @@ public class Column {
      * @return If true, the column has auto filter applied, otherwise not
      */
     public boolean hasAutoFilter() {
-        return autoFilter;
+        return this.autoFilter;
     }
 
     /**
@@ -88,7 +88,7 @@ public class Column {
      * @return If true, the column is hidden, otherwise visible
      */
     public boolean isHidden() {
-        return hidden;
+        return this.hidden;
     }
 
     /**

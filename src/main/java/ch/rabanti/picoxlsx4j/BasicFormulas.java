@@ -225,7 +225,7 @@ public final class BasicFormulas
     private static Cell getVLookup(Worksheet queryTarget, Address address, Object number, Worksheet rangeTarget, Range range, int columnIndex, boolean exactMatch, boolean numericLookup)
     {
         String arg1, arg2, arg3, arg4;
-        if (numericLookup == true)
+        if (numericLookup)
         {
             if (number instanceof  Byte)           { arg1 = Byte.toString((byte)number); }
             else if (number instanceof BigDecimal) { arg1 = number.toString(); }
@@ -247,7 +247,7 @@ public final class BasicFormulas
         if (rangeTarget != null) { arg2 = rangeTarget.getSheetName() + "!" + range.toString(); }
         else { arg2 = range.toString(); }
         arg3 = Integer.toString(columnIndex);
-        if (exactMatch == true) { arg4 = "TRUE"; }
+        if (exactMatch) { arg4 = "TRUE"; }
         else { arg4 = "FALSE"; }
         return new Cell("VLOOKUP(" + arg1 + "," + arg2 + "," + arg3 + "," + arg4 + ")", CellType.FORMULA);
     }

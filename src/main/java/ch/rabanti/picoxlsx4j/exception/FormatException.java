@@ -20,7 +20,7 @@ public class FormatException extends RuntimeException{
      * @return Inner exception
      */
     public Exception getInnerException() {
-        return innerException;
+        return this.innerException;
     }
 
     /**
@@ -28,7 +28,7 @@ public class FormatException extends RuntimeException{
      * @return Title as string
      */
     public String getExceptionTitle() {
-        return exceptionTitle;
+        return this.exceptionTitle;
     }
     
     

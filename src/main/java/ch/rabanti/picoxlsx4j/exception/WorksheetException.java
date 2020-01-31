@@ -19,7 +19,7 @@ public class WorksheetException extends RuntimeException{
      * @return Title as string
      */
     public String getExceptionTitle() {
-        return exceptionTitle;
+        return this.exceptionTitle;
     }
     
     

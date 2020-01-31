@@ -63,7 +63,7 @@ import ch.rabanti.picoxlsx4j.exception.RangeException;
          */
         @Override
         public String toString(){
-            return StartAddress.toString() + ":" + EndAddress.toString();
+            return this.StartAddress.toString() + ":" + this.EndAddress.toString();
         }
 
         /**

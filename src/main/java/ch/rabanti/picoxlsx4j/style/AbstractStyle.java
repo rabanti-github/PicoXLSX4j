@@ -30,7 +30,7 @@ public abstract class AbstractStyle implements Comparable<AbstractStyle> {
      * @return Internal ID (can be null for random order)
      */
     public Integer getInternalID() {
-        return internalID;
+        return this.internalID;
     }
 
     /**
@@ -97,7 +97,7 @@ public abstract class AbstractStyle implements Comparable<AbstractStyle> {
         if (o == null) {
             sb.append('#');
         } else if (o instanceof Boolean) {
-            if ((boolean) o == true) {
+            if ((boolean) o) {
                 sb.append(1);
             } else {
                 sb.append(0);
@@ -134,7 +134,7 @@ public abstract class AbstractStyle implements Comparable<AbstractStyle> {
      * @param <T>       Reference object to decide whether the fields from the source objects are altered or not
      */
     <T extends AbstractStyle> void copyFields(T source, T reference) {
-        if (this.getClass().equals(source.getClass()) == false && this.getClass().equals(reference.getClass()) == false) {
+        if (!this.getClass().equals(source.getClass()) && !this.getClass().equals(reference.getClass())) {
             throw new StyleException("CopyFieldException", "The objects of the source, target and reference for style appending are not of the same type");
         }
         boolean ignore;
@@ -147,12 +147,12 @@ public abstract class AbstractStyle implements Comparable<AbstractStyle> {
                 if (annotations.length > 0) {
                     ignore = false;
                     for (Annotation annotation : annotations) {
-                        if (((AppendAnnotation) annotation).ignore() == true || ((AppendAnnotation) annotation).nestedProperty() == true) {
+                        if (((AppendAnnotation) annotation).ignore() || ((AppendAnnotation) annotation).nestedProperty()) {
                             ignore = true;
                             break;
                         }
                     }
-                    if (ignore == true) {
+                    if (ignore) {
                         continue;
                     } // skip field
                 }
@@ -160,7 +160,7 @@ public abstract class AbstractStyle implements Comparable<AbstractStyle> {
                 sourceInfo.setAccessible(true); // Necessary to access private field
                 referenceInfo = reference.getClass().getDeclaredField(info.getName());
                 referenceInfo.setAccessible(true); // Necessary to access private field
-                if (sourceInfo.get(source).equals(referenceInfo.get(reference)) == false) {
+                if (!sourceInfo.get(source).equals(referenceInfo.get(reference))) {
                     info.setAccessible(true); // Necessary to access private field
                     info.set(this, sourceInfo.get(source));
                 }

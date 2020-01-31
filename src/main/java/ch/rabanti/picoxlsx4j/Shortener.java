@@ -81,7 +81,7 @@ import ch.rabanti.picoxlsx4j.style.Style;
          */
         public void down()
         {
-            nullCheck();
+            this.nullCheck();
             this.currentWorksheet.goToNextRow();
         }
         
@@ -92,7 +92,7 @@ import ch.rabanti.picoxlsx4j.style.Style;
          */
         public void down(int numberOfRows)
         {
-            nullCheck();
+            this.nullCheck();
             this.currentWorksheet.goToNextRow(numberOfRows);
         }        
         
@@ -102,7 +102,7 @@ import ch.rabanti.picoxlsx4j.style.Style;
          */
         public void right()
         {
-            nullCheck();
+            this.nullCheck();
             this.currentWorksheet.goToNextColumn();
         }
         
@@ -113,7 +113,7 @@ import ch.rabanti.picoxlsx4j.style.Style;
          */
         public void right(int numberOfColumns)
         {
-            nullCheck();
+            this.nullCheck();
             this.currentWorksheet.goToNextColumn(numberOfColumns);
         }
         

@@ -142,7 +142,7 @@ import static ch.rabanti.picoxlsx4j.Cell.resolveCellAddress;
          */
         public String getColumn()
         {
-            return Cell.resolveColumnAddress(Column);
+            return Cell.resolveColumnAddress(this.Column);
         }
         
         /**
@@ -152,7 +152,7 @@ import static ch.rabanti.picoxlsx4j.Cell.resolveCellAddress;
         @Override
         public String toString()
         {
-            return getAddress(); // Validity already checked in method
+            return this.getAddress(); // Validity already checked in method
         }
 
 

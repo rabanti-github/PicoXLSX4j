@@ -11,6 +11,7 @@ import org.w3c.dom.Document;
 import java.io.BufferedOutputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -44,11 +45,11 @@ public class Packer {
      */
     public Packer(LowLevel reference)
     {
-        dataList = new ArrayList<>();
-        pathList = new ArrayList<>();
-        contentTypeList = new ArrayList<>();
-        relationships = new ArrayList<>();
-        includeContentType = new ArrayList<>();
+        this.dataList = new ArrayList<>();
+        this.pathList = new ArrayList<>();
+        this.contentTypeList = new ArrayList<>();
+        this.relationships = new ArrayList<>();
+        this.includeContentType = new ArrayList<>();
         this.lowLevelReference = reference;
     }
     
@@ -62,10 +63,10 @@ public class Packer {
      */
     public void addPart(String name, String contentType, Document document) throws ch.rabanti.picoxlsx4j.exception.IOException
     {
-        dataList.add(LowLevel.createBytesFromDocument(document));
-        pathList.add(name);
-        contentTypeList.add(contentType);
-        includeContentType.add(true);
+        this.dataList.add(LowLevel.createBytesFromDocument(document));
+        this.pathList.add(name);
+        this.contentTypeList.add(contentType);
+        this.includeContentType.add(true);
     }
     
     /**
@@ -78,10 +79,10 @@ public class Packer {
      */
     public void addPart(String name, String contentType, Document document, boolean includeInContentType) throws ch.rabanti.picoxlsx4j.exception.IOException
     {
-        dataList.add(LowLevel.createBytesFromDocument(document));
-        pathList.add(name);
-        contentTypeList.add(contentType);
-        includeContentType.add(includeInContentType);
+        this.dataList.add(LowLevel.createBytesFromDocument(document));
+        this.pathList.add(name);
+        this.contentTypeList.add(contentType);
+        this.includeContentType.add(includeInContentType);
     }    
     
     
@@ -99,7 +100,7 @@ public class Packer {
 
         for (int i = 0; i < this.contentTypeList.size(); i++)
         {
-            if (this.includeContentType.get(i) == false) { continue; }
+            if (!this.includeContentType.get(i)) { continue; }
             sb.append("<Override PartName=\"/");
             sb.append(this.pathList.get(i));
             sb.append("\" ContentType=\"");
@@ -155,18 +156,17 @@ public class Packer {
     {
         try
         {
-            byte[] contentTypes = createContentTypeDocument();
+            byte[] contentTypes = this.createContentTypeDocument();
             
-            ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(stream), Charset.forName("UTF-8"));
+            ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(stream), StandardCharsets.UTF_8);
             out.setMethod(ZipOutputStream.DEFLATED);
             ZipEntry entry = new ZipEntry(CONTENT_TYPE_DOCUMENT);
             out.putNextEntry(entry);
             out.write(contentTypes, 0, contentTypes.length);
             byte[] data;
-            for (int i = 0; i < this.relationships.size(); i++)
-            {
-                data = createRelationshipDocument(this.relationships.get(i));
-                entry = new ZipEntry(this.relationships.get(i).getRootFolder());
+            for (Relationship relationship : this.relationships) {
+                data = this.createRelationshipDocument(relationship);
+                entry = new ZipEntry(relationship.getRootFolder());
                 out.putNextEntry(entry);
                 out.write(data, 0, data.length);
             }
@@ -190,7 +190,7 @@ public class Packer {
     /**
      * Nested class representing a relationship (MSXML)
      */
-    public class Relationship
+    public static class Relationship
     {
         private final String rootFolder;
         private final List<String> targetList;
@@ -203,7 +203,7 @@ public class Packer {
          * @return Root folder of the relationship
          */
         String getRootFolder() {
-            return rootFolder;
+            return this.rootFolder;
         }
 
         /**
@@ -211,7 +211,7 @@ public class Packer {
          * @return ArrayList of targets as strings
          */
         List<String> getTargetList() {
-            return targetList;
+            return this.targetList;
         }
 
         /**
@@ -219,7 +219,7 @@ public class Packer {
          * @return ArrayList of types as strings
          */
         List<String> getTypeList() {
-            return typeList;
+            return this.typeList;
         }
 
         /**
@@ -227,7 +227,7 @@ public class Packer {
          * @return ArrayList of IDs as strings
          */
         List<String> getIdList() {
-            return idList;
+            return this.idList;
         }
         
         /**

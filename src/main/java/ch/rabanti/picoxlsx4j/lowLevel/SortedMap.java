@@ -43,17 +43,17 @@ class SortedMap {
      */
     public int add(String key, String value)
     {
-        if (index.containsKey(key))
+        if (this.index.containsKey(key))
         {
-            return index.get(key);
+            return this.index.get(key);
         }
         else
         {
-            index.put(key, count);
-            keyEntries.add(key);
-            valueEntries.add(value);
-            count++;
-            return count - 1;
+            this.index.put(key, this.count);
+            this.keyEntries.add(key);
+            this.valueEntries.add(value);
+            this.count++;
+            return this.count - 1;
         }
     }
     
@@ -64,7 +64,7 @@ class SortedMap {
      */
     public boolean containsKey(String key)
     {
-        return index.containsKey(key);
+        return this.index.containsKey(key);
     }
     /**
      * Gets the value of the specified key
@@ -73,9 +73,9 @@ class SortedMap {
      */
     public String get(String key)
     {
-        if (index.containsKey(key))
+        if (this.index.containsKey(key))
         {
-            return valueEntries.get(index.get(key));
+            return this.valueEntries.get(this.index.get(key));
         }
         return null;
     }

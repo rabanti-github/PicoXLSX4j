@@ -136,7 +136,7 @@ public class Cell implements Comparable<Cell>{
      * @return Assigned style
      */
     public Style getCellStyle() {
-        return cellStyle;
+        return this.cellStyle;
     }
 
 
@@ -145,7 +145,7 @@ public class Cell implements Comparable<Cell>{
      * @return Column number (zero-based)
      */    
     public int getColumnNumber() {
-        return columnNumber;
+        return this.columnNumber;
     }
 
     /**
@@ -165,7 +165,7 @@ public class Cell implements Comparable<Cell>{
      * @return Type of the cell
      */
     public CellType getDataType() {
-        return dataType;
+        return this.dataType;
     }
 
     /**
@@ -180,7 +180,7 @@ public class Cell implements Comparable<Cell>{
      * @return Row number (zero-based)
      */
     public int getRowNumber() {
-        return rowNumber;
+        return this.rowNumber;
     }
     /**
      * Sets the number of the row (zero-based)
@@ -198,7 +198,7 @@ public class Cell implements Comparable<Cell>{
      * @return Value of the cell
      */
     public Object getValue() {
-        return value;
+        return this.value;
     }
     /**
      * Sets the value of the cell (generic object type)
@@ -248,7 +248,7 @@ public class Cell implements Comparable<Cell>{
         this.value = value;
         if (type == CellType.DEFAULT)
         {
-            resolveCellType();
+          this.resolveCellType();
         }
     }
 
@@ -266,7 +266,7 @@ public class Cell implements Comparable<Cell>{
         this.worksheetReference = null;
         if (type == CellType.DEFAULT)
         {
-            resolveCellType();
+          this.resolveCellType();
         }
     }
 
@@ -287,7 +287,7 @@ public class Cell implements Comparable<Cell>{
         this.worksheetReference = reference;
         if (type == CellType.DEFAULT)
         {
-            resolveCellType();
+          this.resolveCellType();
         }
     }
     
@@ -340,19 +340,19 @@ public class Cell implements Comparable<Cell>{
          if(this.value == null)
          {
              this.setDataType(CellType.EMPTY);
-             value = "";
+           this.value = "";
              return;
          } // the following section is intended to be as similar as possible to PicoXLSX for C#
          if (this.dataType == CellType.FORMULA || this.dataType == CellType.EMPTY) {return;}
-         else if (value instanceof Boolean)      { this.dataType = CellType.BOOL; }
-         else if (value instanceof Byte)         { this.dataType = CellType.NUMBER; } // sbyte not existing in Java
-         else if (value instanceof BigDecimal)   { this.dataType = CellType.NUMBER; } // decimal
-         else if (value instanceof Double)       { this.dataType = CellType.NUMBER; }
-         else if (value instanceof Float)        { this.dataType = CellType.NUMBER; }
-         else if (value instanceof Integer)      { this.dataType = CellType.NUMBER; } // uint not existing in Java
-         else if (value instanceof Long)         { this.dataType = CellType.NUMBER; }
-         else if (value instanceof Short)        { this.dataType = CellType.NUMBER; } // ushort not existing in Java
-         else if (value instanceof Date)         { this.dataType = CellType.DATE; }
+         else if (this.value instanceof Boolean)      { this.dataType = CellType.BOOL; }
+         else if (this.value instanceof Byte)         { this.dataType = CellType.NUMBER; } // sbyte not existing in Java
+         else if (this.value instanceof BigDecimal)   { this.dataType = CellType.NUMBER; } // decimal
+         else if (this.value instanceof Double)       { this.dataType = CellType.NUMBER; }
+         else if (this.value instanceof Float)        { this.dataType = CellType.NUMBER; }
+         else if (this.value instanceof Integer)      { this.dataType = CellType.NUMBER; } // uint not existing in Java
+         else if (this.value instanceof Long)         { this.dataType = CellType.NUMBER; }
+         else if (this.value instanceof Short)        { this.dataType = CellType.NUMBER; } // ushort not existing in Java
+         else if (this.value instanceof Date)         { this.dataType = CellType.DATE; }
          else { this.dataType = CellType.STRING; } // Default (char, string, object)
      }
 

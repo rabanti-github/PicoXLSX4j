@@ -82,7 +82,7 @@ public class Border extends AbstractStyle {
         }
 
         public int getValue() {
-            return value;
+            return this.value;
         }
     }
 
@@ -165,7 +165,7 @@ public class Border extends AbstractStyle {
      * @return Style of left cell border
      */
     public StyleValue getLeftStyle() {
-        return leftStyle;
+        return this.leftStyle;
     }
 
     /**
@@ -183,7 +183,7 @@ public class Border extends AbstractStyle {
      * @return Style of right cell border
      */
     public StyleValue getRightStyle() {
-        return rightStyle;
+        return this.rightStyle;
     }
 
     /**
@@ -201,7 +201,7 @@ public class Border extends AbstractStyle {
      * @return Style of top cell border
      */
     public StyleValue getTopStyle() {
-        return topStyle;
+        return this.topStyle;
     }
 
     /**
@@ -219,7 +219,7 @@ public class Border extends AbstractStyle {
      * @return Style of bottom cell border
      */
     public StyleValue getBottomStyle() {
-        return bottomStyle;
+        return this.bottomStyle;
     }
 
     /**
@@ -237,7 +237,7 @@ public class Border extends AbstractStyle {
      * @return Style of the diagonal lines
      */
     public StyleValue getDiagonalStyle() {
-        return diagonalStyle;
+        return this.diagonalStyle;
     }
 
     /**
@@ -255,7 +255,7 @@ public class Border extends AbstractStyle {
      * @return If true, the downwards diagonal line is used
      */
     public boolean isDiagonalDown() {
-        return diagonalDown;
+        return this.diagonalDown;
     }
 
     /**
@@ -273,7 +273,7 @@ public class Border extends AbstractStyle {
      * @return If true, the upwards diagonal line is used
      */
     public boolean isDiagonalUp() {
-        return diagonalUp;
+        return this.diagonalUp;
     }
 
     /**
@@ -291,7 +291,7 @@ public class Border extends AbstractStyle {
      * @return Color code (ARGB)
      */
     public String getLeftColor() {
-        return leftColor;
+        return this.leftColor;
     }
 
     /**
@@ -309,7 +309,7 @@ public class Border extends AbstractStyle {
      * @return Color code (ARGB)
      */
     public String getRightColor() {
-        return rightColor;
+        return this.rightColor;
     }
 
     /**
@@ -327,7 +327,7 @@ public class Border extends AbstractStyle {
      * @return Color code (ARGB)
      */
     public String getTopColor() {
-        return topColor;
+        return this.topColor;
     }
 
     /**
@@ -345,7 +345,7 @@ public class Border extends AbstractStyle {
      * @return Color code (ARGB)
      */
     public String getBottomColor() {
-        return bottomColor;
+        return this.bottomColor;
     }
 
     /**
@@ -363,7 +363,7 @@ public class Border extends AbstractStyle {
      * @return Color code (ARGB)
      */
     public String getDiagonalColor() {
-        return diagonalColor;
+        return this.diagonalColor;
     }
 
     /**
@@ -434,10 +434,10 @@ public class Border extends AbstractStyle {
         if (this.diagonalStyle != StyleValue.none) {
             state = false;
         }
-        if (this.diagonalDown != false) {
+        if (this.diagonalDown) {
             state = false;
         }
-        if (this.diagonalUp != false) {
+        if (this.diagonalUp) {
             state = false;
         }
         return state;

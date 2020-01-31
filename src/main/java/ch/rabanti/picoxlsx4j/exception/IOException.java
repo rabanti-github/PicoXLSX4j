@@ -20,7 +20,7 @@ public class IOException extends Exception{
      * @return Inner exception
      */
     public Exception getInnerException() {
-        return innerException;
+        return this.innerException;
     }
     
     /**
@@ -28,7 +28,7 @@ public class IOException extends Exception{
      * @return Title as string
      */
     public String getExceptionTitle() {
-        return exceptionTitle;
+        return this.exceptionTitle;
     }
         
  

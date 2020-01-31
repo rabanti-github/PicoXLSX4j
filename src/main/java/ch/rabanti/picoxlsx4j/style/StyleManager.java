@@ -55,9 +55,9 @@ public class StyleManager {
      */
     private AbstractStyle getComponentByHash(ArrayList<AbstractStyle> list, int hash) {
         int len = list.size();
-        for (int i = 0; i < len; i++) {
-            if (list.get(i).hashCode() == hash) {
-                return list.get(i);
+        for (AbstractStyle abstractStyle : list) {
+            if (abstractStyle.hashCode() == hash) {
+                return abstractStyle;
             }
         }
         return null;
@@ -71,7 +71,7 @@ public class StyleManager {
      * @throws StyleException Throws a StyleException if the border was not found in the style manager
      */
     public Border getBorderByHash(int hash) {
-        AbstractStyle component = getComponentByHash(this.borders, hash);
+        AbstractStyle component = this.getComponentByHash(this.borders, hash);
         if (component == null) {
             throw new StyleException("MissingReferenceException", "The style component with the hash '" + hash + "' was not found");
         }
@@ -104,7 +104,7 @@ public class StyleManager {
      * @throws StyleException Throws a StyleException if the cellXf was not found in the style manager
      */
     public CellXf getCellXfByHash(int hash) {
-        AbstractStyle component = getComponentByHash(this.cellXfs, hash);
+        AbstractStyle component = this.getComponentByHash(this.cellXfs, hash);
         if (component == null) {
             throw new StyleException("MissingReferenceException", "The style component with the hash '" + hash + "' was not found");
         }
@@ -137,7 +137,7 @@ public class StyleManager {
      * @throws StyleException Throws a StyleException if the font was not found in the style manager
      */
     public Fill getFillByHash(int hash) {
-        AbstractStyle component = getComponentByHash(this.fills, hash);
+        AbstractStyle component = this.getComponentByHash(this.fills, hash);
         if (component == null) {
             throw new StyleException("MissingReferenceException", "The style component with the hash '" + hash + "' was not found");
         }
@@ -170,7 +170,7 @@ public class StyleManager {
      * @throws StyleException Throws a StyleException if the font was not found in the style manager
      */
     public Font getFontByHash(int hash) {
-        AbstractStyle component = getComponentByHash(this.fonts, hash);
+        AbstractStyle component = this.getComponentByHash(this.fonts, hash);
         if (component == null) {
             throw new StyleException("MissingReferenceException", "The style component with the hash '" + hash + "' was not found");
         }
@@ -203,7 +203,7 @@ public class StyleManager {
      * @throws StyleException Throws a StyleException if the number format was not found in the style manager
      */
     public NumberFormat getNumberFormatByHash(int hash) {
-        AbstractStyle component = getComponentByHash(this.numberFormats, hash);
+        AbstractStyle component = this.getComponentByHash(this.numberFormats, hash);
         if (component == null) {
             throw new StyleException("MissingReferenceException", "The style component with the hash '" + hash + "' was not found");
         }
@@ -253,7 +253,7 @@ public class StyleManager {
      * @throws StyleException Throws a StyleException if the style was not found in the style manager
      */
     public Style getStyleByHash(int hash) {
-        AbstractStyle component = getComponentByHash(this.styles, hash);
+        AbstractStyle component = this.getComponentByHash(this.styles, hash);
         if (component == null) {
             throw new StyleException("MissingReferenceException", "The style with the hash '" + hash + "' was not found");
         }
@@ -286,7 +286,7 @@ public class StyleManager {
      * @return Added or determined style in the manager
      */
     public Style addStyle(Style style) {
-        int hash = addStyleComponent(style);
+        int hash = this.addStyleComponent(style);
         return (Style) this.getComponentByHash(this.styles, hash);
     }
 
@@ -299,7 +299,7 @@ public class StyleManager {
      */
     private int addStyleComponent(AbstractStyle style, Integer id) {
         style.setInternalID(id);
-        return addStyleComponent(style);
+        return this.addStyleComponent(style);
     }
 
     /**
@@ -314,30 +314,30 @@ public class StyleManager {
             if (this.getComponentByHash(this.borders, hash) == null) {
                 this.borders.add(style);
             }
-            reorganize(borders);
+            this.reorganize(this.borders);
         } else if (style instanceof CellXf) {
             if (this.getComponentByHash(this.cellXfs, hash) == null) {
                 this.cellXfs.add(style);
             }
-            reorganize(cellXfs);
+            this.reorganize(this.cellXfs);
         } else if (style instanceof Fill) {
             if (this.getComponentByHash(this.fills, hash) == null) {
                 this.fills.add(style);
             }
-            reorganize(fills);
+            this.reorganize(this.fills);
         } else if (style instanceof Font) {
             if (this.getComponentByHash(this.fonts, hash) == null) {
                 this.fonts.add(style);
             }
-            reorganize(fonts);
+            this.reorganize(this.fonts);
         } else if (style instanceof NumberFormat) {
             if (this.getComponentByHash(this.numberFormats, hash) == null) {
                 this.numberFormats.add(style);
             }
-            reorganize(numberFormats);
+            this.reorganize(this.numberFormats);
         } else if (style instanceof Style) {
             Style s = (Style) style;
-            if (this.styleNames.contains(s.getName()) == true) {
+            if (this.styleNames.contains(s.getName())) {
                 throw new StyleException("StyleAlreadyExistsException", "The style with the name '" + s.getName() + "' already exists");
             }
             if (this.getComponentByHash(this.styles, hash) == null) {
@@ -360,7 +360,7 @@ public class StyleManager {
                 s.setNumberFormat((NumberFormat) this.getComponentByHash(this.numberFormats, temp));
                 this.styles.add(s);
             }
-            reorganize(styles);
+            this.reorganize(this.styles);
             hash = s.hashCode();
         }
         return hash;
@@ -378,18 +378,18 @@ public class StyleManager {
         int len = this.styles.size();
         int index = -1;
         for (int i = 0; i < len; i++) {
-            if (((Style) this.styles.get(i)).getName().equals(styleName) == true) {
+            if (((Style) this.styles.get(i)).getName().equals(styleName)) {
                 match = true;
 //                hash = ((Style)this.styles.get(i)).getHash();
                 index = i;
                 break;
             }
         }
-        if (match == false) {
+        if (!match) {
             throw new StyleException("MissingReferenceException", "The style with the name '" + styleName + "' was not found in the style manager");
         }
         this.styles.remove(index);
-        cleanupStyleComponents();
+        this.cleanupStyleComponents();
     }
 
     /**
@@ -401,8 +401,8 @@ public class StyleManager {
         int len = list.size();
         Collections.sort(list);
         int id = 0;
-        for (int i = 0; i < len; i++) {
-            list.get(i).setInternalID(id);
+        for (AbstractStyle abstractStyle : list) {
+            abstractStyle.setInternalID(id);
             id++;
         }
     }
@@ -420,35 +420,35 @@ public class StyleManager {
         int i;
         for (i = len; i >= 0; i--) {
             border = (Border) this.borders.get(i);
-            if (isUsedByStyle(border) == false) {
+            if (!this.isUsedByStyle(border)) {
                 this.borders.remove(i);
             }
         }
         len = this.cellXfs.size();
         for (i = len; i >= 0; i--) {
             cellXf = (CellXf) this.cellXfs.get(i);
-            if (isUsedByStyle(cellXf) == false) {
+            if (!this.isUsedByStyle(cellXf)) {
                 this.cellXfs.remove(i);
             }
         }
         len = this.fills.size();
         for (i = len; i >= 0; i--) {
             fill = (Fill) this.fills.get(i);
-            if (isUsedByStyle(fill) == false) {
+            if (!this.isUsedByStyle(fill)) {
                 this.fills.remove(i);
             }
         }
         len = this.fonts.size();
         for (i = len; i >= 0; i--) {
             font = (Font) this.fonts.get(i);
-            if (isUsedByStyle(font) == false) {
+            if (!this.isUsedByStyle(font)) {
                 this.fonts.remove(i);
             }
         }
         len = this.numberFormats.size();
         for (i = len; i >= 0; i--) {
             numberFormat = (NumberFormat) this.numberFormats.get(i);
-            if (isUsedByStyle(numberFormat) == false) {
+            if (!this.isUsedByStyle(numberFormat)) {
                 this.numberFormats.remove(i);
             }
         }
@@ -465,8 +465,8 @@ public class StyleManager {
         boolean match = false;
         int hash = component.hashCode();
         int len = this.styles.size();
-        for (int i = 0; i < len; i++) {
-            s = (Style) this.styles.get(i);
+        for (AbstractStyle style : this.styles) {
+            s = (Style) style;
             if (component instanceof Border) {
                 if (s.getBorder().hashCode() == hash) {
                     match = true;

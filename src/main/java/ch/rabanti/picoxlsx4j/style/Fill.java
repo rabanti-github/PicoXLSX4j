@@ -56,7 +56,7 @@ public class Fill extends AbstractStyle {
         }
 
         public int getValue() {
-            return value;
+            return this.value;
         }
 
     }
@@ -81,7 +81,7 @@ public class Fill extends AbstractStyle {
         }
 
         public int getValue() {
-            return value;
+            return this.value;
         }
     }
 
@@ -136,7 +136,7 @@ public class Fill extends AbstractStyle {
      * @return Indexed color
      */
     public int getIndexedColor() {
-        return indexedColor;
+        return this.indexedColor;
     }
 
     /**
@@ -154,7 +154,7 @@ public class Fill extends AbstractStyle {
      * @return Pattern type of the fill
      */
     public PatternValue getPatternFill() {
-        return patternFill;
+        return this.patternFill;
     }
 
     /**
@@ -172,7 +172,7 @@ public class Fill extends AbstractStyle {
      * @return Foreground color of the fill
      */
     public String getForegroundColor() {
-        return foregroundColor;
+        return this.foregroundColor;
     }
 
     /**
@@ -190,7 +190,7 @@ public class Fill extends AbstractStyle {
      * @return Background color of the fill
      */
     public String getBackgroundColor() {
-        return backgroundColor;
+        return this.backgroundColor;
     }
 
     /**
