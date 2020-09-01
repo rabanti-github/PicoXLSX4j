@@ -41,7 +41,7 @@ The only requirement for development is an up-to-date Java environment (OpenJDK 
 
 ### As JAR
 
-Simply place the PicoXLSX4j jar file (e.g. **picoxlsx4j-2.5.5.jar**) into the lib folder of your project and create a library reference to it in your IDE.
+Simply place the PicoXLSX4j jar file (e.g. **picoxlsx4j-2.6.0.jar**) into the lib folder of your project and create a library reference to it in your IDE.
 
 ### As source files
 
