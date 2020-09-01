@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2019
+ * Copyright Raphael Stoeckli © 2020
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -12,6 +12,7 @@ import ch.rabanti.picoxlsx4j.exception.StyleException;
 import ch.rabanti.picoxlsx4j.style.Style;
 
 import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,9 +40,13 @@ public class Cell implements Comparable<Cell>{
          */
         NUMBER,
         /**
-         * Type for dates and times (Note: Dates before 1900-01-01 are not allowed)
+         * Type for dates and times (Note: Dates before 1900-01-01 and after 9999-12-31 are not allowed)
          */
         DATE,
+        /**
+         * Type for times (Note: Internally handled as OAdate, represented by {@link java.time.LocalTime}
+         */
+        TIME,
         /**
          * Type for boolean
          */
@@ -353,6 +358,7 @@ public class Cell implements Comparable<Cell>{
          else if (this.value instanceof Long)         { this.dataType = CellType.NUMBER; }
          else if (this.value instanceof Short)        { this.dataType = CellType.NUMBER; } // ushort not existing in Java
          else if (this.value instanceof Date)         { this.dataType = CellType.DATE; }
+         else if (this.value instanceof LocalTime)    { this.dataType = CellType.TIME; }
          else { this.dataType = CellType.STRING; } // Default (char, string, object)
      }
 
@@ -449,6 +455,7 @@ public class Cell implements Comparable<Cell>{
             else if (o instanceof Long)       { c = new Cell(o, CellType.NUMBER); }
             else if (o instanceof Short)      { c = new Cell(o, CellType.NUMBER); }
             else if (o instanceof Date)       { c = new Cell(o, CellType.DATE);   }
+            else if (o instanceof LocalTime)  { c = new Cell(o, CellType.TIME);   }
             else if (o instanceof String)     { c = new Cell(o, CellType.STRING); }
             else
             {

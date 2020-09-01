@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2019
+ * Copyright Raphael Stoeckli © 2020
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -8,7 +8,6 @@ package ch.rabanti.picoxlsx4j.style;
 
 /**
  * Class representing a NumberFormat entry. The NumberFormat entry is used to define cell formats like currency or date
- *
  * @author Raphael Stoeckli
  */
 public class NumberFormat extends AbstractStyle {
@@ -16,12 +15,14 @@ public class NumberFormat extends AbstractStyle {
     /**
      * Start ID for custom number formats as constant
      */
-    public static final int CUSTOMFORMAT_START_NUMBER = 124;
+    public static final int CUSTOMFORMAT_START_NUMBER = 164;
 
 // ### E N U M S ###
 
     /**
-     * Enum for the defined number formats
+     * Enum for predefined number formats
+     * <p>There are other predefined formats (e.g. 43 and 44) that are not listed. The declaration of such formats is done
+     * in the number formats section of the style document, whereas the officially listed ones are implicitly used and not declared in the style document</p>
      */
     public enum FormatNumber {
         /**

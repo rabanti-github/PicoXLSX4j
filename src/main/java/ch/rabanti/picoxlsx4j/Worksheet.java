@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2019
+ * Copyright Raphael Stoeckli © 2020
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -478,7 +478,7 @@ public class Worksheet {
     
     /**
      * Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
-     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, LocalTime, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @throws RangeException Thrown if the next cell is out of range (on row or column)
      */
@@ -489,7 +489,7 @@ public class Worksheet {
 
      /**
      * Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String.A prepared object of the type Cell will not be casted but adjusted<br>
-     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, LocalTime, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @param style Style object to apply on this cell
      * @throws StyleException Thrown if the default style was malformed
@@ -522,6 +522,10 @@ public class Worksheet {
         else if (style == null && cell.getDataType() == Cell.CellType.DATE)
         {
             cell.setStyle(BasicStyles.DateFormat());
+        }
+        else if (style == null && cell.getDataType() == Cell.CellType.TIME)
+        {
+            cell.setStyle(BasicStyles.TimeFormat());
         }
         String address = cell.getCellAddress();
         this.cells.put(address, cell);
@@ -557,7 +561,7 @@ public class Worksheet {
    
     /**
      * Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
-     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, LocalTime, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @param columnAddress Column number (zero based)
      * @param rowAddress Row number (zero based)
@@ -571,7 +575,7 @@ public class Worksheet {
     
     /**
      * Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
-     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, LocalTime, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @param columnAddress Column number (zero based)
      * @param rowAddress Row number (zero based)
@@ -587,7 +591,7 @@ public class Worksheet {
     
     /**
      * Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
-     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, LocalTime, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @param address Cell address in the format A1 - XFD1048576
      * @throws FormatException Thrown if the passed address is malformed
@@ -602,7 +606,7 @@ public class Worksheet {
     
     /**
      * Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
-     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, LocalTime, boolean. All other types will be casted into a String using the default toString() method
      * @param value Unspecified value to insert
      * @param address Cell address in the format A1 - XFD1048576
      * @param style Style to apply on the cell
@@ -708,7 +712,7 @@ public class Worksheet {
 
     /**
      * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
-     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, LocalTime, boolean. All other types will be casted into a String using the default toString() method
      * @param values List of unspecified objects to insert
      * @param startAddress Start address
      * @param endAddress End address
@@ -722,7 +726,7 @@ public class Worksheet {
     
    /**
      * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
-     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, LocalTime, boolean. All other types will be casted into a String using the default toString() method
      * @param values List of unspecified objects to insert
      * @param startAddress Start address
      * @param endAddress End address
@@ -737,7 +741,7 @@ public class Worksheet {
 
     /**
      * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
-     * The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, LocalTime, boolean. All other types will be casted into a String using the default toString() method
      * @param values List of unspecified objects to insert
      * @param cellRange Cell range as string in the format like A1:D1 or X10:X22
      * @throws FormatException Thrown if the passed address is malformed
@@ -752,7 +756,7 @@ public class Worksheet {
     
     /**
      * Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted<br>
-     * The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, boolean. All other types will be casted into a String using the default toString() method
+     * The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), String, int, double, float, long, Date, LocalTime, boolean. All other types will be casted into a String using the default toString() method
      * @param values List of unspecified objects to insert
      * @param cellRange Cell range as string in the format like A1:D1 or X10:X22
      * @param style Style to apply on the all cells of the range

@@ -1,11 +1,8 @@
 # PicoXLSX4j ![PicoXLSX](https://rabanti-github.github.io/PicoXLSX/icons/PicoXLSX.png)
 
-
 ![Maven Central](https://img.shields.io/maven-central/v/ch.rabanti/picoxlsx4j.svg?maxAge=86400)
 ![license](https://img.shields.io/github/license/rabanti-github/picoXlsx.svg)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX4j.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX4j?ref=badge_shield)
-
-
 
 PicoXLSX4j is a small Java library to create XLSX files (Microsoft Excel 2007 or newer) in an easy and native way. It is a direct port of [PicoXLSX for C#](https://github.com/rabanti-github/PicoXLSX)
 
@@ -20,7 +17,8 @@ Project website: [https://picoxlsx.rabanti.ch](https://picoxlsx.rabanti.ch)
 
 See the **[Change Log](https://github.com/rabanti-github/PicoXLSX4j/blob/master/Changelog.md)** for recent updates.
 
-# What's new in version 2.x
+## What's new in version 2.x
+
 * Changed package structure to ch.rabanti.picoxlsx4j
 * Added Maven support (available in Maven Central under ch.rabanti.picoxlsx4j)
 * Complete replacement of the old style handling
@@ -34,31 +32,40 @@ See the **[Change Log](https://github.com/rabanti-github/PicoXLSX4j/blob/master/
 * Added functions to retrieve stored data and the current cell address
 * Many internal optimizations and additional documentation
 
-# Requirements
-PicoXLSX4j was created with Java 8 and is fully compatible with Java 7<br>
+## Requirements
+
+PicoXLSX4j was created with Java 8 and is fully compatible with Java 7
 The only requirement for developments are a current JDK to develop and JRE to run.
 
-# Installation
-## As JAR
+## Installation
+
+### As JAR
+
 Simply place the PicoXLSX4j jar file (e.g. **picoxlsx4j-2.5.5.jar**) into the lib folder of your project and create a library reference to it in your IDE.
-## As source files
+
+### As source files
+
 Place all .java files from the PicoXLSX4j source folder into your project. The folder structure defines the packages. Please use refactoring if you want to relocate the files.
-## Maven ##
-Add the following information to your POM file within the <code>&lt;dependencies&gt;</code> tag:
+
+### Maven
+
+Add the following information to your POM file within the ```<dependencies>``` tag:
+
 ```xml
 <dependency>
     <groupId>ch.rabanti</groupId>
     <artifactId>picoxlsx4j</artifactId>
-    <version>2.5.5</version>
+    <version>2.6.0</version>
 </dependency>
-``` 
+```
 
 **Important:** The version number may change.
-Please see the version number of Maven Central at the top of the README (maven-central badge) or check the [Change Log](https://github.com/rabanti-github/PicoXLSX4j/blob/master/Changelog.md) for the most recent version. The keywords ```LATEST```  and ```RELEASE``` are only valid in Maven 2, not 3 and newer. 
+Please see the version number of Maven Central at the top of the README (maven-central badge) or check the [Change Log](https://github.com/rabanti-github/PicoXLSX4j/blob/master/Changelog.md) for the most recent version. The keywords ```LATEST```  and ```RELEASE``` are only valid in Maven 2, not 3 and newer.
 
+## Usage
 
-# Usage
-## Quick Start (shortened syntax)
+### Quick Start (shortened syntax)
+
 ```java
  Workbook workbook = new Workbook("myWorkbook.xlsx", "Sheet1");         // Create new workbook with a worksheet called Sheet1
  workbook.WS.value("Some Data");                                        // Add cell A1
@@ -70,7 +77,8 @@ Please see the version number of Maven Central at the top of the README (maven-c
  } catch (Exception ex) {}
 ```
 
-## Quick Start (regular syntax)
+### Quick Start (regular syntax)
+
 ```java
  Workbook workbook = new Workbook("myWorkbook.xlsx", "Sheet1");       // Create new workbook with a worksheet called Sheet1
  workbook.getCurrentWorksheet().addNextCell("Some Data");             // Add cell A1
@@ -83,9 +91,10 @@ Please see the version number of Maven Central at the top of the README (maven-c
 ```
 
 ## Further References
-See the full <b>API-Documentation</b> at: [https://rabanti-github.github.io/PicoXLSX4j/](https://rabanti-github.github.io/PicoXLSX4j/).<br>
-The [Demo class](https://github.com/rabanti-github/PicoXLSX4j/blob/master/src/main/java/ch/rabanti/picoxlsx4j/demo/PicoXLSX4j.java) contains 13 simple use cases. You can also look at the full API documentation or the Javadoc annotations in the particular .java files.<br>
 
+See the full **API-Documentation</b> at: [https://rabanti-github.github.io/PicoXLSX4j/](https://rabanti-github.github.io/PicoXLSX4j/).
+The [Demo class](https://github.com/rabanti-github/PicoXLSX4j/blob/master/src/main/java/ch/rabanti/picoxlsx4j/demo/PicoXLSX4j.java) contains 13 simple use cases. You can also look at the full API documentation or the Javadoc annotations in the particular .java files.
 
 ## License
+
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX4j.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX4j?ref=badge_large)

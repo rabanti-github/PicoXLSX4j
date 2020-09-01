@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2019
+ * Copyright Raphael Stoeckli © 2020
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -48,6 +48,10 @@ public final class BasicStyles {
          */
         dateFormat,
         /**
+         * Format number as time
+         */
+        timeFormat,
+        /**
          * Rounds number as an integer
          */
         roundFormat,
@@ -70,7 +74,7 @@ public final class BasicStyles {
     }
 
     // ### P R I V A T E   S T A T I C  F I E L D S ###
-    private static Style bold, italic, boldItalic, underline, doubleUnderline, strike, dateFormat, roundFormat, borderFrame, borderFrameHeader, dottedFill_0_125, mergeCellStyle;
+    private static Style bold, italic, boldItalic, underline, doubleUnderline, strike, dateFormat, timeFormat, roundFormat, borderFrame, borderFrameHeader, dottedFill_0_125, mergeCellStyle;
 
 // ### P U B L I C   S T A T I C  F I E L D S ### 
 
@@ -135,6 +139,15 @@ public final class BasicStyles {
      */
     public static Style DateFormat() {
         return getStyle(StyleEnum.dateFormat);
+    }
+
+    /**
+     * Gets the time format style
+     *
+     * @return Style object
+     */
+    public static Style TimeFormat() {
+        return getStyle(StyleEnum.timeFormat);
     }
 
     /**
@@ -241,7 +254,12 @@ public final class BasicStyles {
                     dateFormat = new Style();
                     dateFormat.getNumberFormat().setNumber(NumberFormat.FormatNumber.format_14);
                 }
-                s = dateFormat;
+            case timeFormat:
+                if (timeFormat == null) {
+                    timeFormat = new Style();
+                    timeFormat.getNumberFormat().setNumber(NumberFormat.FormatNumber.format_21);
+                }
+                s = timeFormat;
                 break;
             case roundFormat:
                 if (roundFormat == null) {

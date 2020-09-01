@@ -1,6 +1,6 @@
 /*
  * PicoXLSX4j is a small Java library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2019
+ * Copyright Raphael Stoeckli © 2020
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -26,6 +26,7 @@ import java.io.StringReader;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.*;
 
 /**
@@ -34,6 +35,7 @@ import java.util.*;
  * @author Raphael Stoeckli
  */
 public class LowLevel {
+
 
   // ### P R I V A T E  F I E L D S ###
   private final SortedMap sharedStrings;
@@ -356,7 +358,6 @@ public class LowLevel {
     String value = "";
     boolean bVal;
 
-    Date dVal;
     int col = 0;
     Cell item;
     for (Cell columnField : columnFields) {
@@ -403,8 +404,15 @@ public class LowLevel {
       // Date parsing
       else if (item.getDataType() == Cell.CellType.DATE) {
         typeAttribute = "d";
-        dVal = (Date) item.getValue();
-        value = Double.toString(Helper.getOADate(dVal));
+        Date date = (Date) item.getValue();
+        value = Helper.getOADateTimeString(date);
+      }
+      // Time parsing
+      else if (item.getDataType() == Cell.CellType.TIME) {
+        typeAttribute = "d";
+        // TODO: 'd' is probably an outdated attribute (to be checked for dates and times)
+        LocalTime time = (LocalTime) item.getValue();
+        value = Helper.getOATimeString(time);
       }
       // String parsing
       else {
