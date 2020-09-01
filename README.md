@@ -34,8 +34,8 @@ See the **[Change Log](https://github.com/rabanti-github/PicoXLSX4j/blob/master/
 
 ## Requirements
 
-PicoXLSX4j was created with Java 8 and is fully compatible with Java 7
-The only requirement for developments are a current JDK to develop and JRE to run.
+PicoXLSX4j was initially created with Java 8 and currently build with OpenJDK 11
+The only requirement for development is an up-to-date Java environment (OpenJDK 11 or higher recommended)
 
 ## Installation
 
