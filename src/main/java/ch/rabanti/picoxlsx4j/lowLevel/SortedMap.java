@@ -8,6 +8,7 @@ package ch.rabanti.picoxlsx4j.lowLevel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Class representing a reduced sorted map (key / value). This class is not compatible with the Map interface
@@ -15,92 +16,59 @@ import java.util.HashMap;
  */
 class SortedMap {
 
-// ### P R I V A T E  F I E L D S ###    
+    // ### P R I V A T E  F I E L D S ###
     private int count;
     private final HashMap<String, Integer> index;
-    private final ArrayList<String> keyEntries;
-    private final ArrayList<String> valueEntries;
-    
-   
+    private final List<String> keyEntries;
+    private final List<String> valueEntries;
+
 // ### C O N S T R U C T O R S ###
+
     /**
      * Default constructor
      */
-    public SortedMap()
-    {
+    public SortedMap() {
         this.keyEntries = new ArrayList<>();
         this.valueEntries = new ArrayList<>();
         this.index = new HashMap<>();
         this.count = 0;
     }
-    
-// ### M E T H O D S ###    
+
+// ### M E T H O D S ###
+
     /**
      * Method to add a key value pair
-     * @param key key as string
+     *
+     * @param key   key as string
      * @param value value as string
-     * @return returns the index of the inserted or replaced entry in the map
+     * @return returns the resolved string (either added or returned from an existing entry)
      */
-    public int add(String key, String value)
-    {
-        if (this.index.containsKey(key))
-        {
-            return this.index.get(key);
+    public String add(String key, String value) {
+        if (index.containsKey(key)) {
+            return valueEntries.get(index.get(key));
         }
-        else
-        {
-            this.index.put(key, this.count);
-            this.keyEntries.add(key);
-            this.valueEntries.add(value);
-            this.count++;
-            return this.count - 1;
-        }
+        index.put(key, count);
+        count++;
+        keyEntries.add(key);
+        valueEntries.add(value);
+        return value;
     }
-    
-    /**
-     * Gets whether the specified key exists in the map
-     * @param key Key to check
-     * @return True if the entry exists, otherwise false
-     */
-    public boolean containsKey(String key)
-    {
-        return this.index.containsKey(key);
-    }
-    /**
-     * Gets the value of the specified key
-     * @param key Key of the entry
-     * @return The value of the entry. If the key was not found, null is returned
-     */
-    public String get(String key)
-    {
-        if (this.index.containsKey(key))
-        {
-            return this.valueEntries.get(this.index.get(key));
-        }
-        return null;
-    }
+
     /**
      * Gets the keys of the map as list
+     *
      * @return ArrayList of Keys
      */
-    public ArrayList<String> getKeys()
-    {
+    public List<String> getKeys() {
         return this.keyEntries;
     }
-    /**
-     * Gets the values of the map as list
-     * @return ArrayList of Values
-     */
-    public ArrayList<String> getValues()
-    {
-        return this.valueEntries;
-    }
+
     /**
      * Gets the size of the map
+     *
      * @return Number of entries in the map
      */
-    public int size()
-    {
+    public int size() {
         return this.count;
     }
     

@@ -101,7 +101,7 @@ public class LowLevel {
    * @param tagName   Tag name of the XML element
    * @param nameSpace Optional XML name space. Can be empty or null
    */
-  private void appendXMLtag(StringBuilder sb, String value, String tagName, String nameSpace) {
+  private void appendXmlTag(StringBuilder sb, String value, String tagName, String nameSpace) {
     if (Helper.isNullOrEmpty(value)) {
       return;
     }
@@ -151,17 +151,17 @@ public class LowLevel {
     }
     Metadata md = this.workbook.getWorkbookMetadata();
     StringBuilder sb = new StringBuilder();
-    this.appendXMLtag(sb, "0", "TotalTime", null);
-    this.appendXMLtag(sb, md.getApplication(), "Application", null);
-    this.appendXMLtag(sb, "0", "DocSecurity", null);
-    this.appendXMLtag(sb, "false", "ScaleCrop", null);
-    this.appendXMLtag(sb, md.getManager(), "Manager", null);
-    this.appendXMLtag(sb, md.getCompany(), "Company", null);
-    this.appendXMLtag(sb, "false", "LinksUpToDate", null);
-    this.appendXMLtag(sb, "false", "SharedDoc", null);
-    this.appendXMLtag(sb, md.getHyperlinkBase(), "HyperlinkBase", null);
-    this.appendXMLtag(sb, "false", "HyperlinksChanged", null);
-    this.appendXMLtag(sb, md.getApplicationVersion(), "AppVersion", null);
+    this.appendXmlTag(sb, "0", "TotalTime", null);
+    this.appendXmlTag(sb, md.getApplication(), "Application", null);
+    this.appendXmlTag(sb, "0", "DocSecurity", null);
+    this.appendXmlTag(sb, "false", "ScaleCrop", null);
+    this.appendXmlTag(sb, md.getManager(), "Manager", null);
+    this.appendXmlTag(sb, md.getCompany(), "Company", null);
+    this.appendXmlTag(sb, "false", "LinksUpToDate", null);
+    this.appendXmlTag(sb, "false", "SharedDoc", null);
+    this.appendXmlTag(sb, md.getHyperlinkBase(), "HyperlinkBase", null);
+    this.appendXmlTag(sb, "false", "HyperlinksChanged", null);
+    this.appendXmlTag(sb, md.getApplicationVersion(), "AppVersion", null);
     return sb.toString();
   }
 
@@ -227,12 +227,12 @@ public class LowLevel {
     }
     Metadata md = this.workbook.getWorkbookMetadata();
     StringBuilder sb = new StringBuilder();
-    this.appendXMLtag(sb, md.getTitle(), "title", "dc");
-    this.appendXMLtag(sb, md.getSubject(), "subject", "dc");
-    this.appendXMLtag(sb, md.getCreator(), "creator", "dc");
-    this.appendXMLtag(sb, md.getCreator(), "lastModifiedBy", "cp");
-    this.appendXMLtag(sb, md.getKeywords(), "keywords", "cp");
-    this.appendXMLtag(sb, md.getDescription(), "description", "dc");
+    this.appendXmlTag(sb, md.getTitle(), "title", "dc");
+    this.appendXmlTag(sb, md.getSubject(), "subject", "dc");
+    this.appendXmlTag(sb, md.getCreator(), "creator", "dc");
+    this.appendXmlTag(sb, md.getCreator(), "lastModifiedBy", "cp");
+    this.appendXmlTag(sb, md.getKeywords(), "keywords", "cp");
+    this.appendXmlTag(sb, md.getDescription(), "description", "dc");
 
     Calendar cal = new GregorianCalendar();
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
@@ -243,8 +243,8 @@ public class LowLevel {
     sb.append("<dcterms:created xsi:type=\"dcterms:W3CDTF\">").append(time).append("</dcterms:created>");
     sb.append("<dcterms:modified xsi:type=\"dcterms:W3CDTF\">").append(time).append("</dcterms:modified>");
 
-    this.appendXMLtag(sb, md.getCategory(), "category", "cp");
-    this.appendXMLtag(sb, md.getContentStatus(), "contentStatus", "cp");
+    this.appendXmlTag(sb, md.getCategory(), "category", "cp");
+    this.appendXmlTag(sb, md.getContentStatus(), "contentStatus", "cp");
 
     return sb.toString();
   }
@@ -421,18 +421,13 @@ public class LowLevel {
           value = "";
         } else // handle shared Strings
         {
-          //  value = item.getValue().toString();
-          if (item.getDataType() == Cell.CellType.FORMULA) {
+          if (item.getDataType().equals(Cell.CellType.FORMULA)) {
             typeAttribute = "str";
             value = item.getValue().toString();
           } else {
             typeAttribute = "s";
-            value = item.getValue().toString();
-            if (!this.sharedStrings.containsKey(value)) {
-              this.sharedStrings.add(value, Integer.toString(this.sharedStrings.size()));
-            }
-            value = this.sharedStrings.get(value);
-            this.sharedStringsTotalCount++;
+            value = sharedStrings.add(item.getValue().toString(), Integer.toString(sharedStrings.size()));
+            sharedStringsTotalCount++;
           }
         }
         tValue = " t=\"" + typeAttribute + "\" ";
@@ -470,11 +465,9 @@ public class LowLevel {
     sb.append("\" uniqueCount=\"");
     sb.append(this.sharedStrings.size());
     sb.append("\">");
-    ArrayList<String> keys = this.sharedStrings.getKeys();
-    //for (Map.Entry<String, String> str : sharedStrings.entrySet())
+    List<String> keys = this.sharedStrings.getKeys();
     for (String key : keys) {
       sb.append("<si><t>");
-      //sb.append(escapeXMLChars(str.getKey()));
       sb.append(escapeXMLChars(key));
       sb.append("</t></si>");
     }
