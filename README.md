@@ -1,5 +1,8 @@
 # PicoXLSX4j ![PicoXLSX](https://rabanti-github.github.io/PicoXLSX/icons/PicoXLSX.png)
 
+## <span style="color:red">Important: This project is (currently) deprecated.<br>Please have a look at [NanoXLSX4j](https://github.com/rabanti-github/NanoXLSX4j) that is actively maintained.</span>
+
+
 ![Maven Central](https://img.shields.io/maven-central/v/ch.rabanti/picoxlsx4j.svg?maxAge=86400)
 ![license](https://img.shields.io/github/license/rabanti-github/picoXlsx.svg)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX4j.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX4j?ref=badge_shield)

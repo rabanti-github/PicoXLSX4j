@@ -580,7 +580,7 @@ public class LowLevel {
       }
       if (borderStyle.getLeftStyle() != Border.StyleValue.none) {
         sb.append("<left style=\"").append(Border.getStyleName(borderStyle.getLeftStyle())).append("\">");
-        if (Helper.isNullOrEmpty(borderStyle.getLeftColor())) {
+        if (!Helper.isNullOrEmpty(borderStyle.getLeftColor())) {
           sb.append("<color rgb=\"").append(borderStyle.getLeftColor()).append("\"/>");
         } else {
           sb.append("<color auto=\"1\"/>");
@@ -591,7 +591,7 @@ public class LowLevel {
       }
       if (borderStyle.getRightStyle() != Border.StyleValue.none) {
         sb.append("<right style=\"").append(Border.getStyleName(borderStyle.getRightStyle())).append("\">");
-        if (Helper.isNullOrEmpty(borderStyle.getRightColor())) {
+        if (!Helper.isNullOrEmpty(borderStyle.getRightColor())) {
           sb.append("<color rgb=\"").append(borderStyle.getRightColor()).append("\"/>");
         } else {
           sb.append("<color auto=\"1\"/>");
@@ -602,7 +602,7 @@ public class LowLevel {
       }
       if (borderStyle.getTopStyle() != Border.StyleValue.none) {
         sb.append("<top style=\"").append(Border.getStyleName(borderStyle.getTopStyle())).append("\">");
-        if (Helper.isNullOrEmpty(borderStyle.getTopColor())) {
+        if (!Helper.isNullOrEmpty(borderStyle.getTopColor())) {
           sb.append("<color rgb=\"").append(borderStyle.getTopColor()).append("\"/>");
         } else {
           sb.append("<color auto=\"1\"/>");
@@ -613,7 +613,7 @@ public class LowLevel {
       }
       if (borderStyle.getBottomStyle() != Border.StyleValue.none) {
         sb.append("<bottom style=\"").append(Border.getStyleName(borderStyle.getBottomStyle())).append("\">");
-        if (Helper.isNullOrEmpty(borderStyle.getBottomColor())) {
+        if (!Helper.isNullOrEmpty(borderStyle.getBottomColor())) {
           sb.append("<color rgb=\"").append(borderStyle.getBottomColor()).append("\"/>");
         } else {
           sb.append("<color auto=\"1\"/>");
@@ -624,7 +624,7 @@ public class LowLevel {
       }
       if (borderStyle.getDiagonalStyle() != Border.StyleValue.none) {
         sb.append("<diagonal style=\"").append(Border.getStyleName(borderStyle.getDiagonalStyle())).append("\">");
-        if (Helper.isNullOrEmpty(borderStyle.getDiagonalColor())) {
+        if (!Helper.isNullOrEmpty(borderStyle.getDiagonalColor())) {
           sb.append("<color rgb=\"").append(borderStyle.getDiagonalColor()).append("\"/>");
         } else {
           sb.append("<color auto=\"1\"/>");
